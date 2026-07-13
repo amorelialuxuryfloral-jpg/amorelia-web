@@ -283,7 +283,6 @@ const BouquetCollectionView = async ({
                   { key: "all", label: t("bouquetProducts.seeAll") },
                   { key: "un-color", label: t("bouquetProducts.singleColor") },
                   { key: "mezclas", label: t("bouquetProducts.mixes") },
-                  { key: "zodiac", label: t("bouquetProducts.zodiacSigns") },
                 ] as { key: BouquetFilter; label: string }[]).map(({ key, label }) => (
                   <Link
                     key={key}

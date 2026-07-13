@@ -662,7 +662,7 @@ export const en = {
     },
     bouquets: {
       title: "Fresh Bouquets Miami | Single Color & Mixed | Amorelia Luxury Floral Gifts",
-      description: "Handcrafted rose bouquets in Miami: single-color, mixed and zodiac designs, 50 to 200 roses. Same-day delivery up to 90 miles. Order before 3PM.",
+      description: "Handcrafted rose bouquets in Miami: single-color and mixed designs, 50 to 200 roses. Same-day delivery up to 90 miles. Order before 3PM.",
     },
     bouquetsSingleColor: {
       title: "Single Color Rose Bouquets Miami | Amorelia Luxury Floral Gifts",

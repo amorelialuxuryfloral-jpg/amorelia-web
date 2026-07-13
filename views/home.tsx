@@ -167,10 +167,6 @@ export default async function HomeView({ language }: { language: Language }) {
                 className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
                 {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
-              <Link href={l("/bouquets/personalizar")}
-                className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-lg">
-                {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              </Link>
             </div>
           </div>
         </div>
@@ -340,26 +336,6 @@ export default async function HomeView({ language }: { language: Language }) {
       </div>
 
 
-      {/* H2 #5 — Prices (From $76): meaningful heading, not a bare UI label.
-          ES heading composed from validated fragments (ctaPrice + heroDescription). */}
-      <div className="relative mt-[-1px]">
-        <WaveTop />
-        <section className="bg-primary py-20 overflow-hidden">
-          <div className="container mx-auto px-6 text-center relative z-20">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">
-              {isEs
-                ? "Ramos de Rosas Desde $76 — de 50 a 200 Rosas"
-                : "Rose Bouquets From $76 — 50 to 200 Roses"}
-            </h2>
-            <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
-            <Link href={l("/bouquets/personalizar")}
-              className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
-              {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </section>
-        <WaveBottom />
-      </div>
 
       {/* H2 #6 — Why Amorelia Luxury Floral Gifts */}
       <section className="py-16 md:py-20 bg-background">
