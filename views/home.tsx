@@ -451,7 +451,7 @@ export default async function HomeView({ language }: { language: Language }) {
           <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-lg">
             {/* GBP listing embed (spec §2.7 — the business's own map, not a generic locator) */}
             <LazyMapEmbed
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4603.046257535852!2d-80.3160576236964!3d25.783063677338557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b9b32f0991f1%3A0x492b0c41e05b5dff!2sCharls%20Flowers!5e1!3m2!1ses!2ses!4v1783354285230!5m2!1ses!2ses"
+              src="https://www.google.com/maps?q=7257+NW+12th+St,+Miami,+FL+33126&output=embed"
               className="block h-[320px] w-full rounded-lg align-top md:h-[420px] border-0"
               title={isEs ? "Ubicación de Amorelia Luxury Floral Gifts Miami" : "Amorelia Luxury Floral Gifts Miami Location"}
               placeholderLabel={isEs ? "Mapa" : "Map"}
