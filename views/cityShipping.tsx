@@ -1,0 +1,262 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Truck, MapPin, Clock, Package, ArrowRight } from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import TableOfContents, { type TocItem } from "@/components/TableOfContents";
+import JsonLd, { breadcrumbSchema, localBusinessSchema } from "@/components/JsonLd";
+import { findCityBySlug, cityPages, type CityPage } from "@/lib/cityPagesData";
+import { buildMetadata } from "@/lib/seo";
+import { localizePath, type Language } from "@/i18n";
+
+/**
+ * /flower-delivery/[city] + /es/envio-de-flores/[city] — per-city nationwide
+ * FedEx landing (SPA port, pages/CityShippingPage.tsx). Content 1:1 from
+ * cityPagesData (validated bilingual copy).
+ */
+
+/** Resolve a city segment for a language tree. Wrong-language slug → redirect target. */
+export function resolveCity(
+  segment: string,
+  language: Language,
+): { kind: "city"; city: CityPage } | { kind: "redirect"; to: string } | { kind: "notFound" } {
+  const city = findCityBySlug(segment);
+  if (!city) return { kind: "notFound" };
+  const own = language === "es" ? city.slugEs : city.slug;
+  if (segment !== own) {
+    return {
+      kind: "redirect",
+      to: language === "es" ? `/es/envio-de-flores/${city.slugEs}` : `/flower-delivery/${city.slug}`,
+    };
+  }
+  return { kind: "city", city };
+}
+
+export function cityShippingMetadata(segment: string, language: Language): Metadata {
+  const res = resolveCity(segment, language);
+  if (res.kind !== "city") return { robots: { index: false, follow: false } };
+  const city = res.city;
+  const isEs = language === "es";
+  const meta = buildMetadata({
+    title: isEs
+      ? `Envío de Flores a ${city.name} | Rosas Frescas por FedEx | Amorelia Luxury Floral Gifts`
+      : `Flower Delivery in ${city.name} ${city.state} | Roses Shipped Nationwide | Amorelia Luxury Floral Gifts`,
+    description: isEs
+      ? `Envío de rosas frescas a ${city.name}, ${city.state} por FedEx desde Miami. Hub: ${city.fedexHub.es}. Tránsito: ${city.fedexHub.transitDays}. Caja de lujo aislada.`
+      : `Send fresh roses to ${city.name}, ${city.state} via FedEx from Miami. Hub: ${city.fedexHub.en}. Transit: ${city.fedexHub.transitDays}. Insulated luxury box.`,
+    path: `/flower-delivery/${city.slug}`,
+    pathEs: `/envio-de-flores/${city.slugEs}`,
+    language,
+  });
+  // Romuald's FINAL pre-launch verdict (jul 2026): the 35 FedEx city pages are
+  // thin/duplicate AT SCALE for a NEW domain with no authority — a Miami brand
+  // can't win "flower delivery [city]" (SERP owned by 1-800-Flowers/FTD +
+  // LOCAL city florists by proximity). Indexing 35 losing pages burns crawl
+  // budget and dilutes authority. So they ship NOINDEX,FOLLOW: still useful for
+  // users/Ads and still pass internal authority forward, but out of the index
+  // and out of the sitemap. The ONE indexable national target is the
+  // /flower-delivery hub. (Matches the original keyword-research note.)
+  return { ...meta, robots: { index: false, follow: true } };
+}
+
+export default function CityShippingView({ city, language }: { city: CityPage; language: Language }) {
+  const isEs = language === "es";
+  const l = (path: string) => localizePath(path, language);
+
+  const h1 = isEs
+    ? `Envío de Flores a ${city.name}, ${city.state}`
+    : `Flower Delivery in ${city.name}, ${city.state}`;
+  const sub = isEs
+    ? `Rosas frescas enviadas desde Miami por FedEx — empacadas en nuestra caja de lujo aislada y entregadas a tu puerta en ${city.name}.`
+    : `Fresh roses shipped from Miami via FedEx — packed in our insulated luxury box and delivered to your door in ${city.name}.`;
+
+  const path = `/flower-delivery/${city.slug}`;
+  const pathEs = `/envio-de-flores/${city.slugEs}`;
+  const enUrl = `https://amorelialuxuryfloral.com${path}`;
+  const esUrl = `https://amorelialuxuryfloral.com/es${pathEs}`;
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: isEs ? `Envío de flores a ${city.name}` : `Flower delivery to ${city.name}`,
+    serviceType: isEs ? "Envío nacional de flores por FedEx" : "Nationwide flower delivery via FedEx",
+    provider: { "@id": "https://amorelialuxuryfloral.com/#localbusiness" },
+    areaServed: {
+      "@type": "City",
+      name: city.name,
+      containedInPlace: { "@type": "State", name: city.stateFull },
+    },
+    description: isEs ? city.intro.es : city.intro.en,
+    url: isEs ? esUrl : enUrl,
+  };
+
+  const breadcrumbs = breadcrumbSchema([
+    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://amorelialuxuryfloral.com/es" : "https://amorelialuxuryfloral.com" },
+    { name: isEs ? "Envío de Flores" : "Flower Delivery", url: isEs ? "https://amorelialuxuryfloral.com/es/envio-de-flores" : "https://amorelialuxuryfloral.com/flower-delivery" },
+    { name: city.name, url: isEs ? esUrl : enUrl },
+  ]);
+
+  // Nearby-cities cluster: the next 4 cities in the dataset (wrap-around).
+  const idx = cityPages.findIndex((c) => c.slug === city.slug);
+  const nearbyCities = idx >= 0
+    ? Array.from({ length: 4 }, (_, i) => cityPages[(idx + i + 1) % cityPages.length])
+    : [];
+
+  const toc: TocItem[] = [
+    { id: "order-roses", label: isEs ? "Pide tus rosas" : "Order roses" },
+    { id: "why-different", label: isEs ? `Por qué ${city.name} es distinto` : `Why ${city.name} is different` },
+    { id: "neighborhoods", label: isEs ? "Barrios que cubrimos" : "Neighborhoods we cover" },
+    { id: "occasions", label: isEs ? "Ocasiones populares" : "Popular occasions" },
+    ...(nearbyCities.length > 0
+      ? [{ id: "nearby-cities", label: isEs ? "Ciudades cercanas" : "Nearby cities" }]
+      : []),
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <JsonLd data={[localBusinessSchema(), serviceSchema, breadcrumbs]} />
+      <div className="pt-24 pb-16">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <Breadcrumbs
+            items={[
+              { label: isEs ? "Inicio" : "Home", to: l("/") },
+              { label: isEs ? "Envío de Flores" : "Flower Delivery", to: isEs ? "/es/envio-de-flores" : "/flower-delivery" },
+              { label: city.name },
+            ]}
+          />
+          <h1 className="font-title-retro text-3xl md:text-5xl text-primary mb-4">{h1}</h1>
+          <p className="font-body text-base md:text-lg text-muted-foreground leading-relaxed mb-8">{sub}</p>
+
+          <div className="bg-cream rounded-lg p-6 md:p-8 mb-10">
+            <p className="font-body text-sm md:text-base text-foreground leading-relaxed whitespace-pre-line">
+              {isEs ? city.intro.es : city.intro.en}
+            </p>
+          </div>
+
+          {/* Navigable index (jump-links) — skip the info blocks, go to the order CTAs. */}
+          <TableOfContents items={toc} heading={isEs ? "En esta página" : "On this page"} />
+
+          {/* FedEx logistics */}
+          <div className="grid md:grid-cols-3 gap-4 mb-12">
+            <div className="bg-white border border-border rounded-lg p-5">
+              <Truck className="w-5 h-5 text-primary mb-2" />
+              <p className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">{isEs ? "Hub FedEx" : "FedEx Hub"}</p>
+              <p className="font-body text-sm text-foreground">{isEs ? city.fedexHub.es : city.fedexHub.en}</p>
+            </div>
+            <div className="bg-white border border-border rounded-lg p-5">
+              <Clock className="w-5 h-5 text-primary mb-2" />
+              <p className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">{isEs ? "Tránsito" : "Transit"}</p>
+              <p className="font-body text-sm text-foreground">{city.fedexHub.transitDays}</p>
+            </div>
+            <div className="bg-white border border-border rounded-lg p-5">
+              <Package className="w-5 h-5 text-primary mb-2" />
+              <p className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">{isEs ? "Empaque" : "Packaging"}</p>
+              <p className="font-body text-sm text-foreground">{isEs ? "Caja de lujo aislada con cold packs" : "Insulated luxury box with cold packs"}</p>
+            </div>
+          </div>
+
+          {/* Local touch */}
+          <section id="why-different" className="scroll-mt-28 mb-12">
+            <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
+              {isEs ? `Por qué ${city.name} es distinto` : `Why ${city.name} is different`}
+            </h2>
+            <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+              {isEs ? city.localTouch.es : city.localTouch.en}
+            </p>
+          </section>
+
+          {/* Neighborhoods + ZIPs */}
+          <section id="neighborhoods" className="scroll-mt-28 mb-12">
+            <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
+              {isEs ? `Barrios que cubrimos en ${city.name}` : `Neighborhoods we cover in ${city.name}`}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {city.neighborhoods.map((n, i) => (
+                <div key={n} className="flex items-start gap-2 bg-cream/50 rounded-md px-3 py-2">
+                  <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="font-body text-sm text-foreground">{n}</p>
+                    {city.zips[i] && (
+                      <p className="font-body text-xs text-muted-foreground">{city.zips[i]}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Occasions */}
+          <section id="occasions" className="scroll-mt-28 mb-12">
+            <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
+              {isEs ? `Ocasiones populares en ${city.name}` : `Popular occasions in ${city.name}`}
+            </h2>
+            <ul className="space-y-2">
+              {city.occasions.map((o, i) => (
+                <li key={i} className="flex items-start gap-2 font-body text-sm md:text-base text-foreground">
+                  <span className="text-primary mt-1">•</span>
+                  <span>{isEs ? o.es : o.en}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* CTAs */}
+          <section id="order-roses" className="scroll-mt-28 bg-primary/5 border border-primary/20 rounded-lg p-6 md:p-8 text-center">
+            <h2 className="font-title-retro text-2xl md:text-3xl text-primary mb-4">
+              {isEs ? `Pide tus rosas para ${city.name}` : `Order roses to ${city.name}`}
+            </h2>
+            <p className="font-body text-sm md:text-base text-muted-foreground mb-6">
+              {isEs
+                ? "Explora la colección completa o filtra por color para encontrar el bouquet perfecto."
+                : "Browse the full collection or filter by color to find the perfect bouquet."}
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link href={l("/bouquets")} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-body text-sm hover:bg-primary/90 transition-colors">
+                {isEs ? "Ver todos los bouquets" : "Shop all bouquets"} <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href={isEs ? "/es/bouquets/rosas-rojas" : "/bouquets/red-roses"} className="inline-flex items-center gap-2 bg-white border border-border text-foreground px-6 py-3 rounded-md font-body text-sm hover:border-primary transition-colors">
+                {isEs ? "Rosas rojas" : "Red roses"}
+              </Link>
+              <Link href={l("/bouquets/personalizar")} className="inline-flex items-center gap-2 bg-white border border-border text-foreground px-6 py-3 rounded-md font-body text-sm hover:border-primary transition-colors">
+                {isEs ? "Personalizar bouquet" : "Custom bouquet"}
+              </Link>
+            </div>
+          </section>
+
+          {/* Nearby cities cluster */}
+          {nearbyCities.length > 0 && (
+            <section id="nearby-cities" className="scroll-mt-28 mt-12">
+              <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
+                {isEs ? "Ciudades cercanas" : "Nearby cities"}
+              </h2>
+              <ul className="flex flex-wrap gap-3">
+                {nearbyCities.map((n) => {
+                  const to = isEs ? `/es/envio-de-flores/${n.slugEs}` : `/flower-delivery/${n.slug}`;
+                  const anchor = isEs ? `envío de flores a ${n.name}` : `flower delivery to ${n.name}`;
+                  return (
+                    <li key={n.slug}>
+                      <Link
+                        href={to}
+                        className="inline-flex items-center gap-1 bg-cream/60 hover:bg-cream border border-border rounded-full px-4 py-2 font-body text-sm text-primary"
+                      >
+                        {anchor}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+
+          <div className="mt-10 text-center">
+            <Link
+              href={isEs ? "/es/envio-de-flores" : "/flower-delivery"}
+              className="font-body text-sm text-primary hover:underline"
+            >
+              {isEs ? "← Ver todas las ciudades" : "← See all cities"}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

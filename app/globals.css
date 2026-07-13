@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles ported 1:1 from the current SPA (web/src/index.css). */
+
+@layer base {
+  :root {
+    /* Amorelia — verde de marca EXACTO #2a3b24 = HSL 104 24% 19% + acento dorado (corazón del logo) */
+    --background: 0 0% 100%;
+    --foreground: 104 22% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 104 22% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 104 22% 12%;
+
+    --primary: 104 24% 19%;
+    --primary-foreground: 60 33% 97%;
+
+    --secondary: 104 18% 34%;
+    --secondary-foreground: 60 33% 97%;
+
+    --muted: 104 12% 95%;
+    --muted-foreground: 104 12% 34%;
+
+    --accent: 104 18% 32%;
+    --accent-foreground: 60 33% 97%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 104 12% 88%;
+    --input: 104 12% 88%;
+    --ring: 104 24% 19%;
+
+    /* Bordes cuadrados en toda la web */
+    --radius: 0rem;
+
+    --gold: 42 52% 52%;
+    --gold-foreground: 104 22% 12%;
+    --wine: 104 26% 14%;
+    --wine-foreground: 60 33% 97%;
+    --cream: 60 40% 96%;
+    --rose: 104 18% 34%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 104 22% 7%;
+    --foreground: 60 33% 96%;
+    --card: 104 18% 10%;
+    --card-foreground: 60 33% 96%;
+    --popover: 104 18% 10%;
+    --popover-foreground: 60 33% 96%;
+    --primary: 104 26% 40%;
+    --primary-foreground: 104 30% 8%;
+    --secondary: 104 18% 34%;
+    --secondary-foreground: 60 33% 96%;
+    --muted: 104 14% 15%;
+    --muted-foreground: 104 12% 68%;
+    --accent: 104 18% 34%;
+    --accent-foreground: 60 33% 96%;
+    --border: 104 14% 17%;
+    --input: 104 14% 17%;
+    --ring: 104 26% 40%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  /* Escala global de escritorio: la web se muestra de fábrica al 90%
+     (equivalente a pulsar Cmd− una vez) para verse más compacta.
+     Solo en pantallas de ordenador; el móvil se deja tal cual. */
+  @media (min-width: 1024px) {
+    html {
+      zoom: 0.9;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(38 70% 55%), hsl(38 70% 70%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .container-tfp {
+    @apply mx-auto w-full px-6;
+    max-width: 1400px;
+  }
+}
+
+/* Global rounded corners for all images */
+img {
+  border-radius: 0.5rem;
+}
+
+/* iOS Safari MOBILE ZOOM FIX ("todo se ve ampliado", jul 2026): when a focused
+   form field has font-size < 16px, iOS Safari auto-zooms the WHOLE page in and
+   often leaves it zoomed after the keyboard closes — the site then looks
+   "amplified"/broken until the user pinches out. The navbar search input
+   (autoFocus + 14px), the gift-note textareas and the address inputs all used
+   12–14px, so tapping any of them triggered it. Force ≥16px on every form
+   field below the desktop breakpoint; desktop keeps the design sizes.
+   !important is required to beat Tailwind's .text-xs/.text-sm utilities. */
+@media (max-width: 1023px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Smooth in-page anchor scrolling (e.g. product rating bar → #reviews).
+   Native CSS — no JS — and disabled for users who prefer reduced motion. */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Hide scrollbar for horizontal carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

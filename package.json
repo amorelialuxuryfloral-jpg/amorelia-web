@@ -1,0 +1,48 @@
+{
+  "name": "web-ssr",
+  "version": "0.1.0",
+  "private": true,
+  "//browserslist": "Modern targets so Next/SWC stops shipping polyfills for Baseline features (Array.at/flat/flatMap, Object.fromEntries/hasOwn, trimStart/End). Covers ~98% of real traffic; our buyers are on recent mobile.",
+  "browserslist": [
+    "last 2 years",
+    "not dead",
+    "not op_mini all"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@portabletext/react": "6.2.0",
+    "@sanity/client": "7.23.0",
+    "@sanity/image-url": "2.1.1",
+    "@sanity/vision": "^6.4.0",
+    "@supabase/supabase-js": "2.110.2",
+    "autoprefixer": "10.5.2",
+    "clsx": "2.1.1",
+    "date-fns": "^3.6.0",
+    "lucide-react": "1.24.0",
+    "next": "16.2.10",
+    "next-sanity": "^13.1.1",
+    "postcss": "8.5.16",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "sanity": "^6.4.0",
+    "sonner": "^1.7.4",
+    "styled-components": "^6.4.3",
+    "tailwind-merge": "3.6.0",
+    "tailwindcss": "3.4.17",
+    "tailwindcss-animate": "1.0.7",
+    "zustand": "5.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,133 @@
+"use client";
+
+import { useEffect, useState, useRef } from "react";
+import { ShieldCheck } from "lucide-react";
+import SwitchLite from "@/components/ui/SwitchLite";
+import { useCartStore } from "@/stores/cartStore";
+import { getTranslator, type Language } from "@/i18n";
+import {
+  computeShippingProtection,
+  getShippingProtectionFallback,
+  getShippingProtectionInfo,
+  type ShippingProtectionInfo,
+} from "@/lib/shippingProtection";
+
+/** Shipping Protection toggle (cart drawer) — SPA port 1:1. */
+const ShippingProtection = ({ language = "en" }: { language?: Language }) => {
+  const { t } = getTranslator(language);
+  const [info, setInfo] = useState<ShippingProtectionInfo>(getShippingProtectionFallback());
+  const enabled = useCartStore((s) => s.shippingProtection);
+  const setEnabled = useCartStore((s) => s.setShippingProtection);
+  const itemCount = useCartStore((s) => s.items.length);
+  // Products + extras total (item.price already includes add-ons; NO delivery)
+  // — the basis for the Shipping Protection tier (≤$180→$15, ≤$280→$25, else $35).
+  const productsTotal = useCartStore((s) =>
+    s.items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0),
+  );
+  const hasHomeDelivery = useCartStore((s) =>
+    s.items.some(
+      (i) =>
+        i.deliveryMethod === "delivery" &&
+        i.deliveryAddress &&
+        i.deliveryAddress !== "Store pickup",
+    ),
+  );
+
+  // Track whether the user has manually toggled the switch so we don't
+  // auto-re-enable it on every render while Home Delivery remains selected.
+  const manuallyToggledRef = useRef(false);
+  const prevHomeDeliveryRef = useRef(hasHomeDelivery);
+
+  useEffect(() => {
+    let active = true;
+    getShippingProtectionInfo().then((data) => {
+      if (active && data) setInfo(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const price = computeShippingProtection(info, productsTotal).amount;
+  const imageUrl = info.imageUrl;
+  const disabled = !info.available;
+
+  useEffect(() => {
+    if (disabled && enabled) {
+      setEnabled(false);
+    }
+  }, [disabled, enabled, setEnabled]);
+
+  // Auto-enable by default when Home Delivery first appears. Reset the
+  // manual-override flag whenever Home Delivery disappears so the next
+  // Home Delivery item will again default to enabled.
+  useEffect(() => {
+    if (!hasHomeDelivery && prevHomeDeliveryRef.current) {
+      manuallyToggledRef.current = false;
+    }
+    prevHomeDeliveryRef.current = hasHomeDelivery;
+
+    if (hasHomeDelivery && !disabled && !enabled && !manuallyToggledRef.current) {
+      setEnabled(true);
+    }
+    // Turn it off automatically if the cart switches to Store Pickup.
+    if (!hasHomeDelivery && enabled) {
+      setEnabled(false);
+    }
+  }, [hasHomeDelivery, disabled, enabled, setEnabled]);
+
+  if (itemCount === 0) return null;
+  // Only show for Home Delivery — hide entirely on Store Pickup.
+  if (!hasHomeDelivery) return null;
+
+  return (
+    <div className="relative flex items-center gap-2.5 sm:gap-3.5 rounded-lg border border-primary/20 bg-primary/[0.03] px-2.5 py-2 sm:px-3.5 sm:py-3">
+      {!disabled && !enabled && (
+        <span className="absolute -top-2.5 right-3 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none shadow-sm">
+          {t("shippingProtection.recommended")}
+        </span>
+      )}
+      <div className="w-8 h-8 sm:w-11 sm:h-11 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={info.imageAlt || t("shippingProtection.label")}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-body text-xs sm:text-sm font-semibold text-foreground">
+            {t("shippingProtection.label")}
+          </p>
+          <p className="font-body text-xs sm:text-sm font-semibold text-primary">
+            ${price.toFixed(2)}
+          </p>
+        </div>
+        <p className="font-body text-[10px] sm:text-xs leading-snug text-muted-foreground mt-0.5 line-clamp-2">
+          {t("shippingProtection.description")}
+        </p>
+        {disabled && (
+          <p className="font-body text-[10px] sm:text-xs leading-snug text-muted-foreground mt-1">
+            {t("shippingProtection.unavailable")}
+          </p>
+        )}
+      </div>
+      <SwitchLite
+        checked={!disabled && enabled}
+        onCheckedChange={(v) => {
+          if (disabled) return;
+          manuallyToggledRef.current = true;
+          setEnabled(!!v);
+        }}
+        disabled={disabled}
+        aria-label={t("shippingProtection.label")}
+      />
+    </div>
+  );
+};
+
+export default ShippingProtection;
