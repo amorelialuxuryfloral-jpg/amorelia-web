@@ -339,43 +339,6 @@ export default async function HomeView({ language }: { language: Language }) {
         <WaveBottom />
       </div>
 
-      {/* H2 #3 — Occasion cluster (REAL links) */}
-      <section className="py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.occasionsTitle")}</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto text-center">
-            {occasionLinks.map(({ href, label, icon: Icon }) => (
-              <Link key={href} href={href} className="group flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-cream/60 transition-colors">
-                <Icon className="w-5 h-5 text-primary" />
-                <span className="font-display text-sm md:text-base font-semibold text-foreground group-hover:text-primary transition-colors">{label}</span>
-              </Link>
-            ))}
-          </div>
-          <div className="text-center mt-6">
-            <Link href={isEs ? "/es/collections/ocasiones" : "/collections/occasions"} className="font-body text-xs tracking-widest uppercase text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors">
-              {t("nav.allOccasions")} →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* H2 #4 — Custom AI builder */}
-      <section className="py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-6 text-left md:text-center">
-          <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
-            {t("home.customizeTitle")}
-          </h2>
-          <p className="text-muted-foreground font-body mb-8 max-w-md md:mx-auto">
-            {t("home.customizeDescription")}
-          </p>
-          <Link href={l("/bouquets/personalizar")}
-            className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
-            {t("home.customize")} <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
 
       {/* H2 #5 — Prices (From $76): meaningful heading, not a bare UI label.
           ES heading composed from validated fragments (ctaPrice + heroDescription). */}

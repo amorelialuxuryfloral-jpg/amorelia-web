@@ -103,13 +103,10 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
               {[
                 { to: l("/"), label: t("nav.home") },
                 { to: l("/bouquets"), label: t("nav.bouquets") },
-                { to: l("/bouquets/personalizar"), label: t("nav.customBouquets") },
-                { to: l("/room-decors"), label: t("nav.roomDecors") },
                 { to: l("/delivery"), label: t("nav.delivery") },
                 { to: l("/about"), label: t("nav.about") },
                 { to: l("/contact"), label: t("nav.contact") },
                 { to: l("/faq"), label: t("nav.faq") },
-                { to: l("/blog"), label: t("nav.blog") },
                 { to: nationwidePath, label: t("footer.nationwideDelivery") },
                 { to: l("/sitemap"), label: t("nav.sitemap") },
               ].map(link => (
@@ -162,32 +159,6 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
           </div>
         </div>
 
-          {/* Shop by Occasion — Tier 2 + Tier 3 pages reachable in ≤3 clicks
-              (Home → Footer → Occasion). Tier 1 is already in the top menu. */}
-          <div className="border-t border-primary-foreground/15 pt-8 mb-8">
-            <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
-              <p className="font-body text-xs tracking-widest uppercase text-primary-foreground">
-                {t("footer.shopByOccasion")}
-              </p>
-              <Link
-                href={occasionsIndexPath}
-                className="font-body text-[11px] tracking-widest uppercase text-primary-foreground/90 hover:text-primary-foreground underline-offset-2 hover:underline"
-              >
-                {t("footer.viewAllOccasions")} →
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-2 font-body text-xs text-primary-foreground/95">
-              {footerOccasions.map((o) => (
-                <Link
-                  key={o.slug}
-                  href={occasionPath(o.slug, o.slugEs)}
-                  className="inline-block py-1 hover:text-primary transition-colors"
-                >
-                  {stripCity(language === "es" ? o.h1.es : o.h1.en)}
-                </Link>
-              ))}
-            </div>
-          </div>
 
           {/* Nationwide FedEx delivery — separate from the Miami barrios block
               (national intent, not local). 14 top-volume cities + hub link. */}
