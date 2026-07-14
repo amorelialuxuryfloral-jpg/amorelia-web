@@ -104,9 +104,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
             </div>
             <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-3">{t("footer.followUs")}</p>
             <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
-              <a href="https://www.instagram.com/amorelialuxuryfloral" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Instagram</a>
-              <a href="https://www.facebook.com/amorelialuxuryfloral" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Facebook</a>
-              <a href="https://www.tiktok.com/@amorelialuxuryfloral?_r=1&_t=ZN-96sa6qDFByA" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">TikTok</a>
+              <a href="https://www.instagram.com/amorelialuxury" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Instagram</a>
+              <a href="https://www.facebook.com/share/19G6f7g6c5/" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Facebook</a>
             </div>
             <PaymentIcons size={20} />
           </div>

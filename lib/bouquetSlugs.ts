@@ -62,7 +62,6 @@ export const BOUQUET_SLUGS: Record<string, BouquetSlug> = {
   "ros-affair": { slug: "ros-affair", slugEs: "ros-affair" },
   "onyx-rose": { slug: "onyx-rose", slugEs: "onyx-rose" },
   "autumn-glow": { slug: "autumn-glow", slugEs: "autumn-glow" },
-  "sunflower-romance": { slug: "sunflower-romance", slugEs: "sunflower-romance" },
   "amber-radiance": { slug: "amber-radiance", slugEs: "amber-radiance" },
   "midnight-amour": { slug: "midnight-amour", slugEs: "midnight-amour" },
   "spring-whisper": { slug: "spring-whisper", slugEs: "spring-whisper" },

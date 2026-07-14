@@ -120,9 +120,8 @@ export const organizationSchema = () => ({
     addressCountry: "US",
   },
   sameAs: [
-    "https://www.instagram.com/amorelialuxuryfloral",
-    "https://www.facebook.com/amorelialuxuryfloral",
-    "https://www.tiktok.com/@amorelialuxuryfloral?_r=1&_t=ZN-96sa6qDFByA",
+    "https://www.instagram.com/amorelialuxury",
+    "https://www.facebook.com/share/19G6f7g6c5/",
   ],
 });
 
