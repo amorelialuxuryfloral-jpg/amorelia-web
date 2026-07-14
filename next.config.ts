@@ -28,14 +28,24 @@ type Redirect = {
  *   /es/bouquets/<handle>         → /es/bouquets/<slugEs>
  */
 const bouquetLegacyRedirects: Redirect[] = Object.entries(BOUQUET_SLUGS).flatMap(
-  ([handle, m]) => [
-    { source: `/products/${handle}`, destination: `/bouquets/${m.slug}`, permanent: true },
-    { source: `/es/products/${handle}`, destination: `/es/bouquets/${m.slugEs}`, permanent: true },
-    { source: `/bouquets/all/${handle}`, destination: `/bouquets/${m.slug}`, permanent: true },
-    { source: `/es/bouquets/all/${handle}`, destination: `/es/bouquets/${m.slugEs}`, permanent: true },
-    { source: `/bouquets/${handle}`, destination: `/bouquets/${m.slug}`, permanent: true },
-    { source: `/es/bouquets/${handle}`, destination: `/es/bouquets/${m.slugEs}`, permanent: true },
-  ],
+  ([handle, m]) => {
+    const rules: Redirect[] = [
+      { source: `/products/${handle}`, destination: `/bouquets/${m.slug}`, permanent: true },
+      { source: `/es/products/${handle}`, destination: `/es/bouquets/${m.slugEs}`, permanent: true },
+      { source: `/bouquets/all/${handle}`, destination: `/bouquets/${m.slug}`, permanent: true },
+      { source: `/es/bouquets/all/${handle}`, destination: `/es/bouquets/${m.slugEs}`, permanent: true },
+    ];
+    // AMORELIA: slug === handle (y slugEs === handle), así que estas dos reglas
+    // serían /bouquets/<handle> → /bouquets/<handle> = BUCLE 308. Solo se añaden
+    // si el slug difiere del handle (como en Charls), para no romper la ficha.
+    if (m.slug !== handle) {
+      rules.push({ source: `/bouquets/${handle}`, destination: `/bouquets/${m.slug}`, permanent: true });
+    }
+    if (m.slugEs !== handle) {
+      rules.push({ source: `/es/bouquets/${handle}`, destination: `/es/bouquets/${m.slugEs}`, permanent: true });
+    }
+    return rules;
+  },
 );
 
 /** Retired blog posts (SPA blogData) → the blog index, both trees. */
