@@ -225,11 +225,10 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     quantity: acc.quantity,
   }));
 
-  // 2b) Shipping Protection (optional add-on, max qty 1)
-  const protectionEnabled = useCartStore.getState().shippingProtection;
-  const protectionLines: CartFullLine[] = protectionEnabled && shippingProtectionAvailable
-    ? [{ merchandiseId: protectionCharge.variantGid, quantity: protectionCharge.quantity }]
-    : [];
+  // 2b) Shipping Protection — DESACTIVADO en Amorelia (no existe ese producto).
+  // Nunca se añade al checkout, aunque el store lo tuviera marcado.
+  void shippingProtectionAvailable; void protectionCharge;
+  const protectionLines: CartFullLine[] = [];
 
   // 3) Delivery fee line
   const deliveryLines: CartFullLine[] = [];

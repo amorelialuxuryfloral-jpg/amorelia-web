@@ -34,9 +34,9 @@ serve(async (req) => {
     const googleUrl =
       `https://maps.googleapis.com/maps/api/staticmap` +
       `?size=640x300&scale=2` +
-      `&markers=color:0x96103b%7Clabel:A%7C${originEnc}` +
-      `&markers=color:0x96103b%7Clabel:B%7C${destEnc}` +
-      `&path=color:0x96103bcc%7Cweight:3%7C${originEnc}%7C${destEnc}` +
+      `&markers=color:0x2a3b24%7Clabel:A%7C${originEnc}` +
+      `&markers=color:0x2a3b24%7Clabel:B%7C${destEnc}` +
+      `&path=color:0x2a3b24cc%7Cweight:3%7C${originEnc}%7C${destEnc}` +
       `&key=${apiKey}`;
 
     const res = await fetch(googleUrl);

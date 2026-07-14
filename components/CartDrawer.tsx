@@ -13,7 +13,6 @@ import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
 import CartItemUpsells from "@/components/checkout/CartItemUpsells";
-import ShippingProtection from "@/components/checkout/ShippingProtection";
 import ProductRatingBar from "@/components/product/ProductRatingBar";
 import { computeShippingProtection, getShippingProtectionFallback, getShippingProtectionInfo, type ShippingProtectionInfo } from "@/lib/shippingProtection";
 
@@ -33,7 +32,8 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
   const removeItem = useCartStore((s) => s.removeItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const isLoading = useCartStore((s) => s.isLoading);
-  const shippingProtectionEnabled = useCartStore((s) => s.shippingProtection);
+  // Shipping Protection DESACTIVADO en Amorelia (no existe ese producto) — off fijo.
+  const shippingProtectionEnabled = false;
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // Persisted state only renders after mount (server HTML has the drawer closed).
@@ -520,7 +520,7 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
                 ? "La tarifa de servicio y los impuestos se calculan en el pago."
                 : "Service fee and taxes are calculated at checkout."}
             </p>
-            <ShippingProtection language={language} />
+            {/* Shipping Protection eliminado (Amorelia no lo tiene). */}
             {fedexBlockingItem && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs font-body text-foreground">
                 {fedexNeedsMultiBouquet ? (

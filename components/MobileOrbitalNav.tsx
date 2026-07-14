@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/stores/cartStore";
-import { Home, Flower2, Sparkles } from "lucide-react";
-import BrandLogo from "@/components/BrandLogo";
+import { Home, Flower2, ShoppingCart } from "lucide-react";
 import { getTranslator, localizePath, type Language } from "@/i18n";
 
 /**
@@ -51,19 +50,15 @@ const MobileOrbitalNav = ({ language = "en" }: { language?: Language }) => {
           <Flower2 className="w-5 h-5" strokeWidth={1.8} />
           <span className={labelCls}>{t("nav.bouquets")}</span>
         </Link>
-        <Link href={l("/bouquets/personalizar")} className={itemCls}>
-          <Sparkles className="w-5 h-5" strokeWidth={1.8} />
-          <span className={labelCls}>{t("nav.customBouquets")}</span>
-        </Link>
         <button
           type="button"
           onClick={() => setCartOpen(true)}
           aria-label={t("floatingCart.yourCart")}
           className={`${itemCls} relative`}
         >
-          {/* SAME cart icon as the Navbar header (BrandLogo — the cart with
-              roses), for icon consistency top/bottom (feedback Eric jul 2026). */}
-          <BrandLogo className="w-5 h-5" />
+          {/* Mismo icono de carrito que el navbar de arriba (Amorelia no tiene
+              custom bouquets, así que ese item se quitó). */}
+          <ShoppingCart className="w-5 h-5" strokeWidth={1.8} />
           {totalItems > 0 && (
             <span className="absolute top-1 right-[calc(50%-1.1rem)] bg-primary text-primary-foreground text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
               {totalItems}
