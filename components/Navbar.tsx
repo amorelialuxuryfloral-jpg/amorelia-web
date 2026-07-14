@@ -5,8 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCartStore } from "@/stores/cartStore";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import BrandLogo from "@/components/BrandLogo";
-import { Menu, X, ChevronDown, Search as SearchIcon, Globe } from "lucide-react";
+import { Menu, X, ChevronDown, Search as SearchIcon, Globe, ShoppingCart } from "lucide-react";
 import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle, slugEsForHandle, h1ForHandle, h1EsForHandle } from "@/lib/bouquetSlugs";
 import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
@@ -132,7 +131,6 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
   const navLinks = [
     { to: l("/"), label: t("nav.home") },
     { to: l("/bouquets"), label: t("nav.bouquets"), hasDropdown: true },
-    { to: l("/about"), label: language === "es" ? "Sobre Nosotros" : "About" },
     { to: l("/contact"), label: language === "es" ? "Contacto" : "Contact" },
   ];
 
@@ -202,12 +200,9 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
       priority: 2,
     },
     // Utility pages.
-    { label: t("nav.customBouquetBuilder"), to: l("/bouquets/personalizar"), keywords: ["custom bouquet", "builder", "ramo personalizado", "a medida"], priority: 3 },
     { label: t("nav.delivery"), to: l("/delivery"), keywords: ["delivery", "envío", "envio", "same day", "mismo día"], priority: 3 },
-    { label: t("nav.about"), to: l("/about"), keywords: ["about", "nosotros"], priority: 3 },
     { label: t("nav.contact"), to: l("/contact"), keywords: ["contact", "contacto"], priority: 3 },
     { label: t("nav.faq"), to: l("/faq"), keywords: ["faq", "questions", "preguntas"], priority: 3 },
-    { label: t("nav.blog"), to: l("/blog"), keywords: ["blog"], priority: 3 },
   ];
 
   // Match: every word of the query must appear in the label or a keyword.
@@ -265,6 +260,11 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
     </div>
     <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between relative">
+        {/* Left group: hamburger (mobile) + logo (desktop). Keeping the logo
+            INSIDE this left flex item — instead of as a standalone sibling —
+            is what pins it to the left: with justify-between there are then
+            exactly two in-flow items (this group + the right controls), so the
+            absolutely-centered nav never overlaps the logo. */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -274,11 +274,10 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
+          <Link href={l("/")} onClick={handleLogoClick} className="hidden lg:flex items-center gap-2">
+            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={90} height={40} />
+          </Link>
         </div>
-
-        <Link href={l("/")} onClick={handleLogoClick} className="hidden lg:flex items-center gap-2">
-          <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={90} height={40} />
-        </Link>
 
         <Link href={l("/")} onClick={handleLogoClick} className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
           <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-10 w-auto" width={90} height={40} />
@@ -368,7 +367,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             aria-label={t("nav.aria.openCart")}
             className="relative hover:text-primary transition-colors text-foreground"
           >
-            <BrandLogo className="w-7 h-7" />
+            <ShoppingCart className="w-6 h-6" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
                 {totalItems}

@@ -21,8 +21,8 @@ import {
   TRACKING_PARAM_KEYS,
 } from "@/lib/trackingParams";
 
-const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
-const SERVICE_FEE_VARIANT_NUMERIC_ID = "51654333595780";
+const DELIVERY_FEE_VARIANT_NUMERIC_ID = "48213595652314";
+const SERVICE_FEE_VARIANT_NUMERIC_ID = "48213596274906";
 const SERVICE_FEE_VARIANT_GID = `gid://shopify/ProductVariant/${SERVICE_FEE_VARIANT_NUMERIC_ID}`;
 
 const SHOPIFY_CART_BASE_URL = "https://amorelia-luxury-floral-gifts.myshopify.com/cart";

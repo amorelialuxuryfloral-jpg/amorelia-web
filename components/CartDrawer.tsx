@@ -5,7 +5,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { toast } from "sonner";
-import { X, Trash2, Loader2, Plus, Minus } from "lucide-react";
+import { X, Trash2, Loader2, Plus, Minus, ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import { getTranslator, localizePath, type Language } from "@/i18n";
@@ -344,7 +344,7 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
         <div className="px-4 pt-3 pb-2 sm:px-6 sm:pt-6 border-b border-border">
           <div className="flex items-center justify-between gap-3">
             <span className="font-display text-lg sm:text-xl text-foreground flex items-center gap-2 m-0">
-              <BrandLogo className="w-6 h-6 sm:w-7 sm:h-7" />
+              <ShoppingCart className="w-6 h-6 sm:w-7 sm:h-7" />
               <span>
                 {t("floatingCart.yourCart")} ({totalItems})
               </span>

@@ -99,9 +99,9 @@ export const es = {
   },
 
   home: {
-    heroSubtitle: "Hechos a mano con amor",
-    heroTitle: "Floristería en Miami — Flores a Domicilio el Mismo Día",
-    heroDescription: "Ramos artesanales de 50 a 200 rosas. Acabado natural, pintado o con glitter.",
+    heroSubtitle: "Rosas de lujo, hechas a mano",
+    heroTitle: "Ramos de Rosas de Lujo en Miami — Entrega el Mismo Día",
+    heroDescription: "Ramos de rosas exclusivos de 50 a 200 tallos, en acabado natural, pintado o glitter.",
     viewBouquets: "Ver ramos",
     buildYourBouquet: "Crea tu ramo",
     storePickup: "Recogida en tienda",
@@ -136,9 +136,9 @@ export const es = {
     birthdayBouquets: "Ramos de Cumpleaños en Miami",
     babyShower: "Flores para Baby Shower en Miami",
     anniversaryRoses: "Rosas de Aniversario en Miami",
-    deliveryTitle: "Envío de Flores el Mismo Día en Todo Miami",
-    deliverySubtitleLine1: "$25 tarifa fija para 0-5 millas. $1.60/milla de 5 a 90 millas.",
-    deliverySubtitleLine2: "Recogida gratis en tienda.",
+    deliveryTitle: "Entrega de Rosas el Mismo Día en Todo Miami",
+    deliverySubtitleLine1: "$30 tarifa fija para las primeras 10 millas. $1.60/milla de 10 a 90 millas.",
+    deliverySubtitleLine2: "Recogida gratis en nuestro estudio de Miami.",
     deliveryAddress: "📍 7257 NW 12th St, Miami, FL 33126",
     hoursLine1: "Lunes – Viernes: 8AM – 7PM",
     hoursLine2: "Sábado: 8AM – 5PM",
@@ -211,17 +211,15 @@ export const es = {
     title: "Envío de Flores en Miami — Preguntas Frecuentes",
     faqs: [
       { q: "¿Ofrecen envío el mismo día en Miami?", a: "¡Sí! Ofrecemos envío el mismo día en todo Miami hasta 90 millas. Pide antes de las 3PM y tu ramo será entregado hoy. Tiempo mínimo de preparación: 2 horas." },
-      { q: "¿Cuánto cuesta el envío de flores en Miami?", a: "$25 tarifa fija para 0-5 millas. $1.60 por milla de 5 a 90 millas. Recogida gratis disponible en 7257 NW 12th St, Miami, FL 33126." },
-      { q: "¿Puedo personalizar mi ramo?", a: "¡Sí! Usa nuestro creador de ramos personalizados para elegir color, papel, cantidad (50-200 rosas), acabado (natural, glitter, pintado) y accesorios. La vista previa de IA te muestra exactamente lo que recibirás." },
+      { q: "¿Cuánto cuesta el envío de flores en Miami?", a: "$30 tarifa fija para las primeras 10 millas. $1.60 por milla de 10 a 90 millas. Recogida gratis disponible en 7257 NW 12th St, Miami, FL 33126." },
+      { q: "¿Puedo elegir el tamaño y el acabado de mi ramo?", a: "Sí. En cada ramo eliges el número de rosas (de 50 a 200) y el acabado (natural, pintado o glitter), y puedes añadir accesorios como una nota o mariposas al finalizar el pedido." },
       { q: "¿Cuál es la diferencia entre ramos con glitter y naturales?", a: "Los ramos naturales usan rosas frescas en su color original. Los ramos con glitter tienen un revestimiento premium de glitter aplicado a los pétalos para un efecto glamoroso y duradero." },
-      { q: "¿Cómo funciona la vista previa de IA del ramo?", a: "Nuestro creador de ramos personalizados usa IA para generar una vista previa realista de tu ramo antes de pedirlo, basándose en tu selección de color, cantidad y acabado." },
-      { q: "¿Qué flores son mejores para cumpleaños?", a: "Para cumpleaños recomendamos ramos brillantes de un solo color como Hot Pink Blush, Radiant Sun o Orange Sunset, o un ramo mixto personalizado en los colores favoritos del destinatario." },
+      { q: "¿Qué flores son mejores para cumpleaños?", a: "Para cumpleaños recomendamos ramos brillantes de un solo color como Fuchsia Glow, Golden Sunshine o Amber Radiance, o un vibrante ramo de varios colores en los tonos favoritos del destinatario." },
       { q: "¿Puedo programar una entrega para una hora específica?", a: "Sí, puedes solicitar una ventana de entrega preferida al hacer el pedido. El envío el mismo día requiere pedir antes de las 3PM con un tiempo mínimo de preparación de 2 horas." },
-      { q: "¿Qué flores son mejores para quinceañeras?", a: "Las opciones populares incluyen Hot Pink Blush, Soft Pink y ramos mixtos como Pink Symphony. Ofrecemos ramos personalizados donde eliges los colores exactos para combinar con el tema." },
-      { q: "¿Ofrecen flores para bodas en Miami?", a: "¡Los ramos de boda llegarán pronto! Mientras tanto, nuestro creador de ramos personalizados te permite diseñar arreglos perfectos para eventos de boda." },
-      { q: "¿Puedo pedir 100 rosas en un ramo?", a: "¡Absolutamente! Ofrecemos ramos con 50, 75, 100, 150 y 200 rosas. Puedes elegir cualquier combinación de colores y acabado." },
+      { q: "¿Qué flores son mejores para quinceañeras?", a: "Las opciones populares incluyen Fuchsia Glow, Blush Petals y ramos de varios colores como Rose Harmony, en tonos que combinan con el tema." },
+      { q: "¿Puedo pedir 100 rosas en un ramo?", a: "¡Absolutamente! Ofrecemos ramos con 50, 75, 100, 150 y 200 rosas, en una variedad de colores y acabados." },
       { q: "¿Entregan a Coral Gables, Doral, Hialeah, Kendall, Brickell?", a: "¡Sí! Entregamos a todos los vecindarios de Miami y áreas circundantes hasta 90 millas, incluyendo Coral Gables, Doral, Hialeah, Kendall, Brickell, Wynwood, Miami Beach y Aventura." },
-      { q: "¿Hay un pedido mínimo para envío?", a: "No hay pedido mínimo para envío. Cualquier ramo o producto puede ser enviado. El envío comienza en $25 para 0-5 millas." },
+      { q: "¿Hay un pedido mínimo para envío?", a: "No hay pedido mínimo para envío. Cualquier ramo puede ser enviado. El envío comienza en $30 para las primeras 10 millas." },
     ],
   },
 
@@ -314,12 +312,12 @@ export const es = {
         a: "Cada ramo se monta bajo pedido usando rosas premium que recibimos frescas cada semana. Los tallos se hidratan y acondicionan el mismo día que salen de nuestra tienda, por eso ofrecemos entrega local el mismo día: tus flores llegan en su punto óptimo de frescura.",
       },
       {
-        q: "¿Puedo personalizar el ramo?",
-        a: "Por supuesto. Puedes elegir el número de rosas (50–200), añadir acabado glitter, incluir una nota escrita a mano o mariposas, e incluso crear un ramo totalmente personalizado desde cero con nuestro Bouquet Builder. Las combinaciones de colores, el papel y los extras los decides tú.",
+        q: "¿Puedo elegir el tamaño y el acabado?",
+        a: "Sí. En cada ramo eliges el número de rosas (50–200) y el acabado (natural, pintado o glitter), y puedes añadir una nota escrita a mano o mariposas al finalizar el pedido.",
       },
       {
         q: "Envío y entrega",
-        a: "Envío a domicilio: $25 fijo para las primeras 5 millas, luego $1.60 por cada milla adicional (hasta 90 millas). Recogida en tienda: Gratis, lista 2 horas después de realizar el pedido. Horario: Lun–Vie 8AM–7PM · Sáb 8AM–5PM · Dom Cerrado (hora de Miami). Los pedidos realizados antes de las 3:00 PM califican para entrega el mismo día.",
+        a: "Envío a domicilio: $30 fijo para las primeras 10 millas, luego $1.60 por cada milla adicional (hasta 90 millas). Recogida en tienda: Gratis, lista 2 horas después de realizar el pedido. Horario: Lun–Vie 8AM–7PM · Sáb 8AM–5PM · Dom Cerrado (hora de Miami). Los pedidos realizados antes de las 3:00 PM califican para entrega el mismo día.",
       },
       {
         q: "Política de devoluciones y reembolsos",
@@ -450,12 +448,12 @@ export const es = {
   },
 
   ticker: {
-    bestQuality: "La florería con mejor relación calidad-precio de Miami",
-    unbeatablePrices: "Precios imbatibles en rosas frescas",
-    handcrafted: "Ramos artesanales 100% hechos a mano",
-    sameDayDelivery: "Envío el mismo día en Miami",
-    rosesPerBouquet: "De 50 a 200 rosas por ramo",
-    finishOptions: "Flores naturales, pintadas o con acabado glitter",
+    bestQuality: "La boutique de rosas de lujo de Miami",
+    unbeatablePrices: "Rosas premium de larga duración",
+    handcrafted: "Ramos artesanales, montados a mano por encargo",
+    sameDayDelivery: "Entrega el mismo día en todo Miami",
+    rosesPerBouquet: "De 50 a 200 rosas en cada diseño",
+    finishOptions: "Acabado natural, pintado o glitter",
   },
 
   roomDecors: {
@@ -536,7 +534,7 @@ export const es = {
     deliveryAtCheckout: "Se calcula al pagar",
     extras: "Extras",
     total: "Total",
-    viewCart: "CONTINUAR AL CHECKOUT SEGURO",
+    viewCart: "PROCEDER AL PAGO",
     continueShopping: "Seguir comprando",
     remove: "Eliminar",
   },
@@ -706,7 +704,7 @@ export const es = {
     },
     about: {
       title: "La Mejor Floristería de Miami | Amorelia Luxury Floral Gifts",
-      description: "Amorelia Luxury Floral Gifts, la floristería de referencia en Miami. Ramos artesanales de 50 a 200 rosas, vista previa con IA, envío el mismo día y recogida gratis.",
+      description: "Amorelia Luxury Floral Gifts, la boutique de rosas de referencia en Miami. Ramos artesanales de 50 a 200 rosas, envío el mismo día y recogida gratis.",
     },
     contact: {
       title: "Contacto | Amorelia Luxury Floral Gifts Miami FL",
@@ -718,7 +716,7 @@ export const es = {
     },
     faq: {
       title: "Preguntas Frecuentes | Amorelia Luxury Floral Gifts Miami",
-      description: "Resuelve tus dudas sobre envío de flores, ramos personalizados, precios y más en Amorelia Luxury Floral Gifts Miami. Mismo día, recogida gratis y vista previa con IA.",
+      description: "Resuelve tus dudas sobre envío de flores, ramos, precios y más en Amorelia Luxury Floral Gifts Miami. Envío el mismo día y recogida gratis.",
     },
     blog: {
       title: "Blog de Amorelia Luxury Floral Gifts | Guías y Consejos Florales en Miami",

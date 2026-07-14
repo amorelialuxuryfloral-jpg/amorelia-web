@@ -3,49 +3,46 @@
  * These are added as separate line items in checkout.
  */
 
-// Glitter Finish — variant by roses count (numeric IDs for cart permalinks)
+// === Variant IDs de AMORELIA (sacados vía Admin API 2026-07-14). ===
+// Amorelia solo tiene: Glitter, Butterflies, Crown(Silver/Gold), Notes,
+// Home Delivery, Service Fee. NO tiene Baby Breath / Vase / Ribbon / Cards /
+// Custom Bouquet (eran de Charls) → esas constantes van vacías y su opción no
+// existe en la ficha, así que nunca se añaden.
+
+// Glitter Finish — variant by roses count
 export const GLITTER_VARIANTS: Record<number, string> = {
-  50: "51641804390532",
-  75: "51641804423300",
-  100: "51641804456068",
-  125: "51641804488836",
-  150: "51641804521604",
-  175: "51641804554372",
-  200: "51641804587140",
+  50: "48213595291866",
+  75: "48213595324634",
+  100: "48213595357402",
+  125: "48213595390170",
+  150: "48213595422938",
+  175: "48213595455706",
+  200: "48213595488474",
 };
 
-// Baby Breath Letters & Numbers — variant by digit count (numeric IDs)
-export const BABY_BREATH_VARIANTS: Record<number, string> = {
-  1: "51641811304580",
-  2: "51641811337348",
-  3: "51641811370116",
-  4: "51641811402884",
-};
+// Baby Breath — NO existe en Amorelia (vacío = nunca se añade).
+export const BABY_BREATH_VARIANTS: Record<number, string> = {};
 
-// Free accessories
-export const NOTES_VARIANT_ID = "51632872456324";
-export const CARDS_VARIANT_ID = "51632872620164";
-export const BUTTERFLIES_VARIANT_ID = "51632872849540";
+// Notes ($3) · Butterflies ($3). Cards no existe en Amorelia → cae a Notes.
+export const NOTES_VARIANT_ID = "48213595947226";
+export const CARDS_VARIANT_ID = "48213595947226";
+export const BUTTERFLIES_VARIANT_ID = "48213594865882";
 
-// Vase variants by roses
-export const VASE_VARIANTS: Record<number, string> = {
-  50: "51632875143300",
-  75: "51632875176068",
-  100: "51632875208836",
-};
+// Vase — NO existe en Amorelia.
+export const VASE_VARIANTS: Record<number, string> = {};
 
-// Crown variants
-export const CROWN_SILVER_VARIANT_ID = "51632876028036";
-export const CROWN_GOLD_VARIANT_ID = "51632876060804";
+// Crown variants ($10 cada uno)
+export const CROWN_SILVER_VARIANT_ID = "48213595160794";
+export const CROWN_GOLD_VARIANT_ID = "48213595193562";
 
-// Ribbon: fixed $25
-export const RIBBON_VARIANT_ID = "51632873537668";
+// Ribbon — NO existe en Amorelia.
+export const RIBBON_VARIANT_ID = "";
 
-// Variable-price bouquet product
-export const CUSTOM_BOUQUET_VARIANT_ID = "51634887295108";
+// Custom Bouquet — NO existe en Amorelia.
+export const CUSTOM_BOUQUET_VARIANT_ID = "";
 
 // Home Delivery fee product (base $0.10, qty = cost × 10, e.g. $31.20 → qty 312)
-export const DELIVERY_FEE_VARIANT_ID = "51629708935300";
+export const DELIVERY_FEE_VARIANT_ID = "48213595652314";
 export const DELIVERY_FEE_VARIANT_GID = `gid://shopify/ProductVariant/${DELIVERY_FEE_VARIANT_ID}`;
 
 export interface AccessoryLineItem {
@@ -112,7 +109,7 @@ export function buildAccessoryLineItems(opts: {
     items.push({ variantId: crownVariant, quantity: 1 });
   }
 
-  if (opts.addRibbon) {
+  if (opts.addRibbon && RIBBON_VARIANT_ID) {
     items.push({ variantId: RIBBON_VARIANT_ID, quantity: 1 });
   }
 

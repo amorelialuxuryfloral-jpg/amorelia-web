@@ -19,7 +19,7 @@ const SHOPIFY_STOREFRONT_DOMAIN =
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STOREFRONT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 // Public storefront token (safe to expose — it ships in the browser bundle).
 const SHOPIFY_STOREFRONT_TOKEN =
-  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || "4e7516581c2c609bb77d69b5f1786a9b";
+  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || "f688c7a9e57e2295e4c0a93b57777e3b";
 
 export interface ShopifyVariant {
   id: string; // GID

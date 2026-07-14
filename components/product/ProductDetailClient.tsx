@@ -87,8 +87,9 @@ const ProductDetailClient = ({
 
   // Desktop gallery: top image is swappable via thumbnails; bottom image is fixed.
   const [activeImageIdx, setActiveImageIdx] = useState(0);
-  const [hoverImageIdx, setHoverImageIdx] = useState<number | null>(null);
-  const displayedIdx = hoverImageIdx ?? activeImageIdx;
+  // La foto principal cambia SOLO al hacer clic en una miniatura (no al pasar
+  // el cursor) — decisión de Amorelia. Por eso no hay estado de hover.
+  const displayedIdx = activeImageIdx;
   const desktopMainImage = allImages[displayedIdx] || primaryImage;
   const bottomIdx = allImages.length >= 6 ? 5 : allImages.length - 1;
   const desktopBottomImage = allImages[bottomIdx] || secondaryImage;
@@ -474,11 +475,11 @@ const ProductDetailClient = ({
       </div>
       <div className="flex gap-2">
         <button onClick={() => setAddGlitter(true)}
-          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          className={`flex-1 py-2.5 rounded-none border text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           {t("product.yes")}
         </button>
         <button onClick={() => setAddGlitter(false)}
-          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          className={`flex-1 py-2.5 rounded-none border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           {t("product.no")}
         </button>
       </div>
@@ -522,12 +523,12 @@ const ProductDetailClient = ({
     <Section title={t("product.shipping")} step={step++}>
       <div className="grid grid-cols-2 gap-2 mb-4">
         <button onClick={() => setDeliveryMethod("delivery")}
-          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "delivery" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-none border transition-all font-body text-sm ${deliveryMethod === "delivery" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           <Truck className="w-4 h-4 flex-shrink-0" />
           <span className="font-medium">{t("product.homeDelivery")}</span>
         </button>
         <button onClick={() => setDeliveryMethod("pickup")}
-          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "pickup" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-none border transition-all font-body text-sm ${deliveryMethod === "pickup" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           <Store className="w-4 h-4 flex-shrink-0" />
           <span className="font-medium">{t("product.storePickup")}</span>
         </button>
@@ -621,7 +622,7 @@ const ProductDetailClient = ({
                 miles={deliveryMiles}
                 roses={selectedSize.roses}
                 deliveryDate={deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : ""}
-                itemsCount={cartItems.length + 1}
+                itemsCount={cartItems.filter((i) => i.bouquetType !== "addon").length + 1}
                 onSelect={(r, attrs) => {
                   setFedexAttrs(attrs);
                   setFedexCost(r.cost);
@@ -664,7 +665,7 @@ const ProductDetailClient = ({
           const price = useDynamicSizes ? (size as { price: number }).price : (hasCustomSizes ? (size as { price: number }).price : getPrice(product.pricingTier, size.roses));
           return (
             <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
-              className={`px-4 py-2 rounded-full border text-center transition-all font-body text-sm ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+              className={`px-4 py-2 rounded-none border text-center transition-all font-body text-sm ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
               <span className="font-medium">{size.roses} {t("product.roses")}</span>
               <span className="text-xs text-muted-foreground ml-1">·</span>
               <span className="text-xs text-primary font-semibold ml-1">${price}</span>
@@ -690,8 +691,6 @@ const ProductDetailClient = ({
                     key={`${idx}-${url}`}
                     type="button"
                     onClick={() => setActiveImageIdx(idx)}
-                    onMouseEnter={() => setHoverImageIdx(idx)}
-                    onMouseLeave={() => setHoverImageIdx(null)}
                     aria-label={`View image ${idx + 1}`}
                     className={`relative overflow-hidden rounded-md bg-muted aspect-square border-2 transition-colors ${activeImageIdx === idx ? "border-primary" : "border-transparent hover:border-primary/40"}`}
                   >

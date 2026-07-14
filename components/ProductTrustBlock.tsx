@@ -12,12 +12,7 @@ const ProductTrustBlock = ({ language = "en" }: { language?: Language }) => {
 
   return (
     <div className="space-y-5 pt-2">
-      {/* Trust stickers — always 3 columns (left / middle / right), including mobile */}
-      <div className="grid grid-cols-3 gap-3 items-center justify-items-center">
-        <img src="/assets/sticker-same-day.webp" alt="Same Day Delivery" width={96} height={96} className="w-20 h-20 sm:w-24 sm:h-24 object-contain" loading="lazy" />
-        <img src="/assets/sticker-freshness.webp" alt="Freshness 100% Guaranteed" width={96} height={96} className="w-20 h-20 sm:w-24 sm:h-24 object-contain" loading="lazy" />
-        <img src="/assets/sticker-best-value.webp" alt="The Best Value" width={96} height={96} className="w-20 h-20 sm:w-24 sm:h-24 object-contain" loading="lazy" />
-      </div>
+      {/* (3 stickers eliminados a petición de Amorelia — solo queda el acordeón de FAQ.) */}
 
       {/* FAQ accordion */}
       <div className="border-t border-border">

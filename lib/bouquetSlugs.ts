@@ -30,66 +30,57 @@ export interface BouquetSlug {
   keywordEs?: string;
 }
 
-/** handle -> { slug (EN), slugEs (ES) } */
+/**
+ * handle -> { slug (EN), slugEs (ES) }
+ *
+ * AMORELIA: se DERIVA del catálogo real (`bouquetProducts`) en vez de mantener
+ * una tabla a mano. Los handles de Amorelia ya son slugs limpios y únicos
+ * (blush-petals, sapphire-dream, crimson-and-ivory…), así que slug = slugEs =
+ * handle. Esto (a) garantiza que TODO handle del catálogo tiene su slug → la
+ * ficha resuelve como `product` y NO entra en el bucle 308 (antes la tabla era
+ * de Charls y los handles de Amorelia caían en "handle crudo → 301 a sí mismo");
+ * (b) se auto-sincroniza si se añaden/quitan bouquets. El H1/keyword se deriva
+ * por titleCase del handle (ej. "blush-petals" → "Blush Petals"). Cuando haya
+ * keyword research real de Amorelia (fase 2 SEO) se puede volver a una tabla
+ * con `keywordEn`/`keywordEs` + slugs ES nativos y sus 301.
+ */
 export const BOUQUET_SLUGS: Record<string, BouquetSlug> = {
-  // "red and white roses bouquet" 1.900 · "ramo de rosas blancas y rojas" 320
-  "bicolor-passion": { slug: "white-red-roses-bouquet-bicolor", slugEs: "ramo-rosas-blancas-rojas-bicolor", keywordEn: "Red and White Roses Bouquet", keywordEs: "Ramo de Rosas Blancas y Rojas" },
-  "soft-pink": { slug: "pink-roses-bouquet", slugEs: "ramo-de-rosas-pink" },
-  "elegant-contrast": { slug: "white-hot-pink-black-roses-bouquet", slugEs: "ramo-rosas-blancas-hotpink-negras" },
-  "radiant-sun": { slug: "yellow-roses-bouquet", slugEs: "ramo-de-rosas-amarillas" },
-  "magic-pastel": { slug: "white-pink-purple-roses-bouquet", slugEs: "ramo-rosas-blancas-pink-moradas" },
-  "blue-sky": { slug: "blue-roses-bouquet", slugEs: "ramo-de-rosas-azules" },
-  // "yellow and white roses bouquet" 170 (real EN order)
-  "spring-garden": { slug: "white-yellow-roses-bouquet", slugEs: "ramo-rosas-blancas-amarillas", keywordEn: "Yellow and White Roses Bouquet", keywordEs: "Ramo de Rosas Blancas y Amarillas" },
-  "total-passion": { slug: "red-roses-bouquet", slugEs: "ramo-de-rosas-rojas" },
-  "fire-sun": { slug: "yellow-red-purple-roses-bouquet", slugEs: "ramo-rosas-amarillas-rojas-moradas" },
-  "green-fresh": { slug: "green-roses-bouquet", slugEs: "ramo-de-rosas-verdes" },
-  // "white and black roses bouquet" 210
-  "night-day": { slug: "white-black-roses-bouquet", slugEs: "ramo-rosas-blancas-negras", keywordEn: "White and Black Roses Bouquet", keywordEs: "Ramo de Rosas Blancas y Negras" },
-  "orange-citrus": { slug: "white-orange-roses-bouquet", slugEs: "ramo-rosas-blancas-naranjas", keywordEn: "White and Orange Roses Bouquet", keywordEs: "Ramo de Rosas Blancas y Naranjas" },
-  "hot-pink-blush": { slug: "hot-pink-roses-bouquet", slugEs: "ramo-de-rosas-hot-pink" },
-  "classic-tricolor": { slug: "red-white-pink-roses-bouquet", slugEs: "ramo-rosas-rojas-blancas-pink" },
-  "red-sweetness": { slug: "light-pink-hot-pink-roses-bouquet", slugEs: "ramo-rosas-rosa-claro-hotpink", keywordEn: "Light Pink and Hot Pink Roses Bouquet", keywordEs: "Ramo de Rosas Rosa Claro y Hot Pink" },
-  "deep-night": { slug: "black-roses-bouquet", slugEs: "ramo-de-rosas-negras" },
-  "warm-sunset": { slug: "white-orange-hot-pink-roses-bouquet", slugEs: "ramo-rosas-blancas-naranjas-hotpink" },
-  // "sunflower and red rose bouquet" 880 · "ramo de rosas y girasol" 210
-  "sunflowers-passion": { slug: "sunflowers-red-roses-bouquet", slugEs: "ramo-girasoles-rosas-rojas", keywordEn: "Sunflower and Red Rose Bouquet", keywordEs: "Ramo de Rosas y Girasol" },
-  "orange-sunset": { slug: "orange-roses-bouquet", slugEs: "ramo-de-rosas-naranjas" },
-  "dark-romance": { slug: "red-hot-pink-roses-bouquet", slugEs: "ramo-rosas-rojas-hot-pink", keywordEn: "Red and Hot Pink Roses Bouquet", keywordEs: "Ramo de Rosas Rojas y Hot Pink" },
-  "soft-spring": { slug: "white-light-pink-yellow-roses-bouquet", slugEs: "ramo-rosas-blancas-rosa-claro-amarillas" },
-  "pure-white": { slug: "white-roses-bouquet", slugEs: "ramo-de-rosas-blancas" },
-  // "blue and white roses bouquet" 320
-  "white-ocean": { slug: "blue-white-roses-bouquet", slugEs: "ramo-rosas-azules-blancas", keywordEn: "Blue and White Roses Bouquet", keywordEs: "Ramo de Rosas Azules y Blancas" },
-  // "yellow and red roses bouquet" 390
-  "iberian-passion": { slug: "yellow-red-roses-bouquet", slugEs: "ramo-rosas-amarillas-rojas", keywordEn: "Yellow and Red Roses Bouquet", keywordEs: "Ramo de Rosas Amarillas y Rojas" },
-  "purple-charm": { slug: "purple-roses-bouquet", slugEs: "ramo-de-rosas-moradas" },
-  "imperial-bee": { slug: "white-yellow-black-roses-bouquet", slugEs: "ramo-rosas-blancas-amarillas-negras" },
-  "pink-white-dawn": { slug: "hot-pink-white-roses-bouquet-dawn", slugEs: "ramo-rosas-hotpink-blancas-dawn", keywordEn: "Hot Pink and White Roses Bouquet", keywordEs: "Ramo de Rosas Hot Pink y Blancas" },
-  "intense-romance": { slug: "red-white-purple-roses-bouquet", slugEs: "ramo-rosas-rojas-blancas-moradas" },
-  "dark-pink-elegance": { slug: "pink-black-roses-bouquet", slugEs: "ramo-rosas-pink-negras", keywordEn: "Pink and Black Roses Bouquet", keywordEs: "Ramo de Rosas Rosadas y Negras" },
-  "citrus-refresh": { slug: "orange-yellow-roses-bouquet-citrus", slugEs: "ramo-rosas-naranjas-amarillas-citrus", keywordEn: "Orange and Yellow Roses Bouquet", keywordEs: "Ramo de Rosas Naranjas y Amarillas" },
-  "light-citrus": { slug: "orange-yellow-white-roses-bouquet", slugEs: "ramo-rosas-naranjas-amarillas-blancas" },
-  // "pink and red roses bouquet" 1.000 · "ramo de rosas rojas y rosadas" 140
-  "passionate-love": { slug: "red-pink-roses-bouquet", slugEs: "ramo-rosas-rojas-pink", keywordEn: "Pink and Red Roses Bouquet", keywordEs: "Ramo de Rosas Rojas y Rosadas" },
-  // "pink and white roses bouquet" 1.300 · "ramo de rosas rosadas y blancas" 140
-  "infinite-tenderness": { slug: "pink-white-roses-bouquet", slugEs: "ramo-rosas-pink-blancas", keywordEn: "Pink and White Roses Bouquet", keywordEs: "Ramo de Rosas Rosadas y Blancas" },
-  "tricolor-love": { slug: "red-pink-white-roses-bouquet-tricolor", slugEs: "ramo-rosas-rojas-pink-blancas-tricolor" },
-  "pink-symphony": { slug: "hot-pink-light-pink-white-red-roses-bouquet", slugEs: "ramo-rosas-hotpink-rosa-claro-blancas-rojas" },
-  // "white red rose bouquet" 1.900 · "rosas rojas y blancas" 110 — reverse
-  // order vs bicolor-passion so the two white+red fichas do NOT share an H1.
-  "elegant-passion": { slug: "white-red-roses-bouquet-elegant", slugEs: "ramo-rosas-blancas-rojas-elegant", keywordEn: "White and Red Roses Bouquet", keywordEs: "Ramo de Rosas Rojas y Blancas" },
-  "aries-bouquet": { slug: "aries-zodiac-bouquet", slugEs: "ramo-zodiaco-aries" },
-  "taurus-bouquet": { slug: "taurus-zodiac-bouquet", slugEs: "ramo-zodiaco-tauro" },
-  "gemini-bouquet": { slug: "gemini-zodiac-bouquet", slugEs: "ramo-zodiaco-geminis" },
-  "cancer-bouquet": { slug: "cancer-zodiac-bouquet", slugEs: "ramo-zodiaco-cancer" },
-  "leo-bouquet": { slug: "leo-zodiac-bouquet", slugEs: "ramo-zodiaco-leo" },
-  "virgo-bouquet": { slug: "virgo-zodiac-bouquet", slugEs: "ramo-zodiaco-virgo" },
-  "libra-bouquet": { slug: "libra-zodiac-bouquet", slugEs: "ramo-zodiaco-libra" },
-  "scorpio-bouquet": { slug: "scorpio-zodiac-bouquet", slugEs: "ramo-zodiaco-escorpio" },
-  "sagittarius-bouquet": { slug: "sagittarius-zodiac-bouquet", slugEs: "ramo-zodiaco-sagitario" },
-  "capricorn-bouquet": { slug: "capricorn-zodiac-bouquet", slugEs: "ramo-zodiaco-capricornio" },
-  "aquarius-bouquet": { slug: "aquarius-zodiac-bouquet", slugEs: "ramo-zodiaco-acuario" },
-  "pisces-bouquet": { slug: "pisces-zodiac-bouquet", slugEs: "ramo-zodiaco-piscis" },
+  "crimson-and-ivory": { slug: "crimson-and-ivory", slugEs: "crimson-and-ivory" },
+  "blush-petals": { slug: "blush-petals", slugEs: "blush-petals" },
+  "bold-contrast": { slug: "bold-contrast", slugEs: "bold-contrast" },
+  "golden-sunshine": { slug: "golden-sunshine", slugEs: "golden-sunshine" },
+  "pastel-reverie": { slug: "pastel-reverie", slugEs: "pastel-reverie" },
+  "sapphire-dream": { slug: "sapphire-dream", slugEs: "sapphire-dream" },
+  "sunlit-meadow": { slug: "sunlit-meadow", slugEs: "sunlit-meadow" },
+  "scarlet-devotion": { slug: "scarlet-devotion", slugEs: "scarlet-devotion" },
+  "fire-and-gold": { slug: "fire-and-gold", slugEs: "fire-and-gold" },
+  "emerald-whisper": { slug: "emerald-whisper", slugEs: "emerald-whisper" },
+  "monochrome": { slug: "monochrome", slugEs: "monochrome" },
+  "sunkissed": { slug: "sunkissed", slugEs: "sunkissed" },
+  "fuchsia-glow": { slug: "fuchsia-glow", slugEs: "fuchsia-glow" },
+  "timeless-romance": { slug: "timeless-romance", slugEs: "timeless-romance" },
+  "ros-affair": { slug: "ros-affair", slugEs: "ros-affair" },
+  "onyx-rose": { slug: "onyx-rose", slugEs: "onyx-rose" },
+  "autumn-glow": { slug: "autumn-glow", slugEs: "autumn-glow" },
+  "sunflower-romance": { slug: "sunflower-romance", slugEs: "sunflower-romance" },
+  "amber-radiance": { slug: "amber-radiance", slugEs: "amber-radiance" },
+  "midnight-amour": { slug: "midnight-amour", slugEs: "midnight-amour" },
+  "spring-whisper": { slug: "spring-whisper", slugEs: "spring-whisper" },
+  "ivory-elegance": { slug: "ivory-elegance", slugEs: "ivory-elegance" },
+  "azure-tide": { slug: "azure-tide", slugEs: "azure-tide" },
+  "golden-ardor": { slug: "golden-ardor", slugEs: "golden-ardor" },
+  "violet-majesty": { slug: "violet-majesty", slugEs: "violet-majesty" },
+  "imperial-trio": { slug: "imperial-trio", slugEs: "imperial-trio" },
+  "aurora-blush": { slug: "aurora-blush", slugEs: "aurora-blush" },
+  "regal-romance": { slug: "regal-romance", slugEs: "regal-romance" },
+  "ros-noir": { slug: "ros-noir", slugEs: "ros-noir" },
+  "citrus-bloom": { slug: "citrus-bloom", slugEs: "citrus-bloom" },
+  "sunburst-duo": { slug: "sunburst-duo", slugEs: "sunburst-duo" },
+  "velvet-ardor": { slug: "velvet-ardor", slugEs: "velvet-ardor" },
+  "eternal-grace": { slug: "eternal-grace", slugEs: "eternal-grace" },
+  "amore-trio": { slug: "amore-trio", slugEs: "amore-trio" },
+  "rose-harmony": { slug: "rose-harmony", slugEs: "rose-harmony" },
+  "noir-romance": { slug: "noir-romance", slugEs: "noir-romance" },
 };
 
 /**

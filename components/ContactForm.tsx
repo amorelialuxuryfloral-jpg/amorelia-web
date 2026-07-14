@@ -22,7 +22,7 @@ const ContactForm = ({ language = "en" }: { language?: Language }) => {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: "f63c8666-13a8-44b5-920f-1f2d0dacf1d3",
+          access_key: "5c8a3633-65d0-41b7-95d2-64c4a59f4cee",
           name,
           email,
           message,

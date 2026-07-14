@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema, itemListSchema } from "@/components/JsonLd";
 import CollectionFAQ from "@/components/CollectionFAQ";
 import { bouquetFAQsFor } from "@/lib/bouquetFaqs";
 import ProductCard from "@/components/ProductCard";
-import { WaveTop } from "@/components/WaveDivider";
 import DynamicClusters from "@/components/DynamicClusters";
 import { LongTailIntro, LongTailBody } from "@/components/LongTailSeoBlock";
 import { bouquetProducts, type BouquetProduct } from "@/lib/catalogData";
@@ -42,6 +40,19 @@ const COLLECTION_PATHS: Record<BouquetFilter, string> = {
   mezclas: "/bouquets/mixed-color",
   zodiac: "/bouquets/zodiac",
   bicolor: "/bouquets/bicolor",
+};
+
+/** Hex por color de rosa para las bolitas del filtro "Colors" (visual). */
+const COLOR_SWATCH: Record<string, string> = {
+  red: "#b81d24",
+  white: "#ffffff",
+  pink: "#e84c9a",
+  yellow: "#f2c94c",
+  black: "#1c1c1c",
+  blue: "#2f6fed",
+  purple: "#7c3aed",
+  orange: "#ec7a1c",
+  green: "#3f8f4f",
 };
 
 const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
@@ -243,24 +254,36 @@ const BouquetCollectionView = async ({
               <p className="font-display text-sm uppercase tracking-wider text-muted-foreground mb-3">
                 {t("bouquetProducts.colorsTitle")}
               </p>
-              <div className="flex flex-nowrap overflow-x-auto gap-2 pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 md:flex-wrap md:justify-center md:overflow-visible">
-                {COLOR_COLLECTIONS.map((c) => (
-                  <Link
-                    key={c.color}
-                    href={colorLinkTo(c.color)}
-                    className={`whitespace-nowrap flex-shrink-0 px-3 md:px-4 py-1 md:py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
-                      colorColl?.color === c.color
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "bg-muted text-muted-foreground hover:bg-accent"
-                    }`}
-                  >
-                    {t(`nav.${c.color}Roses`)}
-                  </Link>
-                ))}
-                {/* Bicolor sits next to the colors as its own quick filter. */}
+              {/* Bolitas de color (en vez de texto "Red Roses"). El texto va en
+                  sr-only para no perder el anchor keyword (SEO). */}
+              <div className="flex flex-nowrap overflow-x-auto gap-3 pb-2 -mx-6 px-6 items-center md:mx-0 md:px-0 md:pb-0 md:flex-wrap md:justify-center md:overflow-visible">
+                {COLOR_COLLECTIONS.map((c) => {
+                  const active = colorColl?.color === c.color;
+                  return (
+                    <Link
+                      key={c.color}
+                      href={colorLinkTo(c.color)}
+                      title={t(`nav.${c.color}Roses`)}
+                      aria-label={t(`nav.${c.color}Roses`)}
+                      className={`flex-shrink-0 rounded-full transition-transform ${
+                        active
+                          ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-110"
+                          : "ring-1 ring-foreground/15 hover:scale-110"
+                      }`}
+                      style={{
+                        width: "2.25rem",
+                        height: "2.25rem",
+                        background: `radial-gradient(circle at 34% 28%, rgba(255,255,255,0.42), rgba(255,255,255,0) 55%), ${COLOR_SWATCH[c.color] ?? "#999999"}`,
+                      }}
+                    >
+                      <span className="sr-only">{t(`nav.${c.color}Roses`)}</span>
+                    </Link>
+                  );
+                })}
+                {/* Bicolor: no es un color único → pastilla de texto compacta al lado. */}
                 <Link
                   href="/bouquets/bicolor"
-                  className={`whitespace-nowrap flex-shrink-0 px-3 md:px-4 py-1 md:py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
+                  className={`whitespace-nowrap flex-shrink-0 px-3 md:px-4 py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
                     !colorColl && filter === "bicolor"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "bg-muted text-muted-foreground hover:bg-accent"
@@ -355,18 +378,7 @@ const BouquetCollectionView = async ({
       {/* Dynamic cross-clusters — in-body, auto-updating internal links. */}
       <DynamicClusters language={language} />
 
-      {/* CTA */}
-      <section className="relative mt-[50px] py-20 bg-primary">
-        <WaveTop />
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="font-title-retro text-3xl md:text-4xl text-primary-foreground mb-4">{t("bouquetProducts.cantFind")}</h2>
-          <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("bouquetProducts.cantFindDesc")}</p>
-          <Link href="/bouquets/personalizar"
-            className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
-            {t("bouquetProducts.customizeNow")} <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      {/* CTA "Customize" ELIMINADO — Amorelia no tiene personalización de bouquets. */}
     </div>
   );
 };

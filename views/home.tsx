@@ -65,8 +65,8 @@ export default async function HomeView({ language }: { language: Language }) {
   ];
 
   // Color cluster cards: one representative product per color collection.
-  // The image is fetched LIVE from Shopify on the server (like the SPA's
-  // live bouquet tile) and falls back to the catalog image on any failure.
+  // The image is fetched LIVE from Shopify on the server and falls back to the
+  // catalog image (placeholder until Amorelia uploads its own photos).
   const colorCards = (
     await Promise.all(
       COLOR_COLLECTIONS.map(async (c) => {
@@ -157,7 +157,7 @@ export default async function HomeView({ language }: { language: Language }) {
           <div className="max-w-xl">
             <p className="font-subtitle-script text-primary-foreground/70 text-lg md:text-2xl mb-2 md:mb-4">{t("home.heroSubtitle")}</p>
             <h1 className="font-display text-3xl md:text-6xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
-              {isEs ? t("home.heroTitle") : <>Miami Flower Shop — Same-Day Flower Delivery</>}
+              {isEs ? t("home.heroTitle") : <>Luxury Rose Bouquets in Miami — Same-Day Delivery</>}
             </h1>
             <p className="text-primary-foreground/80 font-body text-sm md:text-lg mb-5 md:mb-8 leading-relaxed">
               {t("home.heroDescription")}

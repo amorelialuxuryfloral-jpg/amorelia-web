@@ -103,9 +103,9 @@ export const en = {
 
   // Homepage
   home: {
-    heroSubtitle: "Handcrafted with love",
-    heroTitle: "Miami Flower Delivery — Fresh Roses, Same Day",
-    heroDescription: "Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.",
+    heroSubtitle: "Luxury roses, made by hand",
+    heroTitle: "Luxury Rose Bouquets in Miami — Same-Day Delivery",
+    heroDescription: "Signature rose bouquets from 50 to 200 stems, in natural, painted or glitter finishes.",
     viewBouquets: "View bouquets",
     buildYourBouquet: "Build your bouquet",
     storePickup: "Store pickup",
@@ -140,9 +140,9 @@ export const en = {
     birthdayBouquets: "Birthday Bouquets Miami",
     babyShower: "Baby Shower Flowers Miami",
     anniversaryRoses: "Anniversary Roses Miami",
-    deliveryTitle: "Same-Day Flower Delivery Across Miami",
-    deliverySubtitleLine1: "$25 flat rate for 0-5 miles. $1.60/mile from 5 to 90 miles.",
-    deliverySubtitleLine2: "Free in-store pickup.",
+    deliveryTitle: "Same-Day Rose Delivery Throughout Miami",
+    deliverySubtitleLine1: "$30 flat rate for the first 10 miles. $1.60/mile from 10 to 90 miles.",
+    deliverySubtitleLine2: "Free pickup at our Miami studio.",
     deliveryAddress: "📍 7257 NW 12th St, Miami, FL 33126",
      hoursLine1: "Monday – Friday: 8AM – 7PM",
     hoursLine2: "Saturday: 8AM – 5PM",
@@ -220,17 +220,15 @@ export const en = {
     title: "Flower Delivery Miami — Frequently Asked Questions",
     faqs: [
       { q: "Do you offer same-day flower delivery in Miami?", a: "Yes! We offer same-day delivery across Miami up to 90 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
-      { q: "How much does flower delivery cost in Miami?", a: "$25 flat rate for 0-5 miles. $1.60 per mile from 5 to 90 miles. Free in-store pickup available at 7257 NW 12th St, Miami, FL 33126." },
-      { q: "Can I customize my bouquet?", a: "Yes! Use our custom bouquet builder to choose color, paper, quantity (50-200 roses), finish (natural, glitter, painted) and accessories. AI preview shows exactly what you'll receive." },
+      { q: "How much does flower delivery cost in Miami?", a: "$30 flat rate for the first 10 miles. $1.60 per mile from 10 to 90 miles. Free in-store pickup available at 7257 NW 12th St, Miami, FL 33126." },
+      { q: "Can I choose the size and finish of my bouquet?", a: "Yes. On every bouquet you choose the number of roses (from 50 to 200) and the finish (natural, painted or glitter), and you can add accessories like a note or butterflies at checkout." },
       { q: "What is the difference between glitter and natural bouquets?", a: "Natural bouquets use fresh roses in their original color. Glitter bouquets have a premium glitter coating applied to the petals for a glamorous, long-lasting effect." },
-      { q: "How does the AI bouquet preview work?", a: "Our custom bouquet builder uses AI to generate a realistic preview of your bouquet before you order, based on your color, quantity and finish selections." },
-      { q: "What flowers are best for birthdays?", a: "For birthdays we recommend bright single-color bouquets like Hot Pink Blush, Radiant Sun or Orange Sunset, or a custom mixed bouquet in the recipient's favorite colors." },
+      { q: "What flowers are best for birthdays?", a: "For birthdays we recommend bright single-color bouquets like Fuchsia Glow, Golden Sunshine or Amber Radiance, or a vibrant mixed-color bouquet in the recipient's favorite tones." },
       { q: "Can I schedule a delivery for a specific time?", a: "Yes, you can request a preferred delivery window at checkout. Same-day delivery requires ordering before 3PM with a minimum 2-hour preparation time." },
-      { q: "What flowers are best for quinceañeras?", a: "Popular choices include Hot Pink Blush, Soft Pink, and mixed bouquets like Pink Symphony. We offer custom bouquets where you choose the exact colors to match the theme." },
-      { q: "Do you offer wedding flowers in Miami?", a: "Wedding bouquets are coming soon! In the meantime, our custom bouquet builder lets you design stunning arrangements perfect for wedding events." },
-      { q: "Can I order 100 roses in one bouquet?", a: "Absolutely! We offer bouquets with 50, 75, 100, 150, and 200 roses. You can choose any color combination and finish." },
+      { q: "What flowers are best for quinceañeras?", a: "Popular choices include Fuchsia Glow, Blush Petals and mixed-color bouquets like Rose Harmony, in tones that match the theme." },
+      { q: "Can I order 100 roses in one bouquet?", a: "Absolutely! We offer bouquets with 50, 75, 100, 150, and 200 roses, in a range of colors and finishes." },
       { q: "Do you deliver to Coral Gables, Doral, Hialeah, Kendall, Brickell?", a: "Yes! We deliver to all Miami neighborhoods and surrounding areas up to 90 miles, including Coral Gables, Doral, Hialeah, Kendall, Brickell, Wynwood, Miami Beach, and Aventura." },
-      { q: "Is there a minimum order for delivery?", a: "No minimum order for delivery. Any bouquet or product can be delivered. Delivery starts at $25 for 0-5 miles." },
+      { q: "Is there a minimum order for delivery?", a: "No minimum order for delivery. Any bouquet can be delivered. Delivery starts at $30 for the first 10 miles." },
     ],
   },
 
@@ -326,12 +324,12 @@ export const en = {
         a: "Every bouquet is assembled to order using premium roses received fresh weekly. Stems are hydrated and conditioned the same day they leave our shop, which is why we offer same-day local delivery — your flowers arrive at peak freshness.",
       },
       {
-        q: "Can I customize the bouquet?",
-        a: "Absolutely. You can pick the number of roses (50–200), add a glitter finish, include a handwritten note or butterflies, and even build a fully custom bouquet from scratch with our Bouquet Builder. Color combinations, paper and extras are all up to you.",
+        q: "Can I choose the size and finish?",
+        a: "Yes. On every bouquet you pick the number of roses (50–200) and the finish (natural, painted or glitter), and you can add a handwritten note or butterflies at checkout.",
       },
       {
         q: "Shipping & Delivery",
-        a: "Home Delivery: $25 flat for the first 5 miles, then $1.60 per additional mile (up to 90 miles). Store Pickup: Free, ready 2 hours after your order is placed. Hours: Mon–Fri 8AM–7PM · Sat 8AM–5PM · Sun Closed (Miami time). Orders placed before 3:00 PM qualify for same-day delivery.",
+        a: "Home Delivery: $30 flat for the first 10 miles, then $1.60 per additional mile (up to 90 miles). Store Pickup: Free, ready 2 hours after your order is placed. Hours: Mon–Fri 8AM–7PM · Sat 8AM–5PM · Sun Closed (Miami time). Orders placed before 3:00 PM qualify for same-day delivery.",
       },
       {
         q: "Return & Refund Policy",
@@ -466,12 +464,12 @@ export const en = {
 
   // Ticker
   ticker: {
-    bestQuality: "Best quality-price flower shop in Miami",
-    unbeatablePrices: "Unbeatable prices on fresh roses",
-    handcrafted: "100% handcrafted artisan bouquets",
-    sameDayDelivery: "Same-day delivery in Miami",
-    rosesPerBouquet: "From 50 to 200 roses per bouquet",
-    finishOptions: "Natural, painted, or glitter finish flowers",
+    bestQuality: "Miami's luxury rose boutique",
+    unbeatablePrices: "Premium, long-lasting roses",
+    handcrafted: "Artisan bouquets, hand-tied to order",
+    sameDayDelivery: "Same-day delivery across Miami",
+    rosesPerBouquet: "50 to 200 roses in every design",
+    finishOptions: "Natural, painted or glitter finishes",
   },
 
   // Room Decors
@@ -559,7 +557,7 @@ export const en = {
     deliveryAtCheckout: "Calculated at checkout",
     extras: "Extras",
     total: "Total",
-    viewCart: "CONTINUE TO SAFE CHECKOUT",
+    viewCart: "PROCEED TO PAYMENT",
     continueShopping: "Continue shopping",
     remove: "Remove",
   },
@@ -736,7 +734,7 @@ export const en = {
     },
     about: {
       title: "Miami's Premier Flower Shop | Amorelia Luxury Floral Gifts",
-      description: "Amorelia Luxury Floral Gifts is Miami's top flower shop. Handcrafted bouquets from 50 to 200 roses, AI preview, same-day delivery up to 90 miles, free pickup.",
+      description: "Amorelia Luxury Floral Gifts is Miami's premier rose boutique. Handcrafted bouquets from 50 to 200 roses, same-day delivery up to 90 miles, free pickup.",
     },
     contact: {
       title: "Contact Amorelia Luxury Floral Gifts – Miami FL",
@@ -748,7 +746,7 @@ export const en = {
     },
     faq: {
       title: "Frequently Asked Questions | Amorelia Luxury Floral Gifts Miami",
-      description: "Find answers about flower delivery, custom bouquets, pricing, and more at Amorelia Luxury Floral Gifts Miami. Same-day delivery, free pickup, AI preview.",
+      description: "Find answers about flower delivery, bouquets, pricing, and more at Amorelia Luxury Floral Gifts Miami. Same-day delivery and free pickup.",
     },
     blog: {
       title: "Amorelia Luxury Floral Gifts Blog | Miami Floral Guides, Tips & Insights",

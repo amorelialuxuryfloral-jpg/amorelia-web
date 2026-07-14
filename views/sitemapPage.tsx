@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { fetchBlogPosts } from "@/lib/sanity";
-import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle, slugEsForHandle } from "@/lib/bouquetSlugs";
-import { roomDecorPackages } from "@/lib/roomDecorData";
+import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
 import { buildMetadata } from "@/lib/seo";
 import { getTranslator, localizePath, type Language } from "@/i18n";
-import { FUSED_SLUGS } from "@/views/rootSlug";
 
 /**
- * /sitemap + /es/sitemap — visible HTML sitemap (SPA port, SitemapPage.tsx).
- * Server-rendered: blog links come from Sanity at render time. The fused
- * landing slugs (SPEC §3 301s) are excluded — no internal links to redirects.
+ * /sitemap + /es/sitemap — visible HTML sitemap (Amorelia).
+ * SOLO rutas reales: páginas core, bouquets, colecciones de color y legales.
+ * Nada de blog / room-decor / landings / custom-builder (no existen en Amorelia).
  */
 
 export function sitemapPageMetadata(language: Language): Metadata {
@@ -25,33 +22,25 @@ export function sitemapPageMetadata(language: Language): Metadata {
   });
 }
 
-export default async function SitemapPageView({ language }: { language: Language }) {
+export default function SitemapPageView({ language }: { language: Language }) {
   const { t } = getTranslator(language);
   const isEs = language === "es";
   const l = (path: string) => localizePath(path, language);
-  const blogPosts = await fetchBlogPosts(language).catch(() => []);
 
   // Deduplicate bouquets by shopifyHandle (unique key for the route).
   const uniqueBouquets = Array.from(
     new Map(bouquetProducts.map((p) => [p.shopifyHandle, p])).values(),
   );
 
-  // flower-shop-miami now 301s to the home (Dani's verdict) → not listed here.
-  const routedLandings = landingPages.filter(
-    (p) => !(p.slug in FUSED_SLUGS) && p.slug !== "flower-shop-miami",
-  );
-
   const sections = [
     { title: t("sitemap.sections.mainPages"), links: [
       { to: l("/"), label: t("sitemap.links.home") },
       { to: l("/bouquets"), label: t("sitemap.links.bouquets") },
-      { to: l("/bouquets/personalizar"), label: t("sitemap.links.customBouquetBuilder") },
-      { to: l("/room-decors"), label: t("sitemap.links.roomDecors") },
+      { to: l("/bouquets/single-color"), label: t("nav.singleColor") },
+      { to: l("/bouquets/mixed-color"), label: t("nav.mixedBouquets") },
       { to: l("/delivery"), label: t("sitemap.links.delivery") },
-      { to: l("/about"), label: t("sitemap.links.about") },
       { to: l("/contact"), label: t("sitemap.links.contact") },
       { to: l("/faq"), label: t("sitemap.links.faq") },
-      { to: l("/blog"), label: t("sitemap.links.blog") },
     ]},
     { title: t("sitemap.sections.bouquets"), links: uniqueBouquets.map((p) => ({
       to: isEs
@@ -59,21 +48,9 @@ export default async function SitemapPageView({ language }: { language: Language
         : `/bouquets/${slugForHandle(p.shopifyHandle)}`,
       label: p.name,
     }))},
-    { title: t("sitemap.sections.roomDecors"), links: roomDecorPackages.map((pkg) => ({
-      to: l(`/room-decors/${pkg.id}`), label: pkg.name,
-    }))},
-    { title: t("sitemap.sections.blogArticles"), links: blogPosts.map((a) => ({
-      to: l(`/blog/${a.slug.current}`), label: a.title.split("|")[0].trim(),
-    }))},
-    // Landing pages are EN-only canonicals — link them unlocalized in both trees.
-    { title: t("sitemap.sections.landingPages"), links: routedLandings.map((p) => ({
-      to: `/${p.slug}`,
-      // Barrio pages are EN-only canonicals, but on the ES sitemap show a
-      // Spanish label ("Flores en Brickell") instead of the English H1.
-      label:
-        isEs && p.type === "neighborhood"
-          ? `Flores en ${p.h1.replace("Flower Delivery in ", "").replace(/,? Miami$/, "").trim()}`
-          : p.h1.replace(/ [–—|].*/g, ""),
+    { title: t("nav.byColor"), links: COLOR_COLLECTIONS.map((c) => ({
+      to: isEs ? `/es/bouquets/${c.slugEs}` : `/bouquets/${c.slug}`,
+      label: t(`nav.${c.color}Roses`),
     }))},
     { title: t("sitemap.sections.legal"), links: [
       { to: l("/privacy-policy"), label: t("sitemap.links.privacyPolicy") },

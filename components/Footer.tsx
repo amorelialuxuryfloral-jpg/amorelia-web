@@ -3,64 +3,25 @@ import { MapPin, Phone, Clock, Navigation } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import PaymentIcons from "@/components/PaymentIcons";
 import CookiePreferencesButton from "@/components/CookiePreferencesButton";
-import { occasionsByTier } from "@/lib/occasionPagesData";
-import { BARRIO_LINKS } from "@/lib/landingPagesData";
-import { cityPages } from "@/lib/cityPagesData";
+import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
 import { GBP_CID_URL } from "@/lib/constants";
 import { getTranslator, localizePath, type Language } from "@/i18n";
 
 /**
  * Footer — Server Component. Every link is a real <a> in the HTML (spec §2.4).
+ * Amorelia: SOLO enlaces a rutas reales. Se quitaron las columnas de barrios /
+ * ciudades FedEx / ocasiones (esas páginas no existen en Amorelia y daban 404).
  * Only the cookie-preferences trigger is a client island.
  */
 const Footer = ({ language = "en" }: { language?: Language }) => {
   const { t } = getTranslator(language);
   const l = (path: string) => localizePath(path, language);
-  // Nationwide city index uses different slugs per language.
-  const nationwidePath = language === "es" ? "/es/envio-de-flores" : "/flower-delivery";
-  // Occasion collection URLs are native per language.
-  const occasionsIndexPath = language === "es" ? "/es/collections/ocasiones" : "/collections/occasions";
-  const occasionPath = (slug: string, slugEs: string) =>
-    language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
-  // Tier 2 + 3 in the footer (Tier 1 lives in the top menu).
-  const footerOccasions = [...occasionsByTier(2), ...occasionsByTier(3)];
-  const stripCity = (h1: string) =>
-    h1
-      .replace(/ — Miami Delivery$/, "")
-      .replace(/ (in|en) Miami$/, "")
-      .replace(/ Miami$/, "");
-  // Delivery Areas column (CORRECCIONES puntos 27/28): the 7 barrios validated
-  // by real Miami-geo volume. Barrio pages are EN-only canonicals → EN hrefs
-  // in both trees. Short display names from the shared BARRIO_LINKS list.
-  const deliveryAreas = BARRIO_LINKS.map((b) => ({
-    href: `/${b.slug}`,
-    label: b.label.replace(/^Flower Delivery /, ""),
-  }));
-  // Local hub was consolidated into the home (Dani's verdict) → the "Delivery
-  // Areas" column now points to the home (which holds the neighborhoods section).
-  const localHubPath = language === "es" ? "/es" : "/";
-  // Nationwide FedEx block (Romuald's internal-linking audit): the 14 FedEx
-  // cities with the highest REAL "flower delivery [city]" volume (Google Ads
-  // Keyword Planner), ordered by volume desc. The other 21 cities stay
-  // reachable via the "View all cities" hub link (not crammed into the footer,
-  // to avoid diluting the link equity). Localized per tree like every other
-  // footer link: EN → /flower-delivery/[slug], ES → /es/envio-de-flores/[slugEs].
-  const NATIONWIDE_CITY_SLUGS = [
-    "new-york", "chicago", "houston", "dallas", "los-angeles", "san-antonio",
-    "austin", "san-diego", "las-vegas", "denver", "atlanta", "san-francisco",
-    "boston", "nashville",
-  ];
-  const nationwideCities = NATIONWIDE_CITY_SLUGS
-    .map((s) => cityPages.find((c) => c.slug === s))
-    .filter((c): c is NonNullable<typeof c> => Boolean(c))
-    .map((c) => ({
-      href: language === "es" ? `/es/envio-de-flores/${c.slugEs}` : `/flower-delivery/${c.slug}`,
-      label: language === "es" ? `Flores a ${c.name}` : `Flower Delivery ${c.name}`,
-    }));
-  // NOTE (spec §4): the "Shop by Flower" footer block was intentionally NOT
-  // ported — every flower-type page (tulips, peonies, orchids…) has ZERO
-  // products. Empty transactional pages stay out of menu/footer/sitemap until
-  // real product exists. Ramo Buchón (the one with product) lives in the menu.
+  const isEs = language === "es";
+
+  // "Shop" column: bouquet categories + a few top color collections (real routes).
+  const colorLink = (slug: string, slugEs: string) =>
+    isEs ? `/es/bouquets/${slugEs}` : `/bouquets/${slug}`;
+  const shopColors = COLOR_COLLECTIONS.slice(0, 4); // red, white, pink, yellow
 
   return (
     <div className="relative mt-[-1px]">
@@ -74,8 +35,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
       <footer className="relative bg-primary pt-12 pb-8 overflow-hidden">
         <JsonLd data={organizationSchema()} />
         <div className="container mx-auto px-6 relative z-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
-          {/* Col 1 — Info (NAP + CID "Get directions" link, punto 19) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+          {/* Col 1 — Info (NAP + CID "Get directions" link) */}
           <div>
             <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts" className="h-10 w-auto mb-3 brightness-0 invert" width={90} height={40} loading="lazy" />
             <div className="space-y-2 font-body text-xs text-primary-foreground">
@@ -104,10 +65,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
                 { to: l("/"), label: t("nav.home") },
                 { to: l("/bouquets"), label: t("nav.bouquets") },
                 { to: l("/delivery"), label: t("nav.delivery") },
-                { to: l("/about"), label: t("nav.about") },
                 { to: l("/contact"), label: t("nav.contact") },
                 { to: l("/faq"), label: t("nav.faq") },
-                { to: nationwidePath, label: t("footer.nationwideDelivery") },
                 { to: l("/sitemap"), label: t("nav.sitemap") },
               ].map(link => (
                 <Link key={link.to} href={link.to} className="inline-block py-1 hover:text-primary transition-colors">{link.label}</Link>
@@ -115,25 +74,23 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
             </div>
           </div>
 
-          {/* Col 3 — Delivery Areas (CORRECCIONES puntos 27/28: barrios
-              validados por volumen real + hub header + FedEx nationwide). */}
+          {/* Col 3 — Shop (bouquet categories + top colors) */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">
-              <Link href={localHubPath} className="hover:text-primary transition-colors">{t("footer.deliveryAreas")}</Link>
-            </p>
-            <p className="font-body text-[10px] tracking-widest uppercase text-primary-foreground/90 mb-2">{t("footer.sameDayMiami")}</p>
+            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{isEs ? "Comprar" : "Shop"}</p>
             <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground">
-              {deliveryAreas.map((area) => (
-                <Link key={area.href} href={area.href} className="inline-block py-1 hover:text-primary transition-colors">{area.label}</Link>
+              <Link href={l("/bouquets")} className="inline-block py-1 hover:text-primary transition-colors">{t("nav.allColors")}</Link>
+              <Link href={l("/bouquets/single-color")} className="inline-block py-1 hover:text-primary transition-colors">{t("nav.singleColor")}</Link>
+              <Link href={l("/bouquets/mixed-color")} className="inline-block py-1 hover:text-primary transition-colors">{t("nav.mixedBouquets")}</Link>
+              {shopColors.map((c) => (
+                <Link key={c.color} href={colorLink(c.slug, c.slugEs)} className="inline-block py-1 hover:text-primary transition-colors">{t(`nav.${c.color}Roses`)}</Link>
               ))}
-              <Link href={nationwidePath} className="inline-block py-1 mt-2 border-t border-primary-foreground/15 pt-3 hover:text-primary transition-colors">{t("footer.shipUsa")}</Link>
             </div>
           </div>
 
-          {/* Col 4 — Legal */}
+          {/* Col 4 — Legal + Social + Payments */}
           <div>
             <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.legal")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground">
+            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
               {[
                 { to: l("/privacy-policy"), label: t("footer.privacyPolicy") },
                 { to: l("/terms-of-service"), label: t("footer.termsOfService") },
@@ -145,11 +102,7 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
               ))}
               <CookiePreferencesButton label={t("footer.cookiePreferences")} />
             </div>
-          </div>
-
-          {/* Col 5 — Social & Payments */}
-          <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.followUs")}</p>
+            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-3">{t("footer.followUs")}</p>
             <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
               <a href="https://www.instagram.com/amorelialuxuryfloral" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Instagram</a>
               <a href="https://www.facebook.com/amorelialuxuryfloral" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Facebook</a>
@@ -158,34 +111,6 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
             <PaymentIcons size={20} />
           </div>
         </div>
-
-
-          {/* Nationwide FedEx delivery — separate from the Miami barrios block
-              (national intent, not local). 14 top-volume cities + hub link. */}
-          <div className="border-t border-primary-foreground/15 pt-8 mb-8">
-            <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
-              <p className="font-body text-xs tracking-widest uppercase text-primary-foreground">
-                {language === "es" ? "Envío de Flores a Todo EE. UU." : "Nationwide Flower Delivery (USA)"}
-              </p>
-              <Link
-                href={nationwidePath}
-                className="font-body text-[11px] tracking-widest uppercase text-primary-foreground/90 hover:text-primary-foreground underline-offset-2 hover:underline"
-              >
-                {language === "es" ? "Ver todas las ciudades" : "View all cities"} →
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-2 font-body text-xs text-primary-foreground/95">
-              {nationwideCities.map((c) => (
-                <Link
-                  key={c.href}
-                  href={c.href}
-                  className="inline-block py-1 hover:text-primary transition-colors"
-                >
-                  {c.label}
-                </Link>
-              ))}
-            </div>
-          </div>
 
           {/* Copyright */}
           <div className="border-t border-primary-foreground/20 pt-6 text-center">

@@ -28,32 +28,50 @@ serve(async (req) => {
       );
     }
 
-    // Use Place Autocomplete API
-    const url = new URL("https://maps.googleapis.com/maps/api/place/autocomplete/json");
-    url.searchParams.set("input", input);
-    url.searchParams.set("types", "address");
-    url.searchParams.set("components", "country:us");
-    url.searchParams.set("location", "25.7617,-80.1918"); // Miami bias
-    url.searchParams.set("radius", "150000"); // ~93 miles
-    url.searchParams.set("key", apiKey);
+    // Places API (New) — Autocomplete. The Amorelia Google Cloud project is
+    // new, so the legacy Places API can't be enabled; we use the (New) endpoint.
+    // Requires "Places API (New)" enabled + allowed on the API key.
+    const response = await fetch("https://places.googleapis.com/v1/places:autocomplete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": apiKey,
+      },
+      body: JSON.stringify({
+        input,
+        includedRegionCodes: ["us"],
+        // Miami bias so local addresses rank first. Places API (New) caps the
+        // bias radius at 50,000 m (it's only a ranking bias, not a hard filter —
+        // addresses beyond it still appear, just lower).
+        locationBias: {
+          circle: {
+            center: { latitude: 25.7617, longitude: -80.1918 },
+            radius: 50000,
+          },
+        },
+      }),
+    });
 
-    const response = await fetch(url.toString());
     const data = await response.json();
 
-    if (data.status !== "OK" && data.status !== "ZERO_RESULTS") {
-      console.error("Places API error:", data.status, data.error_message);
+    if (!response.ok) {
+      console.error("Places API (New) error:", response.status, JSON.stringify(data));
       return new Response(
         JSON.stringify({ error: "Servicio no disponible temporalmente" }),
         { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const predictions = (data.predictions || []).map((p: any) => ({
-      placeId: p.place_id,
-      description: p.description,
-      mainText: p.structured_formatting?.main_text || "",
-      secondaryText: p.structured_formatting?.secondary_text || "",
-    }));
+    // Map the (New) response shape → the SAME shape the frontend already expects.
+    const predictions = (data.suggestions || [])
+      .map((s: any) => s.placePrediction)
+      .filter(Boolean)
+      .map((p: any) => ({
+        placeId: p.placeId,
+        description: p.text?.text || "",
+        mainText: p.structuredFormat?.mainText?.text || "",
+        secondaryText: p.structuredFormat?.secondaryText?.text || "",
+      }));
 
     return new Response(
       JSON.stringify({ predictions }),

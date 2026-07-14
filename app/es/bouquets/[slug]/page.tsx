@@ -107,9 +107,9 @@ function productSeoPiecesEs(product: BouquetProduct, data: ProductPageData | nul
   //   en Miami"), sin capitalizar artículos. SIN rango "50 a 200" (pasa a
   //   subtítulo-beneficio bajo el H1, desde las variantes REALES), SIN el
   //   nombre comercial (va en el lead de la descripción).
-  const headingH1 = isInSlugMap && keywordH1Raw
-    ? `${keywordH1Raw} en Miami`
-    : `${product.name} Bouquet en Miami`;
+  // Amorelia: el H1 visible es SOLO el nombre del producto (sin "Bouquet"/"Miami").
+  void isInSlugMap; void keywordH1Raw;
+  const headingH1 = product.name;
 
   // FÓRMULA DE TITLE — Romuald: "[keyword] Miami – Entrega el Mismo Día |
   // Amorelia Luxury Floral Gifts" con el plan B de recorte (lib/seo.ts). La fórmula manda

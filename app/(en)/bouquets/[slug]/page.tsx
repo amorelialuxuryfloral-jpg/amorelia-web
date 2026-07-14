@@ -107,9 +107,9 @@ function productSeoPieces(product: BouquetProduct, data: ProductPageData | null)
   //   subtitle under the H1, rendered by ProductDetailClient from the REAL
   //   variants), NO commercial name ("Total Passion" lives in the lead
   //   paragraph), NO duplicated "Roses".
-  const headingH1 = isInSlugMap && keywordH1Raw
-    ? `${keywordH1Raw} in Miami`
-    : `${product.name} Bouquet in Miami`;
+  // Amorelia: el H1 visible es SOLO el nombre del producto (sin "Bouquet"/"Miami").
+  void isInSlugMap; void keywordH1Raw;
+  const headingH1 = product.name;
 
   // FÓRMULA DE TITLE — Romuald: "[keyword] Miami – Same-Day Delivery |
   // Amorelia Luxury Floral Gifts", máx ~60 chars with the drop-brand-then-same-day plan B

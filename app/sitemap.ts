@@ -37,7 +37,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Filtros por color (bouquets) — slugs nativos por idioma.
     ...COLOR_COLLECTIONS.map((c) => ({ en: `/bouquets/${c.slug}`, es: `/bouquets/${c.slugEs}` })),
     // Informativas.
-    { en: "/about" },
     { en: "/delivery" },
     { en: "/faq" },
     // Legales.
