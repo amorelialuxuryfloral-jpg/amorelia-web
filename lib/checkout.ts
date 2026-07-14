@@ -25,7 +25,7 @@ const DELIVERY_FEE_VARIANT_NUMERIC_ID = "48213595652314";
 const SERVICE_FEE_VARIANT_NUMERIC_ID = "48213596274906";
 const SERVICE_FEE_VARIANT_GID = `gid://shopify/ProductVariant/${SERVICE_FEE_VARIANT_NUMERIC_ID}`;
 
-const SHOPIFY_CART_BASE_URL = "https://amorelia-luxury-floral-gifts.myshopify.com/cart";
+const SHOPIFY_CART_BASE_URL = "https://checkout.amorelialuxuryfloral.com/cart";
 
 type CheckoutDeliveryOptions = {
   deliveryMethod?: "pickup" | "delivery";
