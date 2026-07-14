@@ -67,10 +67,10 @@ const trackingLoaderScript = `
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  /* Amorelia pixels PENDIENTES — no enviar a Charls */ /* gtag('config','G-XXXXXXX'); */
-  /* gtag('config','AW-XXXXXXXXX'); */
+  gtag('config','G-GQM2WTYN9N');
+  /* gtag('config','AW-XXXXXXXXX'); */  /* Google Ads pendiente */
   gtag('set', 'linker', {
-    'domains': ['amorelia-luxury-floral-gifts.myshopify.com', 'checkout.shopify.com', 'shop.app'],
+    'domains': ['checkout.amorelialuxuryfloral.com', 'amorelia-luxury-floral-gifts.myshopify.com', 'checkout.shopify.com', 'shop.app'],
     'accept_incoming': true
   });
 
@@ -84,7 +84,7 @@ const trackingLoaderScript = `
     loaded = true;
     evts.forEach(function(evt){ window.removeEventListener(evt, loadLibs, opts); });
     /* inject('https://connect.facebook.net/en_US/fbevents.js'); */
-    /* inject('https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX'); */
+    inject('https://www.googletagmanager.com/gtag/js?id=G-GQM2WTYN9N');
     /* inject('https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX'); */
     /* inject('https://static.klaviyo.com/onsite/js/PENDING/klaviyo.js'); */
   }
