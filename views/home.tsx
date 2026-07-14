@@ -287,7 +287,7 @@ export default async function HomeView({ language }: { language: Language }) {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
             {colorCards.map((card) => (
               <Link key={card.color} href={card.href} className="group block">
-                <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
+                <div className="relative overflow-hidden rounded-none mb-4 aspect-square">
                   <img
                     src={card.image}
                     srcSet={card.imageSrcSet}

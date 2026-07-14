@@ -121,9 +121,9 @@
   }
 }
 
-/* Global rounded corners for all images */
+/* Amorelia: bordes CUADRADOS en todas las imágenes (identidad de marca). */
 img {
-  border-radius: 0.5rem;
+  border-radius: 0;
 }
 
 /* iOS Safari MOBILE ZOOM FIX ("todo se ve ampliado", jul 2026): when a focused
