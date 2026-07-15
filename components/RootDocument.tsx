@@ -99,6 +99,35 @@ const trackingLoaderScript = `
 })();
 `;
 
+/**
+ * Google Store Widget (formerly "Google Customer Reviews" badge) — the floating
+ * trust badge that shows Amorelia's verified seller rating. Loaded ONLY on the
+ * production domain and DEFERRED to idle so it never touches the LCP/critical
+ * path (Amorelia PageSpeed budget). merchant_id = Amorelia's Merchant Center id.
+ * The badge stays invisible until Google has collected enough real reviews via
+ * the checkout opt-in — nothing to display before that (by design).
+ */
+const storeWidgetScript = `
+(function() {
+  var hosts = ['amorelialuxuryfloral.com', 'www.amorelialuxuryfloral.com'];
+  if (!hosts.includes(window.location.hostname)) return;
+  var loaded = false;
+  function load(){
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://www.gstatic.com/shopping/merchant/merchantwidget.js';
+    s.defer = true;
+    s.addEventListener('load', function(){
+      try { window.merchantwidget.start({ merchant_id: 5824149802, position: 'RIGHT_BOTTOM' }); } catch (e) {}
+    });
+    document.head.appendChild(s);
+  }
+  if ('requestIdleCallback' in window) { requestIdleCallback(load, { timeout: 4000 }); }
+  else { setTimeout(load, 3000); }
+})();
+`;
+
 export default function RootDocument({
   language,
   children,
@@ -143,6 +172,9 @@ export default function RootDocument({
 
         {/* Deferred tracking loader (production domains only). */}
         <script dangerouslySetInnerHTML={{ __html: trackingLoaderScript }} />
+
+        {/* Google Store Widget / seller-rating badge (production only, idle). */}
+        <script dangerouslySetInnerHTML={{ __html: storeWidgetScript }} />
       </body>
     </html>
   );
