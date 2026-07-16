@@ -275,12 +275,12 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
           <Link href={l("/")} onClick={handleLogoClick} className="hidden lg:flex items-center gap-2">
-            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={90} height={40} />
+            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={111} height={40} />
           </Link>
         </div>
 
         <Link href={l("/")} onClick={handleLogoClick} className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
-          <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-10 w-auto" width={90} height={40} />
+          <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-10 w-auto" width={111} height={40} />
         </Link>
 
         <div className="hidden lg:flex items-center gap-5 font-body text-xs tracking-widest uppercase text-muted-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">

@@ -38,7 +38,7 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info (NAP + CID "Get directions" link) */}
           <div>
-            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts" className="h-10 w-auto mb-3 brightness-0 invert" width={90} height={40} loading="lazy" />
+            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts" className="h-10 w-auto mb-3 brightness-0 invert" width={111} height={40} loading="lazy" />
             <div className="space-y-2 font-body text-xs text-primary-foreground">
               <p className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" /> 7257 NW 12th St, Miami, FL 33126</p>
               <p className="flex items-center gap-2">
