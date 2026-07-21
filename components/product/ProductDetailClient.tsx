@@ -35,6 +35,7 @@ import {
   BABY_BREATH_PRICE_PER_CHAR,
   babyBreathCharCount,
 } from "@/lib/accessoryVariants";
+import { getAccessoryImages, type AccessoryImages } from "@/lib/accessoryImages";
 import { getTranslator, type Language } from "@/i18n";
 import {
   Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
@@ -135,6 +136,15 @@ const ProductDetailClient = ({
   const [balloonQty, setBalloonQty] = useState(1);
   const [addLetters, setAddLetters] = useState(false);
   const [lettersText, setLettersText] = useState("");
+
+  // Fotos de los accesorios servidas por Shopify (null hasta que cargan;
+  // la UI cae al icono si un producto no tiene foto).
+  const [accImages, setAccImages] = useState<AccessoryImages | null>(null);
+  useEffect(() => {
+    let alive = true;
+    getAccessoryImages().then((imgs) => { if (alive) setAccImages(imgs); });
+    return () => { alive = false; };
+  }, []);
   const [accessoryText, setAccessoryText] = useState("");
   const [addGlitter, setAddGlitter] = useState<boolean | null>(null); // null = not yet selected
   const [addVase] = useState(false);
@@ -541,17 +551,29 @@ const ProductDetailClient = ({
         </button>
         <button onClick={() => setAddTeddy((v) => !v)}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addTeddy ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🧸</span>
+          {(() => {
+            const teddyImg = accImages?.teddy.byColor[teddyColor] || accImages?.teddy.featured;
+            return teddyImg
+              ? <img src={teddyImg} alt="Plush teddy bear accessory" loading="lazy" width={64} height={64} className="w-16 h-16 md:w-12 md:h-12 object-contain" />
+              : <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🧸</span>;
+          })()}
           {t("product.teddyBear")} <span className="text-[10px] text-secondary">{t("product.teddyFromPrice")}</span>
         </button>
         <button onClick={() => setAddBalloons((v) => !v)}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addBalloons ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🎈</span>
+          {(() => {
+            const balloonImg = accImages?.balloons.byColor[balloonColor] || accImages?.balloons.featured;
+            return balloonImg
+              ? <img src={balloonImg} alt="Helium balloons accessory" loading="lazy" width={64} height={64} className="w-16 h-16 md:w-12 md:h-12 object-contain" />
+              : <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🎈</span>;
+          })()}
           {t("product.heliumBalloons")} <span className="text-[10px] text-secondary">{t("product.balloonUnitPrice")}</span>
         </button>
         <button onClick={() => setAddLetters((v) => !v)}
           className={`col-span-2 flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-3xl md:text-2xl font-display font-semibold tracking-widest" aria-hidden>A·1</span>
+          {accImages?.letters.featured
+            ? <img src={accImages.letters.featured} alt="Baby breath letters accessory" loading="lazy" width={64} height={64} className="w-16 h-16 md:w-12 md:h-12 object-contain" />
+            : <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-3xl md:text-2xl font-display font-semibold tracking-widest" aria-hidden>A·1</span>}
           {t("product.babyBreathLetters")} <span className="text-[10px] text-secondary">{t("product.babyBreathUnitPrice")}</span>
         </button>
       </div>
@@ -580,7 +602,9 @@ const ProductDetailClient = ({
               {TEDDY_COLORS.map((color) => (
                 <button key={color} onClick={() => setTeddyColor(color)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${teddyColor === color ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <span className="w-3.5 h-3.5 rounded-full border border-border inline-block" style={{ background: teddySwatch[color] }} aria-hidden />
+                  {accImages?.teddy.byColor[color]
+                    ? <img src={accImages.teddy.byColor[color]} alt={`${color} teddy bear`} loading="lazy" width={28} height={28} className="w-7 h-7 object-contain" />
+                    : <span className="w-3.5 h-3.5 rounded-full border border-border inline-block" style={{ background: teddySwatch[color] }} aria-hidden />}
                   {t(colorTKey(color))}
                 </button>
               ))}
@@ -624,7 +648,9 @@ const ProductDetailClient = ({
               {BALLOON_COLORS.map((color) => (
                 <button key={color} onClick={() => setBalloonColor(color)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${balloonColor === color ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <span className="w-3.5 h-3.5 rounded-full border border-border inline-block" style={{ background: balloonSwatch[color] }} aria-hidden />
+                  {accImages?.balloons.byColor[color]
+                    ? <img src={accImages.balloons.byColor[color]} alt={`${color} balloon`} loading="lazy" width={28} height={28} className="w-7 h-7 object-contain" />
+                    : <span className="w-3.5 h-3.5 rounded-full border border-border inline-block" style={{ background: balloonSwatch[color] }} aria-hidden />}
                   {t(colorTKey(color))}
                 </button>
               ))}

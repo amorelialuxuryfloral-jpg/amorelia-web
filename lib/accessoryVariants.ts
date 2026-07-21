@@ -96,6 +96,12 @@ export const TEDDY_VARIANT_IDS: Record<string, Record<string, string>> = {
   },
 };
 
+// Product GIDs de los accesorios nuevos — para leer imágenes vía Storefront
+// API por ID (robusto frente a cambios de handle).
+export const TEDDY_PRODUCT_GID = "gid://shopify/Product/9403428503770";
+export const BALLOON_PRODUCT_GID = "gid://shopify/Product/9403428536538";
+export const BABY_BREATH_PRODUCT_GID = "gid://shopify/Product/9403455897818";
+
 // === Helium Balloons (producto "Helium Balloons", creado 2026-07-21) ===
 export const BALLOON_COLORS = ["Red", "Pastel Pink", "Iridescent"] as const;
 export const BALLOON_UNIT_PRICE = 6.9;
