@@ -4,8 +4,9 @@
  */
 
 // === Variant IDs de AMORELIA (sacados vía Admin API 2026-07-14). ===
-// Amorelia solo tiene: Glitter, Butterflies, Crown(Silver/Gold), Notes,
-// Home Delivery, Service Fee. NO tiene Baby Breath / Vase / Ribbon / Cards /
+// Amorelia tiene: Glitter, Butterflies, Crown(Silver/Gold), Notes, Home
+// Delivery, Service Fee, Teddy Bear, Helium Balloons y Baby Breath Letters
+// (estos tres últimos creados 2026-07-21). NO tiene Vase / Ribbon / Cards /
 // Custom Bouquet (eran de Charls) → esas constantes van vacías y su opción no
 // existe en la ficha, así que nunca se añaden.
 
@@ -20,8 +21,23 @@ export const GLITTER_VARIANTS: Record<number, string> = {
   200: "48213595488474",
 };
 
-// Baby Breath — NO existe en Amorelia (vacío = nunca se añade).
-export const BABY_BREATH_VARIANTS: Record<number, string> = {};
+// Baby Breath Letters or Numbers — variant by character count (1-6),
+// $40 per character. Producto "Baby Breath Letters or Numbers".
+export const BABY_BREATH_VARIANTS: Record<number, string> = {
+  1: "48252740796634",
+  2: "48252740829402",
+  3: "48252740862170",
+  4: "48252740894938",
+  5: "48252740927706",
+  6: "48252740960474",
+};
+export const BABY_BREATH_MAX_CHARS = 6;
+export const BABY_BREATH_PRICE_PER_CHAR = 40;
+
+/** Chars that count (and get charged): everything except whitespace. */
+export function babyBreathCharCount(text: string): number {
+  return text.replace(/\s+/g, "").length;
+}
 
 // Notes ($3) · Butterflies ($3). Cards no existe en Amorelia → cae a Notes.
 export const NOTES_VARIANT_ID = "48213595947226";
@@ -140,14 +156,14 @@ export function buildAccessoryLineItems(opts: {
     items.push({ variantId: BUTTERFLIES_VARIANT_ID, quantity: 1 });
   }
 
-  // Baby Breath: select variant by digit count (1-4)
-  if (opts.specialText && opts.specialText.length > 0) {
-    const digitCount = Math.min(opts.specialText.length, 4);
-    const bbVariant = BABY_BREATH_VARIANTS[digitCount];
+  // Baby Breath: select variant by character count (1-6, spaces don't count)
+  if (opts.specialText && babyBreathCharCount(opts.specialText) > 0) {
+    const charCount = Math.min(babyBreathCharCount(opts.specialText), BABY_BREATH_MAX_CHARS);
+    const bbVariant = BABY_BREATH_VARIANTS[charCount];
     if (bbVariant) {
       items.push({ variantId: bbVariant, quantity: 1 });
     } else {
-      console.warn(`No Baby Breath variant for ${digitCount} digits`);
+      console.warn(`No Baby Breath variant for ${charCount} characters`);
     }
   }
 

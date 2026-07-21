@@ -31,6 +31,9 @@ import {
   TEDDY_COLORS,
   BALLOON_COLORS,
   BALLOON_UNIT_PRICE,
+  BABY_BREATH_MAX_CHARS,
+  BABY_BREATH_PRICE_PER_CHAR,
+  babyBreathCharCount,
 } from "@/lib/accessoryVariants";
 import { getTranslator, type Language } from "@/i18n";
 import {
@@ -130,6 +133,8 @@ const ProductDetailClient = ({
   const [addBalloons, setAddBalloons] = useState(false);
   const [balloonColor, setBalloonColor] = useState<string>("Red");
   const [balloonQty, setBalloonQty] = useState(1);
+  const [addLetters, setAddLetters] = useState(false);
+  const [lettersText, setLettersText] = useState("");
   const [accessoryText, setAccessoryText] = useState("");
   const [addGlitter, setAddGlitter] = useState<boolean | null>(null); // null = not yet selected
   const [addVase] = useState(false);
@@ -353,7 +358,9 @@ const ProductDetailClient = ({
   const selectedTeddySize = TEDDY_SIZES.find((s) => s.key === teddySizeKey) ?? TEDDY_SIZES[1];
   const teddyCost = addTeddy ? selectedTeddySize.price : 0;
   const balloonCost = addBalloons ? Math.round(BALLOON_UNIT_PRICE * balloonQty * 100) / 100 : 0;
-  const accessoryCost = (addNote ? 3 : 0) + (addButterfly ? 3 : 0) + teddyCost + balloonCost;
+  const lettersCount = addLetters ? babyBreathCharCount(lettersText) : 0;
+  const lettersCost = lettersCount * BABY_BREATH_PRICE_PER_CHAR;
+  const accessoryCost = (addNote ? 3 : 0) + (addButterfly ? 3 : 0) + teddyCost + balloonCost + lettersCost;
   const deliveryCost =
     deliveryMethod === "delivery"
       ? distanceTooFar
@@ -403,6 +410,7 @@ const ProductDetailClient = ({
       if (addButterfly) addons.push("Butterflies");
       if (addTeddy) addons.push(`Teddy Bear (${selectedTeddySize.label}, ${teddyColor})`);
       if (addBalloons) addons.push(`Balloons (${balloonColor} ×${balloonQty})`);
+      if (addLetters && lettersCount > 0) addons.push(`Baby Breath Letters (${lettersText.trim()})`);
 
       // GA4: add_to_cart event
       (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'add_to_cart', {
@@ -438,7 +446,7 @@ const ProductDetailClient = ({
         teddyColor: addTeddy ? teddyColor : undefined,
         balloonColor: addBalloons ? balloonColor : undefined,
         balloonQty: addBalloons ? balloonQty : undefined,
-        specialText: "",
+        specialText: addLetters && lettersCount > 0 ? lettersText.trim() : "",
         heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
         glitter: addGlitter === true,
         deliveryMethod,
@@ -541,6 +549,11 @@ const ProductDetailClient = ({
           <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🎈</span>
           {t("product.heliumBalloons")} <span className="text-[10px] text-secondary">{t("product.balloonUnitPrice")}</span>
         </button>
+        <button onClick={() => setAddLetters((v) => !v)}
+          className={`col-span-2 flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-3xl md:text-2xl font-display font-semibold tracking-widest" aria-hidden>A·1</span>
+          {t("product.babyBreathLetters")} <span className="text-[10px] text-secondary">{t("product.babyBreathUnitPrice")}</span>
+        </button>
       </div>
       {addNote && (
         <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
@@ -572,6 +585,34 @@ const ProductDetailClient = ({
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+      {addLetters && (
+        <div className="mt-3 p-3 rounded-lg border border-border bg-card space-y-2">
+          <p className="font-body text-xs text-muted-foreground">{t("product.babyBreathDesc")}</p>
+          <input
+            type="text"
+            value={lettersText}
+            onChange={(e) => {
+              const cleaned = e.target.value.toUpperCase().replace(/[^A-ZÀ-Ÿ0-9 ]/g, "");
+              let out = "";
+              let count = 0;
+              for (const ch of cleaned) {
+                if (ch !== " ") {
+                  if (count >= BABY_BREATH_MAX_CHARS) break;
+                  count++;
+                }
+                out += ch;
+              }
+              setLettersText(out);
+            }}
+            placeholder={t("product.babyBreathPlaceholder")}
+            className="w-full bg-background border border-border rounded-lg px-3 py-2.5 font-body text-base tracking-[0.3em] uppercase text-foreground placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+          />
+          <div className="flex items-center justify-between">
+            <p className="font-body text-xs text-muted-foreground">{lettersCount}/{BABY_BREATH_MAX_CHARS} {t("product.babyBreathCharacters")}</p>
+            <p className="font-body text-sm font-semibold text-primary">${lettersCost}</p>
           </div>
         </div>
       )}
@@ -861,6 +902,7 @@ const ProductDetailClient = ({
                 {addButterfly && ` · ${t("product.butterflies")}`}
                 {addTeddy && ` · 🧸 ${t(`product.teddySize${selectedTeddySize.label}`)}`}
                 {addBalloons && ` · 🎈 ×${balloonQty}`}
+                {addLetters && lettersCount > 0 && ` · 🔤 ${lettersText.trim()}`}
               </p>
               <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
             </div>
@@ -949,6 +991,7 @@ const ProductDetailClient = ({
               {addButterfly && ` · ${t("product.butterflies")}`}
               {addTeddy && ` · 🧸 ${t(`product.teddySize${selectedTeddySize.label}`)}`}
               {addBalloons && ` · 🎈 ×${balloonQty}`}
+              {addLetters && lettersCount > 0 && ` · 🔤 ${lettersText.trim()}`}
             </p>
             <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
           </div>
