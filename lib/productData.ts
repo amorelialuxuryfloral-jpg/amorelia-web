@@ -161,7 +161,7 @@ export type BouquetType = 'classic' | 'letters' | 'numbers';
 export const specialBouquetPrice = 285;
 export const specialBouquetRoses = 125;
 export const letterNumberExtraPrice = 40;
-export const crownPrice = 10;
+export const crownPrice = 20;
 export const ribbonPrice = 25;
 
 export interface VaseOption {

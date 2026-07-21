@@ -26,6 +26,12 @@ import { colorCollectionForProduct } from "@/lib/colorCollections";
 import { galleryImageAlt } from "@/lib/thumbnailAlts";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import { vaseOptions, getPrice, crownPrice, ribbonPrice } from "@/lib/productData";
+import {
+  TEDDY_SIZES,
+  TEDDY_COLORS,
+  BALLOON_COLORS,
+  BALLOON_UNIT_PRICE,
+} from "@/lib/accessoryVariants";
 import { getTranslator, type Language } from "@/i18n";
 import {
   Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
@@ -118,6 +124,12 @@ const ProductDetailClient = ({
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [addNote, setAddNote] = useState(false);
   const [addButterfly, setAddButterfly] = useState(false);
+  const [addTeddy, setAddTeddy] = useState(false);
+  const [teddySizeKey, setTeddySizeKey] = useState<"small" | "medium" | "large">("medium");
+  const [teddyColor, setTeddyColor] = useState<string>("Brown");
+  const [addBalloons, setAddBalloons] = useState(false);
+  const [balloonColor, setBalloonColor] = useState<string>("Red");
+  const [balloonQty, setBalloonQty] = useState(1);
   const [accessoryText, setAccessoryText] = useState("");
   const [addGlitter, setAddGlitter] = useState<boolean | null>(null); // null = not yet selected
   const [addVase] = useState(false);
@@ -338,7 +350,10 @@ const ProductDetailClient = ({
     : (hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses));
   const glitterCost = addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = (addNote ? 3 : 0) + (addButterfly ? 3 : 0);
+  const selectedTeddySize = TEDDY_SIZES.find((s) => s.key === teddySizeKey) ?? TEDDY_SIZES[1];
+  const teddyCost = addTeddy ? selectedTeddySize.price : 0;
+  const balloonCost = addBalloons ? Math.round(BALLOON_UNIT_PRICE * balloonQty * 100) / 100 : 0;
+  const accessoryCost = (addNote ? 3 : 0) + (addButterfly ? 3 : 0) + teddyCost + balloonCost;
   const deliveryCost =
     deliveryMethod === "delivery"
       ? distanceTooFar
@@ -386,6 +401,8 @@ const ProductDetailClient = ({
       if (addGlitter === true) addons.push("Glitter");
       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
       if (addButterfly) addons.push("Butterflies");
+      if (addTeddy) addons.push(`Teddy Bear (${selectedTeddySize.label}, ${teddyColor})`);
+      if (addBalloons) addons.push(`Balloons (${balloonColor} ×${balloonQty})`);
 
       // GA4: add_to_cart event
       (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'add_to_cart', {
@@ -417,6 +434,10 @@ const ProductDetailClient = ({
         accessoryText: addNote ? accessoryText : "",
         ribbonText: "",
         crownSize: "",
+        teddySize: addTeddy ? teddySizeKey : undefined,
+        teddyColor: addTeddy ? teddyColor : undefined,
+        balloonColor: addBalloons ? balloonColor : undefined,
+        balloonQty: addBalloons ? balloonQty : undefined,
         specialText: "",
         heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
         glitter: addGlitter === true,
@@ -486,6 +507,19 @@ const ProductDetailClient = ({
     </Section>
   );
 
+  const colorTKey = (c: string) => `product.color${c.replace(/\s+/g, "")}`;
+  const teddySwatch: Record<string, string> = {
+    Black: "#26211e",
+    Red: "#b3252b",
+    Brown: "#6b4226",
+    "Light Brown": "#c49a6c",
+  };
+  const balloonSwatch: Record<string, string> = {
+    Red: "#d4262e",
+    "Pastel Pink": "#f6b8cc",
+    Iridescent: "linear-gradient(135deg,#e8d5f2,#c7ebf5,#fdf3d8,#f5d5e8)",
+  };
+
   const renderAccessoriesSection = (isMobile = false) => (
     <Section title={t("product.accessories")} step={step++}>
       <div className="grid grid-cols-2 gap-2">
@@ -497,10 +531,76 @@ const ProductDetailClient = ({
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addButterfly ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           <img src={butterflyImg} alt="Butterfly accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
         </button>
+        <button onClick={() => setAddTeddy((v) => !v)}
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addTeddy ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🧸</span>
+          {t("product.teddyBear")} <span className="text-[10px] text-secondary">{t("product.teddyFromPrice")}</span>
+        </button>
+        <button onClick={() => setAddBalloons((v) => !v)}
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addBalloons ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-4xl md:text-3xl" aria-hidden>🎈</span>
+          {t("product.heliumBalloons")} <span className="text-[10px] text-secondary">{t("product.balloonUnitPrice")}</span>
+        </button>
       </div>
       {addNote && (
         <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
           className="w-full mt-3 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
+      )}
+      {addTeddy && (
+        <div className="mt-3 p-3 rounded-lg border border-border bg-card space-y-3">
+          <div>
+            <p className="font-body text-xs font-semibold text-muted-foreground mb-2">🧸 {t("product.teddyBear")} — {t("product.sizeLabel")}</p>
+            <div className="flex flex-wrap gap-2">
+              {TEDDY_SIZES.map((size) => (
+                <button key={size.key} onClick={() => setTeddySizeKey(size.key)}
+                  className={`px-3 py-2 rounded-lg border-2 text-sm font-body transition-all ${teddySizeKey === size.key ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <span className="font-medium">{t(`product.teddySize${size.label}`)}</span>
+                  <span className="text-xs text-muted-foreground ml-1">· {size.heightIn}&quot; ({size.heightCm} cm)</span>
+                  <span className="text-xs text-primary font-semibold ml-1">${size.price}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="font-body text-xs font-semibold text-muted-foreground mb-2">{t("product.colorLabel")}</p>
+            <div className="flex flex-wrap gap-2">
+              {TEDDY_COLORS.map((color) => (
+                <button key={color} onClick={() => setTeddyColor(color)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${teddyColor === color ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <span className="w-3.5 h-3.5 rounded-full border border-border inline-block" style={{ background: teddySwatch[color] }} aria-hidden />
+                  {t(colorTKey(color))}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      {addBalloons && (
+        <div className="mt-3 p-3 rounded-lg border border-border bg-card space-y-3">
+          <div>
+            <p className="font-body text-xs font-semibold text-muted-foreground mb-2">🎈 {t("product.heliumBalloons")} — {t("product.colorLabel")}</p>
+            <div className="flex flex-wrap gap-2">
+              {BALLOON_COLORS.map((color) => (
+                <button key={color} onClick={() => setBalloonColor(color)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${balloonColor === color ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <span className="w-3.5 h-3.5 rounded-full border border-border inline-block" style={{ background: balloonSwatch[color] }} aria-hidden />
+                  {t(colorTKey(color))}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <p className="font-body text-xs font-semibold text-muted-foreground">{t("product.quantityLabel")}</p>
+            <div className="flex items-center gap-3">
+              <button onClick={() => setBalloonQty((q) => Math.max(1, q - 1))} aria-label="Decrease balloons"
+                className="w-8 h-8 rounded-lg border-2 border-border font-body text-base text-foreground hover:border-primary/30 transition-all">−</button>
+              <span className="font-body text-sm font-semibold text-foreground w-6 text-center">{balloonQty}</span>
+              <button onClick={() => setBalloonQty((q) => Math.min(20, q + 1))} aria-label="Increase balloons"
+                className="w-8 h-8 rounded-lg border-2 border-border font-body text-base text-foreground hover:border-primary/30 transition-all">+</button>
+              <span className="font-body text-sm font-semibold text-primary">${balloonCost.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
       )}
     </Section>
   );
@@ -759,6 +859,8 @@ const ProductDetailClient = ({
                 {addGlitter === true && " · Glitter"}
                 {addNote && ` · ${t("product.note")}`}
                 {addButterfly && ` · ${t("product.butterflies")}`}
+                {addTeddy && ` · 🧸 ${t(`product.teddySize${selectedTeddySize.label}`)}`}
+                {addBalloons && ` · 🎈 ×${balloonQty}`}
               </p>
               <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
             </div>
@@ -845,6 +947,8 @@ const ProductDetailClient = ({
               {addGlitter === true && " · Glitter"}
               {addNote && ` · ${t("product.note")}`}
               {addButterfly && ` · ${t("product.butterflies")}`}
+              {addTeddy && ` · 🧸 ${t(`product.teddySize${selectedTeddySize.label}`)}`}
+              {addBalloons && ` · 🎈 ×${balloonQty}`}
             </p>
             <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
           </div>

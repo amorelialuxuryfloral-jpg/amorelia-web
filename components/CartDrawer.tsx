@@ -244,6 +244,8 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
         if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
         if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
         if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
+        if (item.teddySize && item.teddyColor) noteLines.push(`- 🧸 Teddy Bear: ${item.teddySize} / ${item.teddyColor}`);
+        if (item.balloonColor && item.balloonQty) noteLines.push(`- 🎈 Helium Balloons: ${item.balloonColor} ×${item.balloonQty}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon}`);
         // Room decor: print the package's complementary extras + bouquet color
@@ -278,6 +280,10 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
           addCrown: !!item.crownSize,
           crownSize: item.crownSize,
           addRibbon: !!item.ribbonText,
+          teddySize: item.teddySize,
+          teddyColor: item.teddyColor,
+          balloonColor: item.balloonColor,
+          balloonQty: item.balloonQty,
         });
         if (hasButterflyAddon && item.accessory !== "butterfly") {
           lines.push({ variantId: BUTTERFLIES_VARIANT_ID, quantity: 1 });

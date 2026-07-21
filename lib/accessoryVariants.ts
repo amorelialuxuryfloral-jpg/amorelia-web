@@ -41,6 +41,55 @@ export const RIBBON_VARIANT_ID = "";
 // Custom Bouquet — NO existe en Amorelia.
 export const CUSTOM_BOUQUET_VARIANT_ID = "";
 
+// === Plush Teddy Bear (producto "Plush Teddy Bear", creado 2026-07-21) ===
+export interface TeddySizeOption {
+  key: "small" | "medium" | "large";
+  label: string;
+  heightIn: number;
+  heightCm: number;
+  price: number;
+}
+
+export const TEDDY_SIZES: TeddySizeOption[] = [
+  { key: "small", label: "Small", heightIn: 10, heightCm: 26, price: 45 },
+  { key: "medium", label: "Medium", heightIn: 17, heightCm: 43, price: 69 },
+  { key: "large", label: "Large", heightIn: 42, heightCm: 107, price: 89 },
+];
+
+export const TEDDY_COLORS = ["Black", "Red", "Brown", "Light Brown"] as const;
+
+// size key → Shopify color name → variant numeric id
+export const TEDDY_VARIANT_IDS: Record<string, Record<string, string>> = {
+  small: {
+    Black: "48252691611866",
+    Red: "48252691644634",
+    Brown: "48252691677402",
+    "Light Brown": "48252691710170",
+  },
+  medium: {
+    Black: "48252691742938",
+    Red: "48252691775706",
+    Brown: "48252691808474",
+    "Light Brown": "48252691841242",
+  },
+  large: {
+    Black: "48252691874010",
+    Red: "48252691906778",
+    Brown: "48252691939546",
+    "Light Brown": "48252691972314",
+  },
+};
+
+// === Helium Balloons (producto "Helium Balloons", creado 2026-07-21) ===
+export const BALLOON_COLORS = ["Red", "Pastel Pink", "Iridescent"] as const;
+export const BALLOON_UNIT_PRICE = 6.9;
+
+export const BALLOON_VARIANT_IDS: Record<string, string> = {
+  Red: "48252692431066",
+  "Pastel Pink": "48252692463834",
+  Iridescent: "48252692496602",
+};
+
 // Home Delivery fee product (base $0.10, qty = cost × 10, e.g. $31.20 → qty 312)
 export const DELIVERY_FEE_VARIANT_ID = "48213595652314";
 export const DELIVERY_FEE_VARIANT_GID = `gid://shopify/ProductVariant/${DELIVERY_FEE_VARIANT_ID}`;
@@ -65,6 +114,11 @@ export function buildAccessoryLineItems(opts: {
   addCrown: boolean;
   crownSize: string; // "silver" | "gold"
   addRibbon: boolean;
+  // Teddy bear + balloons (optional — older call sites simply omit them)
+  teddySize?: string; // "small" | "medium" | "large"
+  teddyColor?: string; // Shopify color name, e.g. "Light Brown"
+  balloonColor?: string; // Shopify color name, e.g. "Pastel Pink"
+  balloonQty?: number;
 }): AccessoryLineItem[] {
   const items: AccessoryLineItem[] = [];
 
@@ -111,6 +165,24 @@ export function buildAccessoryLineItems(opts: {
 
   if (opts.addRibbon && RIBBON_VARIANT_ID) {
     items.push({ variantId: RIBBON_VARIANT_ID, quantity: 1 });
+  }
+
+  if (opts.teddySize && opts.teddyColor) {
+    const teddyVariant = TEDDY_VARIANT_IDS[opts.teddySize]?.[opts.teddyColor];
+    if (teddyVariant) {
+      items.push({ variantId: teddyVariant, quantity: 1 });
+    } else {
+      console.warn(`No Teddy Bear variant for ${opts.teddySize} / ${opts.teddyColor}`);
+    }
+  }
+
+  if (opts.balloonColor && (opts.balloonQty ?? 0) > 0) {
+    const balloonVariant = BALLOON_VARIANT_IDS[opts.balloonColor];
+    if (balloonVariant) {
+      items.push({ variantId: balloonVariant, quantity: opts.balloonQty! });
+    } else {
+      console.warn(`No Balloon variant for color ${opts.balloonColor}`);
+    }
   }
 
   return items;

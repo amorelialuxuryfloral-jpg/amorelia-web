@@ -24,6 +24,14 @@ export interface CartItem {
   accessoryText: string;
   ribbonText: string;
   crownSize: string;
+  // Teddy bear + helium balloons add-ons (optional; absent on older items).
+  // teddySize is the size KEY ("small"|"medium"|"large"); colors are the
+  // Shopify option names ("Light Brown", "Pastel Pink"...) so checkout can
+  // resolve the variant directly.
+  teddySize?: string;
+  teddyColor?: string;
+  balloonColor?: string;
+  balloonQty?: number;
   specialText: string;
   heartColor: string;
   glitter: boolean;
