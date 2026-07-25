@@ -256,7 +256,11 @@ const BouquetCollectionView = async ({
               </p>
               {/* Bolitas de color (en vez de texto "Red Roses"). El texto va en
                   sr-only para no perder el anchor keyword (SEO). */}
-              <div className="flex flex-nowrap overflow-x-auto gap-3 py-2.5 -mx-6 px-6 items-center md:mx-0 md:px-0 md:py-0 md:flex-wrap md:justify-center md:overflow-visible">
+              {/* `relative` es imprescindible: sin posicionamiento, Blink móvil
+                  propaga el max-content de los chips (≈426px) al viewport de
+                  layout y toda la página queda deslizable hacia los lados
+                  (verificado empíricamente con Chromium emulando iPhone). */}
+              <div className="relative flex flex-nowrap overflow-x-auto gap-3 py-2.5 -mx-6 px-6 items-center md:mx-0 md:px-0 md:py-0 md:flex-wrap md:justify-center md:overflow-visible">
                 {COLOR_COLLECTIONS.map((c) => {
                   const active = colorColl?.color === c.color;
                   return (

@@ -540,6 +540,8 @@ const ProductDetailClient = ({
 
   const renderAccessoriesSection = (isMobile = false) => (
     <Section title={t("product.accessories")} step={step++}>
+      {/* Cada accesorio con panel (texto/selección) lo muestra JUSTO debajo
+          de su propia fila de botones — no al final de la sección. */}
       <div className="grid grid-cols-2 gap-2">
         <button onClick={() => setAddNote((v) => !v)}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
@@ -549,6 +551,12 @@ const ProductDetailClient = ({
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addButterfly ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           <img src={butterflyImg} alt="Butterfly accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
         </button>
+      </div>
+      {addNote && (
+        <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
+          className="w-full mt-2 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
+      )}
+      <div className="grid grid-cols-2 gap-2 mt-2">
         <button onClick={() => setAddTeddy((v) => !v)}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addTeddy ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           {(() => {
@@ -569,20 +577,9 @@ const ProductDetailClient = ({
           })()}
           {t("product.heliumBalloons")} <span className="text-[10px] text-secondary">{t("product.balloonUnitPrice")}</span>
         </button>
-        <button onClick={() => setAddLetters((v) => !v)}
-          className={`col-span-2 flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          {accImages?.letters.featured
-            ? <img src={accImages.letters.featured} alt="Baby breath letters accessory" loading="lazy" width={64} height={64} className="w-16 h-16 md:w-12 md:h-12 object-contain" />
-            : <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-3xl md:text-2xl font-display font-semibold tracking-widest" aria-hidden>A·1</span>}
-          {t("product.babyBreathLetters")} <span className="text-[10px] text-secondary">{t("product.babyBreathUnitPrice")}</span>
-        </button>
       </div>
-      {addNote && (
-        <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
-          className="w-full mt-3 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
-      )}
       {addTeddy && (
-        <div className="mt-3 p-3 rounded-lg border border-border bg-card space-y-3">
+        <div className="mt-2 p-3 rounded-lg border border-border bg-card space-y-3">
           <div>
             <p className="font-body text-xs font-semibold text-muted-foreground mb-2">🧸 {t("product.teddyBear")} — {t("product.sizeLabel")}</p>
             <div className="flex flex-wrap gap-2">
@@ -612,36 +609,8 @@ const ProductDetailClient = ({
           </div>
         </div>
       )}
-      {addLetters && (
-        <div className="mt-3 p-3 rounded-lg border border-border bg-card space-y-2">
-          <p className="font-body text-xs text-muted-foreground">{t("product.babyBreathDesc")}</p>
-          <input
-            type="text"
-            value={lettersText}
-            onChange={(e) => {
-              const cleaned = e.target.value.toUpperCase().replace(/[^A-ZÀ-Ÿ0-9 ]/g, "");
-              let out = "";
-              let count = 0;
-              for (const ch of cleaned) {
-                if (ch !== " ") {
-                  if (count >= BABY_BREATH_MAX_CHARS) break;
-                  count++;
-                }
-                out += ch;
-              }
-              setLettersText(out);
-            }}
-            placeholder={t("product.babyBreathPlaceholder")}
-            className="w-full bg-background border border-border rounded-lg px-3 py-2.5 font-body text-base tracking-[0.3em] uppercase text-foreground placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-          />
-          <div className="flex items-center justify-between">
-            <p className="font-body text-xs text-muted-foreground">{lettersCount}/{BABY_BREATH_MAX_CHARS} {t("product.babyBreathCharacters")}</p>
-            <p className="font-body text-sm font-semibold text-primary">${lettersCost}</p>
-          </div>
-        </div>
-      )}
       {addBalloons && (
-        <div className="mt-3 p-3 rounded-lg border border-border bg-card space-y-3">
+        <div className="mt-2 p-3 rounded-lg border border-border bg-card space-y-3">
           <div>
             <p className="font-body text-xs font-semibold text-muted-foreground mb-2">🎈 {t("product.heliumBalloons")} — {t("product.colorLabel")}</p>
             <div className="flex flex-wrap gap-2">
@@ -666,6 +635,43 @@ const ProductDetailClient = ({
                 className="w-8 h-8 rounded-lg border-2 border-border font-body text-base text-foreground hover:border-primary/30 transition-all">+</button>
               <span className="font-body text-sm font-semibold text-primary">${balloonCost.toFixed(2)}</span>
             </div>
+          </div>
+        </div>
+      )}
+      <div className="mt-2">
+        <button onClick={() => setAddLetters((v) => !v)}
+          className={`w-full flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          {accImages?.letters.featured
+            ? <img src={accImages.letters.featured} alt="Baby breath letters accessory" loading="lazy" width={64} height={64} className="w-16 h-16 md:w-12 md:h-12 object-contain" />
+            : <span className="w-16 h-16 md:w-12 md:h-12 flex items-center justify-center text-3xl md:text-2xl font-display font-semibold tracking-widest" aria-hidden>A·1</span>}
+          {t("product.babyBreathLetters")} <span className="text-[10px] text-secondary">{t("product.babyBreathUnitPrice")}</span>
+        </button>
+      </div>
+      {addLetters && (
+        <div className="mt-2 p-3 rounded-lg border border-border bg-card space-y-2">
+          <p className="font-body text-xs text-muted-foreground">{t("product.babyBreathDesc")}</p>
+          <input
+            type="text"
+            value={lettersText}
+            onChange={(e) => {
+              const cleaned = e.target.value.toUpperCase().replace(/[^A-ZÀ-Ÿ0-9 ]/g, "");
+              let out = "";
+              let count = 0;
+              for (const ch of cleaned) {
+                if (ch !== " ") {
+                  if (count >= BABY_BREATH_MAX_CHARS) break;
+                  count++;
+                }
+                out += ch;
+              }
+              setLettersText(out);
+            }}
+            placeholder={t("product.babyBreathPlaceholder")}
+            className="w-full bg-background border border-border rounded-lg px-3 py-2.5 font-body text-base tracking-[0.3em] uppercase text-foreground placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+          />
+          <div className="flex items-center justify-between">
+            <p className="font-body text-xs text-muted-foreground">{lettersCount}/{BABY_BREATH_MAX_CHARS} {t("product.babyBreathCharacters")}</p>
+            <p className="font-body text-sm font-semibold text-primary">${lettersCost}</p>
           </div>
         </div>
       )}

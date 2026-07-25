@@ -339,8 +339,16 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
         aria-hidden="true"
         onClick={() => setOpen(false)}
       />
+      {/* Wrapper fijo con overflow-hidden: recorta el aside cuando está
+          deslizado fuera (translate-x-full). Sin él, el panel off-canvas
+          sigue ocupando área de scroll y en móvil la página entera se puede
+          arrastrar hacia los lados (position:fixed escapa del overflow del
+          root, así que el clip global de globals.css no basta aquí). */}
+      {/* pointer-events-none SIEMPRE: los clics fuera del aside atraviesan
+          hasta el overlay (z-60), que es quien cierra el carrito. */}
+      <div className="pointer-events-none fixed inset-0 z-[61] overflow-hidden" aria-hidden={!isOpen}>
       <aside
-        className={`fixed top-0 bottom-0 right-0 z-[61] w-[85vw] max-w-md bg-background border-l border-border shadow-xl transition-transform duration-300 flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`pointer-events-auto absolute top-0 bottom-0 right-0 w-[85vw] max-w-md bg-background border-l border-border shadow-xl transition-transform duration-300 flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"}`}
         role="dialog"
         aria-modal={isOpen}
         aria-label={t("floatingCart.yourCart")}
@@ -556,6 +564,7 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
           </div>
         )}
       </aside>
+      </div>
     </>
   );
 };

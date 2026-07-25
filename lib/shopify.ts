@@ -125,7 +125,7 @@ const PRODUCT_SUMMARY_BY_HANDLE_QUERY = `
  */
 export async function fetchProductSummary(handle: string): Promise<ShopifyProductSummary | null> {
   try {
-    const data = await storefrontApiRequest(PRODUCT_SUMMARY_BY_HANDLE_QUERY, { handle }, { revalidate: 3600 });
+    const data = await storefrontApiRequest(PRODUCT_SUMMARY_BY_HANDLE_QUERY, { handle }, { revalidate: 300 });
     const p = data?.data?.product;
     if (!p) return null;
     return {

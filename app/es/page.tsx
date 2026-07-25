@@ -4,7 +4,7 @@ import HomeView, { homeMetadata } from "@/views/home";
 export const metadata: Metadata = homeMetadata("es");
 
 /** Every hour, refresh live Shopify data (color card images). */
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export default function HomeEs() {
   return <HomeView language="es" />;

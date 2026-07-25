@@ -76,8 +76,16 @@ export default async function HomeView({ language }: { language: Language }) {
         // bicolor also "matches" red, but shouldn't represent the red card).
         const rep =
           products.find((p) => colorCollectionForProduct(p)?.color === c.color) || products[0];
-        const live = await fetchProductSummary(rep.shopifyHandle);
-        const rawImage = live?.featuredImage?.url || rep.image;
+        // The rep's Shopify photo can be momentarily missing (mid-edit in the
+        // admin) — walk the collection until SOME product yields an image so
+        // the card never renders with an empty src.
+        let rawImage = "";
+        for (const candidate of [rep, ...products.filter((p) => p !== rep)]) {
+          const live = await fetchProductSummary(candidate.shopifyHandle);
+          if (live?.featuredImage?.url) { rawImage = live.featuredImage.url; break; }
+        }
+        if (!rawImage) rawImage = rep.image;
+        if (!rawImage) return null;
         return {
           color: c.color,
           // Native ES slug on /es (not just a prefix) — same as the SPA.

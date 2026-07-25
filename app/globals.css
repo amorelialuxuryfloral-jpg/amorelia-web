@@ -93,6 +93,16 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 
+  /* Los paneles off-canvas (carrito con translate-x-full, widgets fijos como
+     el badge de Google) extienden el área de scroll horizontal y en móvil
+     dejan la página entera deslizable hacia los lados. `clip` corta ese
+     desborde a nivel de documento sin crear un scroll container (sticky y
+     los carruseles internos con overflow-x-auto siguen funcionando). */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
