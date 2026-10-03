@@ -105,6 +105,13 @@ const CheckoutClient = ({ language = "en" }: { language?: Language }) => {
   const canCheckout = !needsAddress || deliveryResult !== null;
 
   const handleCheckout = async () => {
+    // Cinturón además del botón deshabilitado (canCheckout): un pedido de
+    // delivery jamás se envía a Shopify sin dirección con distancia calculada.
+    if (checkoutDeliveryMethod === "delivery" && !deliveryResult && !fedexAttrs) {
+      toast.error("Please select a delivery address before completing your order.");
+      return;
+    }
+
     // GA4: begin_checkout event
     (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'begin_checkout', {
       currency: 'USD',

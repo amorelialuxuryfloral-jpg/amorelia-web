@@ -143,6 +143,22 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
   const handleCheckout = async () => {
     if (items.length === 0) return;
 
+    // La dirección de entrega se pone SIEMPRE en la ficha de producto (ahí se
+    // mide la distancia y se cobra el envío por millas). Ningún pedido de
+    // delivery puede pasar al checkout sin dirección válida — si pasara,
+    // Shopify lo cobraría con envío gratis.
+    const deliverySinDireccion = items.find(
+      (i) =>
+        i.deliveryMethod === "delivery" &&
+        (!i.deliveryAddress ||
+          i.deliveryAddress === "Store pickup" ||
+          (i.deliveryMiles === null && !i.fedexServiceCode)),
+    );
+    if (deliverySinDireccion) {
+      toast.error("Please select a delivery address for your bouquet on the product page before checkout.");
+      return;
+    }
+
     setIsCheckingOut(true);
     try {
       const itemWithDate = items.find((i) => i.deliveryDate);
