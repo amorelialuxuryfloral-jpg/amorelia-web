@@ -151,7 +151,7 @@ const DeliveryCalculator = ({ onResult, onTooFar }: Props) => {
         Delivery address
       </p>
 
-      <div ref={autocompleteRef} className="relative">
+      <div ref={autocompleteRef} className="relative notranslate" translate="no">
         <label className="text-xs text-muted-foreground font-body block mb-1">
           <MapPin className="w-3 h-3 inline mr-1" />
           Address <span className="text-destructive">*</span>
@@ -193,7 +193,7 @@ const DeliveryCalculator = ({ onResult, onTooFar }: Props) => {
       {selectedAddress && (
         <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
           <p className="font-body text-xs text-muted-foreground">Selected address:</p>
-          <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+          <p className="font-body text-sm text-foreground font-medium notranslate" translate="no">{selectedAddress}</p>
         </div>
       )}
 

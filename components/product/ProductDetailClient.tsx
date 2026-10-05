@@ -752,7 +752,7 @@ const ProductDetailClient = ({
         ) : (
           <>
             <p className="font-body font-semibold text-foreground text-sm">{t("product.deliveryAddress")}</p>
-            <div ref={autocompleteRef} className="relative">
+            <div ref={autocompleteRef} className="relative notranslate" translate="no">
               <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />{t("product.addressLabel")} <span className="text-destructive">*</span></label>
               <div className="relative">
                 <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
@@ -776,7 +776,7 @@ const ProductDetailClient = ({
             {selectedAddress && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                 <p className="font-body text-xs text-muted-foreground">{t("product.selectedAddress")}</p>
-                <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                <p className="font-body text-sm text-foreground font-medium notranslate" translate="no">{selectedAddress}</p>
               </div>
             )}
             {distanceError && !distanceTooFar && (

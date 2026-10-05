@@ -24,6 +24,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         input,
         includedRegionCodes: ["us"],
+        languageCode: "en",
         // Ranking bias only (capped at 50 km by the API); farther addresses still appear.
         locationBias: {
           circle: { center: { latitude: 25.7617, longitude: -80.1918 }, radius: 50000 },

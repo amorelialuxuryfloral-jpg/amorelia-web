@@ -428,7 +428,7 @@ const RoomDecorDetailClient = ({ pkg, resolvedDescription, language = "en" }: Pr
                   <p className="font-body text-xs text-muted-foreground mb-2">
                     {language === "es" ? "🎁 Envío gratis hasta 10 millas · $1.60/milla después" : "🎁 Free delivery within 10 miles · $1.60/mile after"}
                   </p>
-                  <div ref={autocompleteDesktopRef} className="relative">
+                  <div ref={autocompleteDesktopRef} className="relative notranslate" translate="no">
                     <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                     <div className="relative">
                       <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
@@ -452,7 +452,7 @@ const RoomDecorDetailClient = ({ pkg, resolvedDescription, language = "en" }: Pr
                   {selectedAddress && (
                     <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                       <p className="font-body text-xs text-muted-foreground">{language === "es" ? "Dirección seleccionada:" : "Selected address:"}</p>
-                      <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                      <p className="font-body text-sm text-foreground font-medium notranslate" translate="no">{selectedAddress}</p>
                     </div>
                   )}
                   {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
@@ -682,7 +682,7 @@ const RoomDecorDetailClient = ({ pkg, resolvedDescription, language = "en" }: Pr
                 <p className="font-body text-xs text-muted-foreground mb-2">
                   {language === "es" ? "🎁 Envío gratis hasta 10 millas · $1.60/milla después" : "🎁 Free delivery within 10 miles · $1.60/mile after"}
                 </p>
-                <div ref={autocompleteMobileRef} className="relative">
+                <div ref={autocompleteMobileRef} className="relative notranslate" translate="no">
                   <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                   <div className="relative">
                     <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
@@ -706,7 +706,7 @@ const RoomDecorDetailClient = ({ pkg, resolvedDescription, language = "en" }: Pr
                 {selectedAddress && (
                   <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                     <p className="font-body text-xs text-muted-foreground">{language === "es" ? "Dirección seleccionada:" : "Selected address:"}</p>
-                    <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                    <p className="font-body text-sm text-foreground font-medium notranslate" translate="no">{selectedAddress}</p>
                   </div>
                 )}
                 {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
