@@ -25,6 +25,29 @@ import type { Language } from "@/i18n";
  * The heavy tracking libraries are injected by the deferred loader below,
  * which always runs after this inline script.
  */
+/**
+ * Browser auto-translation (Chrome/Google Translate) wraps text nodes in
+ * <font> tags behind React's back; the next re-render then throws
+ * "removeChild … not a child" and Next shows "This page couldn't load"
+ * (e.g. on clicking Home delivery with the page translated). Make the two
+ * DOM methods React uses tolerant of nodes the translator already moved
+ * (react issue #11538). Must run before hydration.
+ */
+const translateGuardScript = `
+if (typeof Node === 'function' && Node.prototype) {
+  var _rc = Node.prototype.removeChild;
+  Node.prototype.removeChild = function (child) {
+    if (child.parentNode !== this) return child;
+    return _rc.apply(this, arguments);
+  };
+  var _ib = Node.prototype.insertBefore;
+  Node.prototype.insertBefore = function (newNode, ref) {
+    if (ref && ref.parentNode !== this) return newNode;
+    return _ib.apply(this, arguments);
+  };
+}
+`;
+
 const consentModeScript = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -143,6 +166,7 @@ export default function RootDocument({
   return (
     <html lang={language} className={fontClassNames()}>
       <body className="min-h-screen bg-background text-foreground">
+        <script dangerouslySetInnerHTML={{ __html: translateGuardScript }} />
         {/* Consent Mode defaults must execute before any Google library. */}
         <script dangerouslySetInnerHTML={{ __html: consentModeScript }} />
 
