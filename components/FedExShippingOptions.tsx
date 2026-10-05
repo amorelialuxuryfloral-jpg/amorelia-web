@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/serverFunctions";
 import { Loader2, Plane, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getTranslator, type Language } from "@/i18n";
@@ -99,7 +99,7 @@ const FedExShippingOptions = ({
       setSelectedCode("");
       onClear();
       try {
-        const { data, error: invokeError } = await supabase.functions.invoke(
+        const { data, error: invokeError } = await invokeFunction(
           "calculate-fedex-shipping",
           {
             body: {

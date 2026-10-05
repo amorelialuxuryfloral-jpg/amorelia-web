@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { getNotePrice, getButterflyPrice } from "@/lib/shopifyAccessoryPrices";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/serverFunctions";
 import type { Language } from "@/i18n";
 
 const glitterRoseImg = "/assets/glitter-rose.webp";
@@ -318,7 +318,7 @@ const CartItemUpsells = ({ item, language = "en" }: Props) => {
     if (isFedex && item.structuredAddress && item.deliveryDate) {
       setUpgradeLoading(true);
       try {
-        const { data, error: invokeError } = await supabase.functions.invoke(
+        const { data, error: invokeError } = await invokeFunction(
           "calculate-fedex-shipping",
           {
             body: {

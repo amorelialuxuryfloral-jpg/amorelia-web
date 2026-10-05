@@ -6,6 +6,7 @@ import { format, isBefore, startOfDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/serverFunctions";
 import { getTranslator, type Language } from "@/i18n";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -127,7 +128,7 @@ const BouquetBuilderClient = ({ language = "en" }: { language?: Language }) => {
     }
     setAutocompleteLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("places-autocomplete", {
+      const { data, error } = await invokeFunction("places-autocomplete", {
         body: { input },
       });
       if (!error && data?.predictions) {
@@ -183,7 +184,7 @@ const BouquetBuilderClient = ({ language = "en" }: { language?: Language }) => {
         setFedexAttrs(null);
         setFedexCost(0);
         try {
-          const { data, error } = await supabase.functions.invoke("calculate-distance", {
+          const { data, error } = await invokeFunction("calculate-distance", {
             body: { fullAddress: prediction.description, placeId: prediction.placeId },
           });
           if (error) throw new Error("Connection error");

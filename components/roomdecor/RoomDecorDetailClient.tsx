@@ -5,7 +5,7 @@ import Link from "next/link";
 import { format, isBefore, startOfDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/serverFunctions";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import PaymentIcons from "@/components/PaymentIcons";
@@ -119,7 +119,7 @@ const RoomDecorDetailClient = ({ pkg, resolvedDescription, language = "en" }: Pr
     if (input.length < 3) { setPredictions([]); return; }
     setAutocompleteLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
+      const { data, error } = await invokeFunction("places-autocomplete", { body: { input } });
       if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
     } catch {} finally { setAutocompleteLoading(false); }
   }, []);
@@ -139,7 +139,7 @@ const RoomDecorDetailClient = ({ pkg, resolvedDescription, language = "en" }: Pr
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
-        const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
+        const { data, error } = await invokeFunction("calculate-distance", { body: { fullAddress: prediction.description } });
         if (error) throw new Error("Connection error");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else {

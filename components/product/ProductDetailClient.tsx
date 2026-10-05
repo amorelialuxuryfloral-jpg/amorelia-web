@@ -5,7 +5,7 @@ import Link from "next/link";
 import { format, isBefore, startOfDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/serverFunctions";
 import { useCartStore } from "@/stores/cartStore";
 import { findVariantByRoses, buildShopifySizeOptions, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
@@ -243,7 +243,7 @@ const ProductDetailClient = ({
     if (input.length < 3) { setPredictions([]); return; }
     setAutocompleteLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
+      const { data, error } = await invokeFunction("places-autocomplete", { body: { input } });
       if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
     } catch (e) { console.error("Predictions error:", e); } finally { setAutocompleteLoading(false); }
   }, []);
@@ -266,7 +266,7 @@ const ProductDetailClient = ({
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
-        const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
+        const { data, error } = await invokeFunction("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
         if (error) throw new Error("Error de conexión");
         if (data.error) {
           if (data.tooFar) {

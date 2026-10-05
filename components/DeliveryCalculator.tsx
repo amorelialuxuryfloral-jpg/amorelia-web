@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/serverFunctions";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { MapPin, Search, Loader2, Truck, AlertTriangle } from "lucide-react";
 
@@ -69,7 +69,7 @@ const DeliveryCalculator = ({ onResult, onTooFar }: Props) => {
     if (input.length < 3) { setPredictions([]); return; }
     setAutocompleteLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("places-autocomplete", {
+      const { data, error } = await invokeFunction("places-autocomplete", {
         body: { input },
       });
       if (!error && data?.predictions) {
@@ -104,7 +104,7 @@ const DeliveryCalculator = ({ onResult, onTooFar }: Props) => {
     setDeliveryMiles(null);
     onResult(null);
     try {
-      const { data, error } = await supabase.functions.invoke("calculate-distance", {
+      const { data, error } = await invokeFunction("calculate-distance", {
         body: { fullAddress: prediction.description, placeId: prediction.placeId },
       });
       if (error) {
