@@ -124,7 +124,9 @@ const FedExShippingOptions = ({
         } else if (Array.isArray(data?.options) && data.options.length > 0) {
           setOptions(data.options as FedExOption[]);
         } else {
-          setError(t("fedex.noOptions"));
+          // FedEx Overnight / Home Delivery don't deliver on weekends.
+          const dow = new Date(`${deliveryDate}T12:00:00`).getDay();
+          setError(t(dow === 0 || dow === 6 ? "fedex.noWeekendDelivery" : "fedex.noOptions"));
         }
       } catch {
         if (!cancelled) setError(t("fedex.errorConnection"));

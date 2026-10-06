@@ -567,6 +567,7 @@ export const es = {
     loadingRates: "Consultando tarifas FedEx...",
     errorGeneric: "No pudimos calcular el envío FedEx. Intenta de nuevo.",
     errorConnection: "Error de conexión con FedEx. Intenta de nuevo.",
+    noWeekendDelivery: "FedEx no entrega en fin de semana. Elige una fecha de entrega de lunes a viernes.",
     noOptions: "Sin opciones de envío FedEx disponibles para esta dirección.",
     missingAddress: "No pudimos leer la dirección completa (ZIP / estado). Selecciona la dirección de nuevo desde la lista de sugerencias.",
     needDate: "Selecciona primero la fecha de entrega para ver tarifas FedEx.",
