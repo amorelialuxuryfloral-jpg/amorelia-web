@@ -36,7 +36,7 @@ function pickBox(roses: number) {
 const SERVICE_LABELS: Record<string, string> = {
   STANDARD_OVERNIGHT: "Standard Overnight",
   PRIORITY_OVERNIGHT: "Priority Overnight",
-  GROUND_HOME_DELIVERY: "Ground Home Delivery",
+  GROUND_HOME_DELIVERY: "Home Delivery",
 };
 
 // Only these 3 services are offered to the customer.

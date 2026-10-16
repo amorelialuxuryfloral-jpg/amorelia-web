@@ -176,7 +176,7 @@ const CartDrawer = ({ language = "en" }: { language?: Language }) => {
         FEDEX_2_DAY_AM: "FedEx 2Day AM",
         FEDEX_2_DAY: "FedEx 2Day",
         FEDEX_EXPRESS_SAVER: "FedEx Express Saver",
-        GROUND_HOME_DELIVERY: "FedEx Ground Home Delivery",
+        GROUND_HOME_DELIVERY: "FedEx Home Delivery",
         FEDEX_GROUND: "FedEx Ground",
       };
       const fedexServiceName = fedexItem?.fedexServiceCode
