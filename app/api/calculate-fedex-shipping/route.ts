@@ -191,6 +191,9 @@ export async function POST(req: Request) {
     async function fetchRates(shipDateStamp: string): Promise<FedExRate[]> {
       const ratePayload = {
         accountNumber: { value: accountNumber },
+        // Must sit at the top level: nested inside requestedShipment FedEx
+        // ignores it and returns no delivery dates, which hid Home Delivery.
+        rateRequestControlParameters: { returnTransitTimes: true },
         requestedShipment: {
           shipper: { address: ORIGIN },
           recipient: {
@@ -206,7 +209,6 @@ export async function POST(req: Request) {
           shipDateStamp,
           pickupType: "USE_SCHEDULED_PICKUP",
           rateRequestType: ["ACCOUNT", "LIST"],
-          rateRequestControlParameters: { returnTransitTimes: true },
           requestedPackageLineItems: [
             {
               weight: { units: "LB", value: box.weight },
