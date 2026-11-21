@@ -205,9 +205,9 @@ export const en = {
     title: "Flower Delivery Areas, Times & Pricing in Miami",
     orderBefore: "Order before 3PM for same-day delivery today",
     homeDelivery: "Home Delivery",
-    flatRate: "0–5 miles: $25 flat rate",
-    perMile: "5–90 miles: $25 + $1.60 per additional mile",
-    example: "Example: 10-mile delivery = $25 + (5 × $1.60) = $33",
+    flatRate: "0–10 miles: $30 flat rate",
+    perMile: "10–90 miles: $30 + $1.60 per additional mile",
+    example: "Example: 20-mile delivery = $30 + (10 × $1.60) = $46",
     minPrep: "Minimum 2 hours preparation time",
     freePickup: "Free In-Store Pickup",
     ready: "Ready 2 hours after placing your order",
@@ -764,7 +764,7 @@ export const en = {
     },
     delivery: {
       title: "Flower Delivery Areas, Times & Pricing in Miami | Amorelia Luxury Floral Gifts",
-      description: "Where, when and how much: Miami delivery areas up to 90 miles, $25 flat rate for 0-5 miles, $1.60/mile after, 3PM same-day cutoff, free pickup and FedEx nationwide.",
+      description: "Where, when and how much: Miami delivery areas up to 90 miles, $30 flat rate for 0-10 miles, $1.60/mile after, 3PM same-day cutoff, free pickup and FedEx nationwide.",
     },
     faq: {
       title: "Frequently Asked Questions | Amorelia Luxury Floral Gifts Miami",

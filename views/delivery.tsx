@@ -34,8 +34,11 @@ export default function DeliveryView({ language }: { language: Language }) {
   const isEs = language === "es";
   const l = (path: string) => localizePath(path, language);
   const base = isEs ? "https://amorelialuxuryfloral.com/es" : "https://amorelialuxuryfloral.com";
-  const sameDayPath = isEs ? "/es/collections/entrega-el-mismo-dia" : "/collections/same-day-delivery";
-  const citiesPath = isEs ? "/es/envio-de-flores" : "/flower-delivery";
+  // The same-day collection and the cities hub were removed in the Amorelia
+  // rebuild (they 404'd) → every bouquet ships same-day, and the shipping
+  // policy covers nationwide FedEx.
+  const sameDayPath = l("/bouquets");
+  const citiesPath = l("/shipping-policy");
 
   return (
     <div className="min-h-screen bg-background">
@@ -135,18 +138,19 @@ export default function DeliveryView({ language }: { language: Language }) {
             </h2>
             <p className="font-body text-sm text-muted-foreground mb-4">
               {isEs
-                ? "Entregamos en todo Miami-Dade hasta 90 millas. Estas son las zonas con página propia de entrega:"
-                : "We deliver across Miami-Dade up to 90 miles. These are the delivery areas with their own page:"}
+                ? "Entregamos en todo Miami-Dade hasta 90 millas, incluyendo:"
+                : "We deliver across Miami-Dade up to 90 miles, including:"}
             </p>
             <div className="flex flex-wrap gap-2">
+              {/* Plain labels, not links: the barrio pages were removed in the
+                  Amorelia rebuild (they 404'd). */}
               {BARRIO_LINKS.map((b) => (
-                <Link
+                <span
                   key={b.slug}
-                  href={`/${b.slug}`}
-                  className="px-4 py-2 rounded-full bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground font-body text-xs md:text-sm transition-all"
+                  className="px-4 py-2 rounded-full bg-muted text-muted-foreground font-body text-xs md:text-sm"
                 >
                   {b.label.replace(/^Flower Delivery /, "")}
-                </Link>
+                </span>
               ))}
               <Link
                 href={isEs ? "/es" : "/"}
@@ -168,7 +172,7 @@ export default function DeliveryView({ language }: { language: Language }) {
                 : "Beyond 90 miles your roses travel overnight in our insulated luxury box with cold packs, anywhere in the US. Real FedEx rates are calculated live at checkout."}
             </p>
             <Link href={citiesPath} className="font-body text-sm text-primary hover:underline">
-              {isEs ? "Ver las 35 ciudades a las que enviamos →" : "See all 35 cities we ship to →"}
+              {isEs ? "Ver nuestra política de envíos →" : "See our shipping policy →"}
             </Link>
           </div>
 

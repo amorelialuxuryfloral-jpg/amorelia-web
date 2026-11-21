@@ -278,7 +278,9 @@ export default async function HomeView({ language }: { language: Language }) {
           <p className="text-muted-foreground font-body max-w-lg md:mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
           <div className="mt-6">
             {/* Transactional same-day page (SPEC §4 — 90.5k, linked from home). */}
-            <Link href={isEs ? "/es/collections/entrega-el-mismo-dia" : "/collections/same-day-delivery"}
+            {/* The /collections/same-day-delivery page was removed in the
+                Amorelia rebuild → point to the live delivery page. */}
+            <Link href={l("/delivery")}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
               {t("nav.sameDayDelivery")} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -422,14 +424,16 @@ export default async function HomeView({ language }: { language: Language }) {
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto mb-10">
+            {/* Plain labels, not links: the barrio landing pages were removed
+                in the Amorelia rebuild (they 404'd). Restore <Link> once the
+                pages exist again. */}
             {neighborhoods.map((n) => (
-              <Link
+              <span
                 key={n.href}
-                href={n.href}
-                className="px-4 py-2 rounded-full bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground font-body text-xs md:text-sm transition-all"
+                className="px-4 py-2 rounded-full bg-muted text-muted-foreground font-body text-xs md:text-sm"
               >
                 {n.label}
-              </Link>
+              </span>
             ))}
           </div>
           <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-lg">

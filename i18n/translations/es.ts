@@ -197,9 +197,9 @@ export const es = {
     title: "Zonas, Horarios y Tarifas de Entrega de Flores en Miami",
     orderBefore: "Pide antes de las 3PM para envío hoy mismo",
     homeDelivery: "Envío a Domicilio",
-    flatRate: "0–5 millas: $25 tarifa fija",
-    perMile: "5–90 millas: $25 + $1.60 por milla adicional",
-    example: "Ejemplo: envío de 10 millas = $25 + (5 × $1.60) = $33",
+    flatRate: "0–10 millas: $30 tarifa fija",
+    perMile: "10–90 millas: $30 + $1.60 por milla adicional",
+    example: "Ejemplo: envío de 20 millas = $30 + (10 × $1.60) = $46",
     minPrep: "Tiempo mínimo de preparación: 2 horas",
     freePickup: "Recogida Gratis en Tienda",
     ready: "Listo 2 horas después de realizar tu pedido",
@@ -734,7 +734,7 @@ export const es = {
     },
     delivery: {
       title: "Zonas, Horarios y Tarifas — Flores a Domicilio en Miami | Amorelia Luxury Floral Gifts",
-      description: "Dónde, cuándo y cuánto: flores a domicilio en Miami hasta 90 millas, tarifa de $25 (0-5 millas) y $1.60/milla después, corte de las 3PM, recogida gratis y envío FedEx nacional.",
+      description: "Dónde, cuándo y cuánto: flores a domicilio en Miami hasta 90 millas, tarifa de $30 (0-10 millas) y $1.60/milla después, corte de las 3PM, recogida gratis y envío FedEx nacional.",
     },
     faq: {
       title: "Preguntas Frecuentes | Amorelia Luxury Floral Gifts Miami",

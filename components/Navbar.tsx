@@ -9,9 +9,6 @@ import { Menu, X, ChevronDown, Search as SearchIcon, Globe, ShoppingCart } from 
 import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle, slugEsForHandle, h1ForHandle, h1EsForHandle } from "@/lib/bouquetSlugs";
 import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
-import { roomDecorPackages } from "@/lib/roomDecorData";
-import { occasionPages, occasionsByTier } from "@/lib/occasionPagesData";
-import { flowerTypePages } from "@/lib/flowerTypePagesData";
 import { getTranslator, localizePath, stripLangPrefix, type Language } from "@/i18n";
 
 /**
@@ -96,11 +93,6 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
   const colorLinkTo = (slug: string, slugEs: string) =>
     language === "es" ? `/es/bouquets/${slugEs}` : `/bouquets/${slug}`;
 
-  // Occasion collection links use NATIVE ES slugs (different per language).
-  const occasionLinkTo = (slug: string, slugEs: string) =>
-    language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
-  const occasionsIndexPath = language === "es" ? "/es/collections/ocasiones" : "/collections/occasions";
-
   // Mega-menu grouped by intent. URLs are preserved (no SEO/301 changes).
   const bouquetGroups: Array<{
     title: string;
@@ -164,41 +156,9 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
       keywords: [h1ForHandle(p.shopifyHandle), h1EsForHandle(p.shopifyHandle), p.name, p.color],
       priority: 1,
     })),
-    // Room decor packages.
-    ...roomDecorPackages.map((p) => ({
-      label: p.name,
-      to: l(`/room-decors/${p.id}`),
-      keywords: ["room decor", "decoración", "romantic room"],
-      priority: 1,
-    })),
-    // Flower-type pages (ramo buchón, money bouquet, tulips, sunflowers…).
-    ...flowerTypePages.map((p) => ({
-      label: language === "es" ? p.h1.es : p.h1.en,
-      to: occasionLinkTo(p.slug, p.slugEs),
-      keywords: [p.keyword.en, p.keyword.es, ...(p.keyword2 ? [p.keyword2.en, p.keyword2.es] : []), p.slug.split("-").join(" ")],
-      priority: 2,
-    })),
-    // Occasion pages (birthday, anniversary, Valentine's, quinceañera…).
-    ...occasionPages.map((p) => ({
-      label: language === "es" ? p.h1.es : p.h1.en,
-      to: occasionLinkTo(p.slug, p.slugEs),
-      keywords: [p.keyword.en, p.keyword.es, ...(p.keyword2 ? [p.keyword2.en, p.keyword2.es] : [])],
-      priority: 2,
-    })),
-    // Occasion money pages outside /collections.
-    { label: t("nav.mothersDayBouquets"), to: l("/mothers-day"), keywords: ["mothers day", "día de las madres", "dia de las madres"], priority: 2 },
-    {
-      label: language === "es" ? "Flores para Funeral" : "Funeral & Sympathy Flowers",
-      to: language === "es" ? "/es/flores-funeral-miami" : "/funeral-sympathy-flowers-miami",
-      keywords: ["funeral flowers", "sympathy", "flores funeral", "condolencias"],
-      priority: 2,
-    },
-    {
-      label: language === "es" ? "Flores para Boda" : "Wedding Flowers",
-      to: "/wedding-flowers-miami",
-      keywords: ["wedding flowers", "flores para boda", "bridal"],
-      priority: 2,
-    },
+    // (Room decor, flower-type, occasion, Mother's Day, funeral and wedding
+    // entries removed: those pages were deleted in the Amorelia rebuild and
+    // every result 404'd.)
     // Utility pages.
     { label: t("nav.delivery"), to: l("/delivery"), keywords: ["delivery", "envío", "envio", "same day", "mismo día"], priority: 3 },
     { label: t("nav.contact"), to: l("/contact"), keywords: ["contact", "contacto"], priority: 3 },
