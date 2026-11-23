@@ -243,7 +243,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-9 min-[360px]:h-11 w-auto" width={111} height={40} />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-10 font-body text-[15px] font-medium tracking-widest uppercase text-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+        <div className="hidden lg:flex items-center gap-10 font-body text-[17px] font-medium tracking-widest uppercase text-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">
           {navLinks.map((link) => (
             link.hasDropdown ? (
               <div
