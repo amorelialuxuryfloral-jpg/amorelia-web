@@ -219,7 +219,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
       <AnnouncementBar language={language} />
     </div>
     <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between relative">
+      <div className="container mx-auto px-4 md:px-6 py-2 lg:py-1 flex items-center justify-between relative">
         {/* Left group: hamburger (mobile) + logo (desktop). Keeping the logo
             INSIDE this left flex item — instead of as a standalone sibling —
             is what pins it to the left: with justify-between there are then
@@ -235,12 +235,12 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
           <Link href={l("/")} onClick={handleLogoClick} className="hidden lg:flex items-center gap-2">
-            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={111} height={40} />
+            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-14 w-auto" width={111} height={40} />
           </Link>
         </div>
 
         <Link href={l("/")} onClick={handleLogoClick} className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
-          <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-10 w-auto" width={111} height={40} />
+          <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-9 min-[360px]:h-11 w-auto" width={111} height={40} />
         </Link>
 
         <div className="hidden lg:flex items-center gap-5 font-body text-xs tracking-widest uppercase text-muted-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">
@@ -299,15 +299,15 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-5">
           {/* Language toggle */}
           <button
             onClick={toggleLang}
             aria-label={t("nav.aria.changeLanguage")}
-            className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors font-body text-xs tracking-wider uppercase"
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors font-body text-sm tracking-wider uppercase"
             title={language === "en" ? "Cambiar a Español" : "Switch to English"}
           >
-            <Globe className="w-4 h-4" />
+            <Globe className="w-5 h-5 lg:w-6 lg:h-6" />
             <span className="hidden sm:inline">{language === "en" ? "ES" : "EN"}</span>
           </button>
 
@@ -318,7 +318,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             aria-expanded={searchOpen}
             className="text-foreground hover:text-primary transition-colors"
           >
-            <SearchIcon className="w-5 h-5" />
+            <SearchIcon className="w-6 h-6 lg:w-7 lg:h-7" />
           </button>
 
           <button
@@ -327,7 +327,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             aria-label={t("nav.aria.openCart")}
             className="relative hover:text-primary transition-colors text-foreground"
           >
-            <ShoppingCart className="w-6 h-6" />
+            <ShoppingCart className="w-7 h-7 lg:w-8 lg:h-8" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
                 {totalItems}
