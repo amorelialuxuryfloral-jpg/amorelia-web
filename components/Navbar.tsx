@@ -218,8 +218,8 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
     <div className="fixed top-0 left-0 right-0 z-[51]">
       <AnnouncementBar language={language} />
     </div>
-    <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 md:px-6 py-2 lg:py-1 flex items-center justify-between relative">
+    <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 lg:bg-background/95 backdrop-blur-md border-b border-border lg:shadow-sm">
+      <div className="container mx-auto px-4 md:px-6 py-2 lg:py-2.5 flex items-center justify-between relative">
         {/* Left group: hamburger (mobile) + logo (desktop). Keeping the logo
             INSIDE this left flex item — instead of as a standalone sibling —
             is what pins it to the left: with justify-between there are then
@@ -235,7 +235,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
           <Link href={l("/")} onClick={handleLogoClick} className="hidden lg:flex items-center gap-2">
-            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-14 w-auto" width={111} height={40} />
+            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami – Premium Handcrafted Bouquets" className="h-16 w-auto" width={111} height={40} />
           </Link>
         </div>
 
@@ -243,7 +243,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-9 min-[360px]:h-11 w-auto" width={111} height={40} />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-5 font-body text-xs tracking-widest uppercase text-muted-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+        <div className="hidden lg:flex items-center gap-10 font-body text-[15px] font-medium tracking-widest uppercase text-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">
           {navLinks.map((link) => (
             link.hasDropdown ? (
               <div
@@ -253,7 +253,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
                 onMouseLeave={scheduleCloseBouquetDropdown}
               >
                 <Link href={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1 uppercase">
-                  {link.label} <ChevronDown className="w-3 h-3" />
+                  {link.label} <ChevronDown className="w-4 h-4" />
                 </Link>
                 {/* Mega-menu — ALWAYS in the DOM (real <a> links in the HTML),
                     visibility toggled with CSS only. pt-2 keeps the panel
@@ -299,15 +299,15 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 lg:gap-5">
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-7">
           {/* Language toggle */}
           <button
             onClick={toggleLang}
             aria-label={t("nav.aria.changeLanguage")}
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors font-body text-sm tracking-wider uppercase"
+            className="flex items-center gap-1.5 text-muted-foreground lg:text-foreground hover:text-primary transition-colors font-body text-sm lg:text-base lg:font-medium tracking-wider uppercase"
             title={language === "en" ? "Cambiar a Español" : "Switch to English"}
           >
-            <Globe className="w-5 h-5 lg:w-6 lg:h-6" />
+            <Globe className="w-5 h-5 lg:w-7 lg:h-7" />
             <span className="hidden sm:inline">{language === "en" ? "ES" : "EN"}</span>
           </button>
 

@@ -854,7 +854,7 @@ const ProductDetailClient = ({
       {/* ===== DESKTOP: two-column layout ===== */}
       <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-10 lg:gap-16 max-w-7xl mx-auto">
         {/* Left column — sticky gallery (thumbnails + main + bottom big) */}
-        <div className="sticky top-28 self-start space-y-3 min-w-0">
+        <div className="sticky top-28 lg:top-36 self-start space-y-3 min-w-0">
           <div className="flex gap-3 min-w-0">
             {/* Vertical thumbnails column */}
             {desktopThumbs.length > 0 && (

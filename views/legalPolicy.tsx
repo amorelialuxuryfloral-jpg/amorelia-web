@@ -59,7 +59,7 @@ export async function ShopifyPolicyView({
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="pt-24 pb-16">
+      <div className="pt-24 lg:pt-32 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
           <h1 className="font-title-retro text-4xl text-primary text-center mb-8">{title}</h1>
           <div className="font-body text-sm text-muted-foreground leading-relaxed">
@@ -101,7 +101,7 @@ export function CookiePolicyView({ language }: { language: Language }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="pt-24 pb-16">
+      <div className="pt-24 lg:pt-32 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
           <h1 className="font-title-retro text-4xl text-primary text-center mb-8">{t("legal.cookie.title")}</h1>
           <div className="font-body text-sm text-muted-foreground space-y-4 leading-relaxed">

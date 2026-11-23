@@ -19,7 +19,7 @@ const ProductReviewsSection = ({ language = "en" }: { language?: Language }) => 
   if (REVIEW_AGGREGATE.reviewCount === 0) return null; // Amorelia sin reseñas aún
   const isEs = language === "es";
   return (
-    <section id="reviews" className="mt-14 lg:mt-20 max-w-6xl mx-auto scroll-mt-28">
+    <section id="reviews" className="mt-14 lg:mt-20 max-w-6xl mx-auto scroll-mt-28 lg:scroll-mt-36">
       <div className="text-center mb-8">
         <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground mb-3">
           {isEs ? "Lo Que Dicen Nuestros Clientes" : "What Our Clients Say"}

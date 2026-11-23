@@ -274,7 +274,7 @@ const CheckoutClient = ({ language = "en" }: { language?: Language }) => {
   if (!mounted || items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
-        <div className="pt-32 pb-16 text-center">
+        <div className="pt-32 lg:pt-40 pb-16 text-center">
           <div className="max-w-md mx-auto px-6 animate-fade-up">
             <BrandLogo className="w-20 h-20 mx-auto mb-6" />
             <h2 className="font-display text-3xl font-semibold text-foreground mb-3">{t("checkout.emptyCart")}</h2>
@@ -294,7 +294,7 @@ const CheckoutClient = ({ language = "en" }: { language?: Language }) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="pt-24 pb-16">
+      <div className="pt-24 lg:pt-32 pb-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-10">
             <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">{t("checkout.checkout")}</p>
