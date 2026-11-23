@@ -219,7 +219,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
       <AnnouncementBar language={language} />
     </div>
     <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 lg:bg-background/95 backdrop-blur-md border-b border-border lg:shadow-sm">
-      <div className="container mx-auto px-4 md:px-6 py-2 lg:py-2.5 flex items-center justify-between relative">
+      <div className="container mx-auto px-4 md:px-6 py-2 lg:py-4 flex items-center justify-between relative">
         {/* Left group: hamburger (mobile) + logo (desktop). Keeping the logo
             INSIDE this left flex item — instead of as a standalone sibling —
             is what pins it to the left: with justify-between there are then

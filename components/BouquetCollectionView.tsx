@@ -227,7 +227,7 @@ const BouquetCollectionView = async ({
           heading,
         ),
       ]} />
-      <div className="pt-24 lg:pt-32 pb-16">
+      <div className="pt-24 lg:pt-36 pb-16">
         <div className="container mx-auto px-6">
           <Breadcrumbs items={crumbItems} />
 

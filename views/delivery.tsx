@@ -52,7 +52,7 @@ export default function DeliveryView({ language }: { language: Language }) {
           serviceSchema(),
         ]}
       />
-      <div className="pt-24 lg:pt-32 pb-16">
+      <div className="pt-24 lg:pt-36 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
           <Breadcrumbs items={[{ label: t("nav.home"), to: l("/") }, { label: t("nav.delivery") }]} />
           <h1 className="font-title-retro text-4xl md:text-5xl text-primary text-center mb-4">

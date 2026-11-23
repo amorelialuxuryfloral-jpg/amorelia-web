@@ -375,7 +375,7 @@ export default async function HomeView({ language }: { language: Language }) {
           all 5★ — CORRECCIONES punto 3). aggregateRating lives in the
           LocalBusiness schema node only (punto 29). */}
       {REVIEW_AGGREGATE.reviewCount > 0 && (
-      <section id="reviews" className="scroll-mt-28 lg:scroll-mt-36 py-16 md:py-20 bg-cream/40">
+      <section id="reviews" className="scroll-mt-28 lg:scroll-mt-40 py-16 md:py-20 bg-cream/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-10">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-3">

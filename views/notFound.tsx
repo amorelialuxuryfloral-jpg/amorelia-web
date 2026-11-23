@@ -12,7 +12,7 @@ export default function NotFoundView({ language }: { language: Language }) {
   const l = (path: string) => localizePath(path, language);
 
   return (
-    <main className="min-h-[70vh] flex items-center justify-center bg-background pt-32 lg:pt-40 pb-16">
+    <main className="min-h-[70vh] flex items-center justify-center bg-background pt-32 lg:pt-44 pb-16">
       <div className="container mx-auto px-6 text-center">
         <p className="font-subtitle-script text-primary text-2xl mb-2">{t("notFound.errorLabel")}</p>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">{t("notFound.title")}</h1>

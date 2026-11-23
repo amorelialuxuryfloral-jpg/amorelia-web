@@ -63,7 +63,7 @@ export default function SitemapPageView({ language }: { language: Language }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="pt-24 lg:pt-32 pb-16">
+      <div className="pt-24 lg:pt-36 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
           <h1 className="font-title-retro text-4xl text-primary text-center mb-10">{t("sitemap.title")}</h1>
           <div className="space-y-10">

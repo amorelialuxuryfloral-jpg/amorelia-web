@@ -227,7 +227,7 @@ export default async function BouquetSlugPage({ params }: { params: Promise<{ sl
           ]),
         ]}
       />
-      <div className="pt-20 md:pt-28 lg:pt-36 pb-10">
+      <div className="pt-20 md:pt-28 lg:pt-40 pb-10">
         <div className="container mx-auto px-6">
           <Breadcrumbs
             items={[
