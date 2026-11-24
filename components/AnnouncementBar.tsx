@@ -47,9 +47,20 @@ const AnnouncementBar = ({ language = "en" }: { language?: Language }) => {
       : "Next-day delivery - Order now";
   }, [language, mounted]);
 
+  const [lead, cta] = message.split(" - ");
+
   return (
-    <div className="bg-primary text-primary-foreground text-center py-1.5 font-body text-[11px] md:text-xs tracking-wider">
-      {message}
+    // Same 30px height on every screen (the fixed navbar sits at top-[30px]):
+    // on desktop the text is larger/bolder with a fixed line-height, and the
+    // call to action after " - " is highlighted in brand gold.
+    <div className="bg-primary text-primary-foreground text-center py-1.5 font-body text-[11px] md:text-xs lg:text-[15px] lg:leading-4 lg:font-semibold tracking-wider lg:tracking-[0.12em]">
+      {cta ? (
+        <>
+          {lead} - <span className="lg:text-gold">{cta}</span>
+        </>
+      ) : (
+        message
+      )}
     </div>
   );
 };
