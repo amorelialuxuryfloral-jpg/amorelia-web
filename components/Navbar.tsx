@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCartStore } from "@/stores/cartStore";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import { Menu, X, ChevronDown, Search as SearchIcon, Globe, ShoppingCart } from "lucide-react";
+import { Menu, X, ChevronDown, Search as SearchIcon, ShoppingCart } from "lucide-react";
+import LanguageFlag from "@/components/LanguageFlag";
 import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle, slugEsForHandle, h1ForHandle, h1EsForHandle } from "@/lib/bouquetSlugs";
 import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
@@ -307,7 +308,8 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             className="flex items-center gap-1.5 text-muted-foreground lg:text-primary hover:text-primary lg:hover:text-gold transition-colors font-body text-sm lg:text-lg lg:font-semibold tracking-wider uppercase"
             title={language === "en" ? "Cambiar a Español" : "Switch to English"}
           >
-            <Globe className="w-5 h-5 lg:w-8 lg:h-8" />
+            {/* Flag of the language you switch TO (matches the ES/EN label). */}
+            <LanguageFlag lang={language === "en" ? "es" : "en"} className="w-[20px] h-[13px] min-[360px]:w-[24px] min-[360px]:h-[16px] lg:w-[33px] lg:h-[22px]" />
             <span className="hidden sm:inline">{language === "en" ? "ES" : "EN"}</span>
           </button>
 
@@ -453,8 +455,8 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
               aria-label={t("nav.aria.changeLanguage")}
               className="flex items-center gap-2 hover:text-primary transition-colors py-2 mt-1"
             >
-              <Globe className="w-4 h-4" />
-              {language === "en" ? "English" : "Español"}
+              <LanguageFlag lang={language === "en" ? "es" : "en"} className="w-[24px] h-[16px]" />
+              {language === "en" ? "Español" : "English"}
             </button>
           </div>
         </div>
