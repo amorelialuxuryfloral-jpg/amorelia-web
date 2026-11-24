@@ -141,7 +141,7 @@ export default async function HomeView({ language }: { language: Language }) {
       <JsonLd data={faqSchema(homepageFaqs)} />
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] md:min-h-screen md:pt-[95px] lg:pt-[134px] flex items-end md:items-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-screen md:pt-[100px] lg:pt-[144px] md:pb-12 flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={FOTO_DE_PORTADA}
@@ -163,17 +163,17 @@ export default async function HomeView({ language }: { language: Language }) {
         </div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 pt-28 md:pt-0 pb-10 md:pb-0">
           <div className="max-w-xl">
-            <p className="font-subtitle-script text-primary-foreground/80 md:text-primary-foreground/70 text-xl md:text-2xl mb-2 md:mb-4">{t("home.heroSubtitle")}</p>
+            <p className="font-subtitle-script text-primary-foreground/80 md:text-primary-foreground/70 text-xl md:text-3xl mb-2 md:mb-4">{t("home.heroSubtitle")}</p>
             <h1 className="font-display text-[2.15rem] md:text-6xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
               {isEs ? t("home.heroTitle") : <>Luxury Rose Bouquets in Miami — Same-Day Delivery</>}
             </h1>
-            <p className="text-primary-foreground/90 md:text-primary-foreground/80 font-body text-base md:text-lg mb-5 md:mb-8 leading-relaxed">
+            <p className="text-primary-foreground/90 md:text-primary-foreground/80 font-body text-base md:text-xl mb-5 md:mb-8 leading-relaxed">
               {t("home.heroDescription")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link href={l("/bouquets")}
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-4 font-body text-base md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
-                {t("home.viewBouquets")} <ArrowRight className="w-5 h-5 md:w-4 md:h-4" />
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-10 py-4 md:py-5 font-body text-base tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+                {t("home.viewBouquets")} <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>
@@ -281,8 +281,8 @@ export default async function HomeView({ language }: { language: Language }) {
             {/* The /collections/same-day-delivery page was removed in the
                 Amorelia rebuild → point to the live delivery page. */}
             <Link href={l("/delivery")}
-              className="flex w-full md:inline-flex md:w-auto items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-4 md:py-3 font-body text-base md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
-              {t("nav.sameDayDelivery")} <ArrowRight className="w-5 h-5 md:w-4 md:h-4" />
+              className="flex w-full md:inline-flex md:w-auto items-center justify-center gap-2 bg-primary text-primary-foreground px-6 md:px-10 py-4 font-body text-base tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+              {t("nav.sameDayDelivery")} <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>

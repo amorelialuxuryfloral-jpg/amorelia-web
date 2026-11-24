@@ -218,7 +218,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
     <div className="fixed top-0 left-0 right-0 z-[51]">
       <AnnouncementBar language={language} />
     </div>
-    <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 lg:bg-background/95 backdrop-blur-md border-b border-border lg:shadow-sm">
+    <nav className="fixed top-[30px] left-0 right-0 z-50 bg-background/80 lg:bg-background/95 backdrop-blur-md border-b border-border lg:border-gold/40 lg:shadow-sm">
       <div className="container mx-auto px-4 md:px-6 py-2 lg:py-4 flex items-center justify-between relative">
         {/* Left group: hamburger (mobile) + logo (desktop). Keeping the logo
             INSIDE this left flex item — instead of as a standalone sibling —
@@ -243,7 +243,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts Miami" className="h-9 min-[360px]:h-11 w-auto" width={111} height={40} />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-10 font-body text-[17px] font-medium tracking-widest uppercase text-foreground lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+        <div className="hidden lg:flex items-center gap-10 font-body text-[17px] font-semibold tracking-widest uppercase text-primary lg:absolute lg:left-1/2 lg:-translate-x-1/2">
           {navLinks.map((link) => (
             link.hasDropdown ? (
               <div
@@ -252,7 +252,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
                 onMouseEnter={openBouquetDropdown}
                 onMouseLeave={scheduleCloseBouquetDropdown}
               >
-                <Link href={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1 uppercase">
+                <Link href={link.to} className="hover:text-gold transition-colors whitespace-nowrap inline-flex items-center gap-1 uppercase">
                   {link.label} <ChevronDown className="w-4 h-4" />
                 </Link>
                 {/* Mega-menu — ALWAYS in the DOM (real <a> links in the HTML),
@@ -292,7 +292,7 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
                 </div>
               </div>
             ) : (
-              <Link key={link.to} href={link.to} className="hover:text-primary transition-colors whitespace-nowrap uppercase">
+              <Link key={link.to} href={link.to} className="hover:text-gold transition-colors whitespace-nowrap uppercase">
                 {link.label}
               </Link>
             )
@@ -304,10 +304,10 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
           <button
             onClick={toggleLang}
             aria-label={t("nav.aria.changeLanguage")}
-            className="flex items-center gap-1.5 text-muted-foreground lg:text-foreground hover:text-primary transition-colors font-body text-sm lg:text-base lg:font-medium tracking-wider uppercase"
+            className="flex items-center gap-1.5 text-muted-foreground lg:text-primary hover:text-primary lg:hover:text-gold transition-colors font-body text-sm lg:text-lg lg:font-semibold tracking-wider uppercase"
             title={language === "en" ? "Cambiar a Español" : "Switch to English"}
           >
-            <Globe className="w-5 h-5 lg:w-7 lg:h-7" />
+            <Globe className="w-5 h-5 lg:w-8 lg:h-8" />
             <span className="hidden sm:inline">{language === "en" ? "ES" : "EN"}</span>
           </button>
 
@@ -316,18 +316,18 @@ const Navbar = ({ language = "en" }: { language?: Language }) => {
             onClick={() => setSearchOpen(!searchOpen)}
             aria-label={t("nav.aria.search")}
             aria-expanded={searchOpen}
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground lg:text-primary hover:text-primary lg:hover:text-gold transition-colors"
           >
-            <SearchIcon className="w-6 h-6 lg:w-7 lg:h-7" />
+            <SearchIcon className="w-6 h-6 lg:w-8 lg:h-8" />
           </button>
 
           <button
             type="button"
             onClick={() => setCartOpen(true)}
             aria-label={t("nav.aria.openCart")}
-            className="relative hover:text-primary transition-colors text-foreground"
+            className="relative hover:text-primary lg:hover:text-gold transition-colors text-foreground lg:text-primary"
           >
-            <ShoppingCart className="w-7 h-7 lg:w-8 lg:h-8" />
+            <ShoppingCart className="w-7 h-7 lg:w-9 lg:h-9" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
                 {totalItems}
