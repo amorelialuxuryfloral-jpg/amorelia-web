@@ -43,15 +43,15 @@ const DynamicClusters = ({ language = "en", excludeId, limit = 8, showColors = t
     <section className="container mx-auto px-6 max-w-5xl py-10 md:py-14 border-t border-border">
       {newest.length > 0 && (
         <div className={colors.length > 0 ? "mb-10" : ""}>
-          <h2 className="font-display text-sm uppercase tracking-wider text-muted-foreground mb-4">
+          <h2 className="font-display text-lg md:text-sm uppercase tracking-wider text-foreground md:text-muted-foreground mb-4">
             {t("clusters.newest")}
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5 md:gap-2">
             {newest.map((p) => (
               <Link
                 key={p.id}
                 href={localizePath(p.to, language)}
-                className="px-3 md:px-4 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-accent font-body text-xs md:text-sm transition-all"
+                className="px-4 py-2.5 md:py-1.5 rounded-full bg-muted text-foreground md:text-muted-foreground hover:bg-accent font-body text-base md:text-sm transition-all"
               >
                 {p.name}
               </Link>
@@ -62,15 +62,15 @@ const DynamicClusters = ({ language = "en", excludeId, limit = 8, showColors = t
 
       {colors.length > 0 && (
         <div>
-          <h2 className="font-display text-sm uppercase tracking-wider text-muted-foreground mb-4">
+          <h2 className="font-display text-lg md:text-sm uppercase tracking-wider text-foreground md:text-muted-foreground mb-4">
             {t("clusters.byColor")}
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5 md:gap-2">
             {colors.map((c) => (
               <Link
                 key={c.color}
                 href={colorTo(c.slug, c.slugEs)}
-                className="px-3 md:px-4 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-accent font-body text-xs md:text-sm transition-all"
+                className="px-4 py-2.5 md:py-1.5 rounded-full bg-muted text-foreground md:text-muted-foreground hover:bg-accent font-body text-base md:text-sm transition-all"
               >
                 {t(c.ns)}{" "}
                 <span className="text-muted-foreground">({c.count})</span>

@@ -38,15 +38,15 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info (NAP + CID "Get directions" link) */}
           <div>
-            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts" className="h-10 w-auto mb-3 brightness-0 invert" width={111} height={40} loading="lazy" />
-            <div className="space-y-2 font-body text-xs text-primary-foreground">
-              <p className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" /> 7257 NW 12th St, Miami, FL 33126</p>
+            <img src="/amorelia-logo.webp" alt="Amorelia Luxury Floral Gifts" className="h-14 md:h-10 w-auto mb-4 md:mb-3 brightness-0 invert" width={111} height={40} loading="lazy" />
+            <div className="space-y-2 font-body text-base md:text-xs text-primary-foreground">
+              <p className="flex items-start gap-2"><MapPin className="w-5 h-5 md:w-3.5 md:h-3.5 mt-0.5 shrink-0" /> 7257 NW 12th St, Miami, FL 33126</p>
               <p className="flex items-center gap-2">
-                <Navigation className="w-3.5 h-3.5 shrink-0" />
+                <Navigation className="w-5 h-5 md:w-3.5 md:h-3.5 shrink-0" />
                 <a href={GBP_CID_URL} target="_blank" rel="noopener noreferrer" className="inline-block py-2 underline underline-offset-2 hover:text-primary transition-colors">{t("footer.getDirections")}</a>
               </p>
-              <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 shrink-0" /> <a href="tel:+17864948647" className="inline-block py-2 hover:text-primary transition-colors">+1 786-494-8647</a></p>
-              <div className="flex items-start gap-2"><Clock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              <p className="flex items-center gap-2"><Phone className="w-5 h-5 md:w-3.5 md:h-3.5 shrink-0" /> <a href="tel:+17864948647" className="inline-block py-2 hover:text-primary transition-colors">+1 786-494-8647</a></p>
+              <div className="flex items-start gap-2"><Clock className="w-5 h-5 md:w-3.5 md:h-3.5 mt-0.5 shrink-0" />
                 <ul className="space-y-0.5">
                   <li>{t("footer.hoursLine1")}</li>
                   <li>{t("footer.hoursLine2")}</li>
@@ -54,13 +54,13 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
                 </ul>
               </div>
             </div>
-            <p className="font-body text-[10px] text-primary-foreground/90 mt-3 italic">{t("footer.sameDayDelivery")}</p>
+            <p className="font-body text-sm md:text-[10px] md:leading-[inherit] text-primary-foreground/90 mt-3 italic">{t("footer.sameDayDelivery")}</p>
           </div>
 
           {/* Col 2 — Navigation */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.navigation")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground">
+            <p className="font-body text-base md:text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.navigation")}</p>
+            <div className="flex flex-col gap-2 font-body text-base md:text-xs text-primary-foreground">
               {[
                 { to: l("/"), label: t("nav.home") },
                 { to: l("/bouquets"), label: t("nav.bouquets") },
@@ -76,8 +76,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
 
           {/* Col 3 — Shop (bouquet categories + top colors) */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{isEs ? "Comprar" : "Shop"}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground">
+            <p className="font-body text-base md:text-xs tracking-widest uppercase text-primary-foreground mb-4">{isEs ? "Comprar" : "Shop"}</p>
+            <div className="flex flex-col gap-2 font-body text-base md:text-xs text-primary-foreground">
               <Link href={l("/bouquets")} className="inline-block py-1 hover:text-primary transition-colors">{t("nav.allColors")}</Link>
               <Link href={l("/bouquets/single-color")} className="inline-block py-1 hover:text-primary transition-colors">{t("nav.singleColor")}</Link>
               <Link href={l("/bouquets/mixed-color")} className="inline-block py-1 hover:text-primary transition-colors">{t("nav.mixedBouquets")}</Link>
@@ -89,8 +89,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
 
           {/* Col 4 — Legal + Social + Payments */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.legal")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
+            <p className="font-body text-base md:text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.legal")}</p>
+            <div className="flex flex-col gap-2 font-body text-base md:text-xs text-primary-foreground mb-6">
               {[
                 { to: l("/privacy-policy"), label: t("footer.privacyPolicy") },
                 { to: l("/terms-of-service"), label: t("footer.termsOfService") },
@@ -102,8 +102,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
               ))}
               <CookiePreferencesButton label={t("footer.cookiePreferences")} />
             </div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-3">{t("footer.followUs")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
+            <p className="font-body text-base md:text-xs tracking-widest uppercase text-primary-foreground mb-3">{t("footer.followUs")}</p>
+            <div className="flex flex-col gap-2 font-body text-base md:text-xs text-primary-foreground mb-6">
               <a href="https://www.instagram.com/amorelialuxury" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Instagram</a>
               <a href="https://www.facebook.com/share/19G6f7g6c5/" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Facebook</a>
             </div>
@@ -113,8 +113,8 @@ const Footer = ({ language = "en" }: { language?: Language }) => {
 
           {/* Copyright */}
           <div className="border-t border-primary-foreground/20 pt-6 text-center">
-            <p className="font-body text-[10px] text-primary-foreground/90">{t("footer.copyright")}</p>
-            <p className="font-body text-[10px] text-primary-foreground/90 mt-1">{t("footer.tagline")}</p>
+            <p className="font-body text-sm md:text-[10px] md:leading-[inherit] text-primary-foreground/90">{t("footer.copyright")}</p>
+            <p className="font-body text-sm md:text-[10px] md:leading-[inherit] text-primary-foreground/90 mt-1">{t("footer.tagline")}</p>
           </div>
         </div>
       </footer>
