@@ -141,7 +141,7 @@ export default async function HomeView({ language }: { language: Language }) {
       <JsonLd data={faqSchema(homepageFaqs)} />
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] md:min-h-0 md:h-screen flex items-end md:items-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-screen md:pt-[95px] lg:pt-[134px] flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={FOTO_DE_PORTADA}
